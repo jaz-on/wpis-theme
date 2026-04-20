@@ -1,0 +1,78 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"layout": {
+			"contentSize": "720px",
+			"wideSize": "1200px"
+		},
+		"color": {
+			"palette": [
+				{ "slug": "bg", "name": "Background", "color": "#f5f2ea" },
+				{ "slug": "ink", "name": "Ink", "color": "#1a1a1a" },
+				{ "slug": "muted", "name": "Muted", "color": "#6b6b6b" },
+				{ "slug": "accent", "name": "Accent", "color": "#d64545" },
+				{ "slug": "accent-soft", "name": "Accent soft", "color": "#fbe8e8" },
+				{ "slug": "paper", "name": "Paper", "color": "#fdfbf5" },
+				{ "slug": "positive", "name": "Positive", "color": "#2d6a4f" },
+				{ "slug": "negative", "name": "Negative", "color": "#9b2226" },
+				{ "slug": "neutral", "name": "Neutral sentiment", "color": "#6b6b6b" },
+				{ "slug": "mixed", "name": "Mixed", "color": "#b8860b" }
+			]
+		},
+		"typography": {
+			"fluid": true,
+			"fontFamilies": [
+				{
+					"fontFamily": "Fraunces, Georgia, serif",
+					"name": "Fraunces",
+					"slug": "fraunces"
+				},
+				{
+					"fontFamily": "\"JetBrains Mono\", ui-monospace, monospace",
+					"name": "JetBrains Mono",
+					"slug": "jetbrains-mono"
+				}
+			],
+			"fontSizes": [
+				{ "slug": "small", "size": "0.875rem", "name": "Small" },
+				{ "slug": "medium", "size": "1rem", "name": "Medium" },
+				{ "slug": "large", "size": "1.25rem", "name": "Large" },
+				{ "slug": "x-large", "size": "clamp(2rem, 6vw, 3.5rem)", "name": "XL" }
+			]
+		},
+		"spacing": {
+			"units": [ "px", "em", "rem", "vh", "vw" ]
+		},
+		"custom": {
+			"line": "#1a1a1a"
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--bg)",
+			"text": "var(--wp--preset--color--ink)"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--fraunces)",
+			"lineHeight": "1.5"
+		},
+		"elements": {
+			"link": {
+				"color": { "text": "var(--wp--preset--color--ink)" }
+			}
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	],
+	"customTemplates": [
+		{ "name": "page-explore", "title": "Explore", "postTypes": [ "page" ] },
+		{ "name": "page-profile", "title": "Profile (contributor)", "postTypes": [ "page" ] },
+		{ "name": "page-submit", "title": "Submit quote", "postTypes": [ "page" ] },
+		{ "name": "page-submitted", "title": "Submitted confirmation", "postTypes": [ "page" ] },
+		{ "name": "page-privacy-policy", "title": "Privacy policy shell", "postTypes": [ "page" ] }
+	]
+}

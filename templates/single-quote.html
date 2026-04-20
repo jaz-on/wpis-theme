@@ -1,0 +1,18 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"layout":{"type":"constrained"},"style":{"spacing":{"padding":{"bottom":"2rem"}}}} -->
+<div class="wp-block-group">
+	<!-- wp:post-title {"level":1,"fontSize":"x-large"} /-->
+	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"0.75rem"}},"fontSize":"small"} -->
+	<div class="wp-block-group has-small-font-size" style="font-family:var(--wp--preset--font-family--jetbrains-mono);text-transform:uppercase;color:var(--wp--preset--color--muted)">
+		<!-- wp:post-terms {"term":"claim_type","separator":" · "} /-->
+		<!-- wp:post-terms {"term":"sentiment","separator":" · "} /-->
+	</div>
+	<!-- /wp:group -->
+	<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+	<!-- wp:wpis/quote-opposing /-->
+	<!-- wp:wpis/spread-stats /-->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

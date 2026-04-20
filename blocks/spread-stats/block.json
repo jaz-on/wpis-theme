@@ -1,0 +1,11 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wpis/spread-stats",
+	"title": "WPIS spread stats",
+	"category": "widgets",
+	"icon": "analytics",
+	"textdomain": "wpis-theme",
+	"supports": { "html": false },
+	"render": "file:./render.php"
+}

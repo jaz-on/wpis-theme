@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wpis/tax-overview-card",
+	"title": "WPIS taxonomy card",
+	"category": "widgets",
+	"icon": "category",
+	"textdomain": "wpis-theme",
+	"attributes": {
+		"taxonomy": { "type": "string", "default": "claim_type" },
+		"termId": { "type": "integer", "default": 0 }
+	},
+	"supports": { "html": false },
+	"render": "file:./render.php"
+}

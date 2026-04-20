@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wpis/user-stats",
+	"title": "WPIS user stats",
+	"category": "widgets",
+	"icon": "admin-users",
+	"textdomain": "wpis-theme",
+	"render": "file:./render.php"
+}
