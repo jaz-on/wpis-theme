@@ -6,7 +6,7 @@ Block theme (FSE) for the WordPress Is… project: quote archives and singles, e
 
 - WordPress **6.9+**
 - PHP **8.3+**
-- The **WordPress Is… Core** plugin (`wpis-core`) for post types, submission handling, and REST data used by theme blocks
+- The **WordPress Is… Core** plugin (folder and slug `wpis-plugin`, text domain `wpis-plugin`) for post types, submission handling, and REST data used by theme blocks
 
 ## Installation
 
