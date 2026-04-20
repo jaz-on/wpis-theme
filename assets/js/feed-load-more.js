@@ -1,5 +1,5 @@
 /**
- * Append quote cards via wpis/v1/quote-feed (Chantier 4).
+ * Append quote cards via wpis/v1/quote-feed; optional auto-load when the button nears the viewport.
  */
 (function () {
 	'use strict';
@@ -25,6 +25,15 @@
 		return;
 	}
 
+	let scrollObserver = null;
+
+	function stopObserving() {
+		if ( scrollObserver ) {
+			scrollObserver.disconnect();
+			scrollObserver = null;
+		}
+	}
+
 	if ( pag ) {
 		pag.setAttribute( 'aria-hidden', 'true' );
 		pag.style.cssText =
@@ -36,6 +45,7 @@
 	btn.style.display = '';
 
 	let nextPage = cfg.currentPaged + 1;
+	let loading = false;
 
 	function feedUrl( page ) {
 		const u = new URL( cfg.restUrl, window.location.origin );
@@ -55,10 +65,11 @@
 		return u.toString();
 	}
 
-	btn.addEventListener( 'click', function () {
-		if ( nextPage > cfg.totalPages ) {
+	function loadNext() {
+		if ( loading || nextPage > cfg.totalPages ) {
 			return;
 		}
+		loading = true;
 		btn.setAttribute( 'aria-busy', 'true' );
 		btn.disabled = true;
 		const prevLabel = btn.textContent;
@@ -77,6 +88,7 @@
 					tpl.insertAdjacentHTML( 'beforeend', data.html );
 				}
 				if ( nextPage >= max ) {
+					stopObserving();
 					btn.remove();
 					return;
 				}
@@ -91,6 +103,23 @@
 					btn.disabled = false;
 					btn.textContent = cfg.i18n.loadMore;
 				}
+				loading = false;
 			} );
-	} );
+	}
+
+	btn.addEventListener( 'click', loadNext );
+
+	if ( 'IntersectionObserver' in window ) {
+		scrollObserver = new IntersectionObserver(
+			function ( entries ) {
+				entries.forEach( function ( entry ) {
+					if ( entry.isIntersecting && entry.target === btn ) {
+						loadNext();
+					}
+				} );
+			},
+			{ root: null, rootMargin: '160px 0px', threshold: 0 }
+		);
+		scrollObserver.observe( btn );
+	}
 }());

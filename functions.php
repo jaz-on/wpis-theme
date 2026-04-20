@@ -144,6 +144,14 @@ function wpis_theme_submit_form_shortcode(): string {
 	?>
 	<form class="wpis-submit-form" method="post" action="<?php echo esc_url( $action ); ?>" enctype="multipart/form-data">
 		<input type="hidden" name="action" value="wpis_submit_quote" />
+		<?php
+		if ( function_exists( 'pll_current_language' ) ) {
+			$pll_lang = pll_current_language();
+			if ( is_string( $pll_lang ) && '' !== $pll_lang ) {
+				echo '<input type="hidden" name="wpis_pll_lang" value="' . esc_attr( $pll_lang ) . '" />';
+			}
+		}
+		?>
 		<?php echo $nonce; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<p style="display:none"><label><?php esc_html_e( 'Leave empty', 'wpis-theme' ); ?><input type="text" name="wpis_hp" value="" tabindex="-1" autocomplete="off" /></label></p>
 		<p><label for="wpis_quote"><?php esc_html_e( 'Quote text', 'wpis-theme' ); ?></label><textarea id="wpis_quote" name="wpis_quote" rows="5" maxlength="1000"></textarea></p>
@@ -156,6 +164,37 @@ function wpis_theme_submit_form_shortcode(): string {
 	return (string) ob_get_clean();
 }
 add_shortcode( 'wpis_submit_form', 'wpis_theme_submit_form_shortcode' );
+
+/**
+ * Thank-you URL in the correct Polylang translation (page slug should stay `submitted` per language or be linked in Polylang).
+ *
+ * @param string $url        Default URL.
+ * @param int    $post_id    New quote ID (unused).
+ * @param string $lang_hint  Language from hidden form field.
+ * @return string
+ */
+function wpis_theme_submission_redirect_url( string $url, int $post_id, string $lang_hint = '' ): string {
+	unset( $post_id );
+	$lang = $lang_hint;
+	if ( '' === $lang && function_exists( 'pll_current_language' ) ) {
+		$cur = pll_current_language();
+		$lang = is_string( $cur ) ? $cur : '';
+	}
+	$page = get_page_by_path( 'submitted', OBJECT, 'page' );
+	if ( ! $page instanceof \WP_Post ) {
+		return $url;
+	}
+	if ( function_exists( 'pll_get_post' ) && '' !== $lang ) {
+		$translated = pll_get_post( (int) $page->ID, $lang );
+		if ( $translated ) {
+			$link = get_permalink( (int) $translated );
+			return is_string( $link ) ? $link : $url;
+		}
+	}
+	$link = get_permalink( $page );
+	return is_string( $link ) ? $link : $url;
+}
+add_filter( 'wpis_submission_redirect_url', 'wpis_theme_submission_redirect_url', 10, 3 );
 
 /**
  * Submitted page summary shortcode (?t= token).
