@@ -8,6 +8,11 @@ Block theme (FSE) for the WordPress Is… project: quote archives and singles, e
 - PHP **8.2+**
 - The **WordPress Is… Core** plugin (folder and slug `wpis-plugin`, text domain `wpis-plugin`) for post types, submission handling, and REST data used by theme blocks
 
+## WordPress metadata
+
+- **`style.css`** headers are what the theme installer uses (including **`Requires PHP`**). Keep them in sync with your host.
+- **`readme.txt`** follows the WordPress theme readme format (documentation; some tools read **`Requires PHP`** here too).
+
 ## Installation
 
 1. Clone or copy this repository into:
