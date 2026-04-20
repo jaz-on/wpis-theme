@@ -59,6 +59,9 @@
 		if ( cfg.claimType ) {
 			u.searchParams.set( 'claim_type', cfg.claimType );
 		}
+		if ( cfg.platform ) {
+			u.searchParams.set( 'platform', cfg.platform );
+		}
 		if ( cfg.lang ) {
 			u.searchParams.set( 'lang', cfg.lang );
 		}

@@ -1,8 +1,12 @@
-<!-- wp:group {"tagName":"header","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem"}}},"borderColor":"ink"} -->
-<header class="wp-block-group has-border-color has-ink-border-color" style="padding-top:1.5rem;padding-bottom:1.5rem;border-bottom-width:1px;border-bottom-style:solid">
-	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+<!-- wp:html -->
+<a class="wpis-skip-link" href="#wpis-main">Skip to content</a>
+<!-- /wp:html -->
+
+<!-- wp:group {"tagName":"header","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem"}}},"borderColor":"ink"} -->
+<header id="wpis-header" class="wp-block-group has-border-color has-ink-border-color" style="padding-top:1.25rem;padding-bottom:1.25rem;border-bottom-width:1px;border-bottom-style:solid">
+	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"1rem"}}} -->
 	<div class="wp-block-group">
-		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"1rem"}}} -->
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
 		<div class="wp-block-group">
 			<!-- wp:site-title {"level":0,"fontSize":"large"} /-->
 			<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var:preset|font-family|jetbrains-mono","fontSize":"0.625rem","textTransform":"uppercase"}},"textColor":"muted"} -->
@@ -12,11 +16,9 @@
 		<!-- /wp:group -->
 		<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
 		<div class="wp-block-group">
-			<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"left","orientation":"horizontal"},"style":{"typography":{"fontSize":"0.875rem"}}} -->
-				<!-- wp:navigation-link {"label":"Explore","url":"/explore/","kind":"custom"} /-->
-				<!-- wp:navigation-link {"label":"Submit","url":"/submit/","kind":"custom"} /-->
-				<!-- wp:navigation-link {"label":"Profile","url":"/profile/","kind":"custom"} /-->
-			<!-- /wp:navigation -->
+			<!-- wp:shortcode -->
+			[wpis_primary_nav]
+			<!-- /wp:shortcode -->
 			<!-- wp:wpis/lang-switcher /-->
 			<!-- wp:html -->
 			<button type="button" class="wpis-theme-toggle" style="font-family:var(--wp--preset--font-family--jetbrains-mono);font-size:0.625rem;text-transform:uppercase;border:1px solid currentColor;background:transparent;padding:0.35rem 0.6rem;cursor:pointer" aria-label="Toggle color theme">Theme</button>

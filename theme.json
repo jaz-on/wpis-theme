@@ -123,6 +123,8 @@
 	],
 	"customTemplates": [
 		{ "name": "page-explore", "title": "Explore", "postTypes": [ "page" ] },
+		{ "name": "page-about", "title": "About", "postTypes": [ "page" ] },
+		{ "name": "page-how-it-works", "title": "How it works", "postTypes": [ "page" ] },
 		{ "name": "page-profile", "title": "Profile (contributor)", "postTypes": [ "page" ] },
 		{ "name": "page-submit", "title": "Submit quote", "postTypes": [ "page" ] },
 		{ "name": "page-submitted", "title": "Submitted confirmation", "postTypes": [ "page" ] },

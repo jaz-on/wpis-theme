@@ -1,0 +1,12 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wpis/quote-summary-meta",
+	"title": "Quote summary meta",
+	"category": "theme",
+	"description": "Counter and platform for quote cards in the feed.",
+	"textdomain": "wpis-theme",
+	"supports": {
+		"html": false
+	}
+}
