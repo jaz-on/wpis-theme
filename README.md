@@ -1,0 +1,38 @@
+# WPIS Theme (`wpis-theme`)
+
+Block theme (FSE) for the WordPress Is… project: quote archives and singles, explore and submit flows, contributor profile UI, and companion dynamic blocks.
+
+## Requirements
+
+- WordPress **6.9+**
+- PHP **8.3+**
+- The **WordPress Is… Core** plugin (`wpis-core`) for post types, submission handling, and REST data used by theme blocks
+
+## Installation
+
+1. Clone or copy this repository into:
+
+   ```text
+   wp-content/themes/wpis-theme/
+   ```
+
+2. Activate **WPIS Theme** under **Appearance → Themes**.
+
+3. Assign the bundled page templates (Submit, Submitted, Explore, Profile, etc.) to the corresponding pages in the admin, as needed.
+
+## Updates with Git Updater
+
+This theme declares a [Git Updater](https://git-updater.com/knowledge-base/required-headers/) source in `style.css`:
+
+- `GitHub Theme URI: https://github.com/jaz-on/wpis-theme`
+- `Primary Branch: main` (required because the default branch is `main`, not `master`)
+
+Bump the **`Version:`** field in `style.css` when you ship changes you want sites to pull.
+
+## Development
+
+No Node build step is required for the current tree. Front-end behavior uses `assets/js/theme-toggle.js` and block `render.php` files under `blocks/`.
+
+## License
+
+GPL-2.0-or-later
