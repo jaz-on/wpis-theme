@@ -10,6 +10,78 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Resolve permalink for a published page by slug (Polylang-aware).
+ *
+ * @param string      $slug          Page slug (e.g. submit).
+ * @param string|null $lang_override Polylang language slug, or null for current language.
+ * @return string|null
+ */
+function wpis_theme_resolve_page_permalink( string $slug, ?string $lang_override = null ): ?string {
+	$page = get_page_by_path( $slug, OBJECT, 'page' );
+	if ( ! $page instanceof WP_Post ) {
+		return null;
+	}
+	$lang = $lang_override;
+	if ( null === $lang || '' === $lang ) {
+		if ( function_exists( 'pll_current_language' ) ) {
+			$cur  = pll_current_language();
+			$lang = is_string( $cur ) ? $cur : '';
+		} else {
+			$lang = '';
+		}
+	}
+	if ( function_exists( 'pll_get_post' ) && '' !== $lang ) {
+		$translated = pll_get_post( (int) $page->ID, $lang );
+		if ( $translated ) {
+			$link = get_permalink( (int) $translated );
+			return is_string( $link ) ? $link : null;
+		}
+	}
+	$link = get_permalink( $page );
+	return is_string( $link ) ? $link : null;
+}
+
+/**
+ * Front URL for a page slug (falls back to home_url if the page is missing).
+ *
+ * @param string $slug Page slug.
+ * @return string
+ */
+function wpis_theme_page_url( string $slug ): string {
+	$resolved = wpis_theme_resolve_page_permalink( $slug, null );
+	if ( null !== $resolved ) {
+		return $resolved;
+	}
+	return home_url( '/' . trim( $slug, '/' ) . '/' );
+}
+
+/**
+ * Rewrite root-relative /slug/ hrefs in rendered block HTML for the active language.
+ *
+ * @param string $block_content HTML.
+ * @param array  $block         Block.
+ * @return string
+ */
+function wpis_theme_localize_static_hrefs_in_block( string $block_content, array $block ): string {
+	unset( $block );
+	if ( is_admin() ) {
+		return $block_content;
+	}
+	$map = array(
+		'explore'        => wpis_theme_page_url( 'explore' ),
+		'submit'         => wpis_theme_page_url( 'submit' ),
+		'profile'        => wpis_theme_page_url( 'profile' ),
+		'submitted'      => wpis_theme_page_url( 'submitted' ),
+		'privacy-policy' => wpis_theme_page_url( 'privacy-policy' ),
+	);
+	foreach ( $map as $slug => $url ) {
+		$block_content = str_replace( 'href="/' . $slug . '/"', 'href="' . esc_url( $url ) . '"', $block_content );
+	}
+	return $block_content;
+}
+add_filter( 'render_block', 'wpis_theme_localize_static_hrefs_in_block', 9, 2 );
+
+/**
  * Enqueue front-end assets.
  *
  * @return void
@@ -113,16 +185,46 @@ function wpis_theme_register_blocks(): void {
 add_action( 'init', 'wpis_theme_register_blocks' );
 
 /**
+ * Whether the main query is a profile page (any Polylang translation of profile / my-profile).
+ *
+ * @return bool
+ */
+function wpis_theme_is_profile_page(): bool {
+	if ( ! is_page() ) {
+		return false;
+	}
+	$qid  = get_queried_object_id();
+	$slug = get_post_field( 'post_name', $qid );
+	if ( in_array( $slug, array( 'profile', 'my-profile' ), true ) ) {
+		return true;
+	}
+	$base = get_page_by_path( 'profile', OBJECT, 'page' );
+	if ( ! $base instanceof WP_Post ) {
+		$base = get_page_by_path( 'my-profile', OBJECT, 'page' );
+	}
+	if ( ! $base instanceof WP_Post ) {
+		return false;
+	}
+	if ( function_exists( 'pll_get_post_translations' ) ) {
+		$translations = pll_get_post_translations( (int) $base->ID );
+		if ( is_array( $translations ) ) {
+			foreach ( $translations as $tid ) {
+				if ( (int) $tid === (int) $qid ) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+/**
  * Require login on profile page.
  *
  * @return void
  */
 function wpis_theme_profile_gate(): void {
-	if ( ! is_page() ) {
-		return;
-	}
-	$slug = get_post_field( 'post_name', get_queried_object_id() );
-	if ( 'profile' !== $slug && 'my-profile' !== $slug ) {
+	if ( ! wpis_theme_is_profile_page() ) {
 		return;
 	}
 	if ( is_user_logged_in() ) {
@@ -166,7 +268,7 @@ function wpis_theme_submit_form_shortcode(): string {
 add_shortcode( 'wpis_submit_form', 'wpis_theme_submit_form_shortcode' );
 
 /**
- * Thank-you URL in the correct Polylang translation (page slug should stay `submitted` per language or be linked in Polylang).
+ * Thank-you URL in the correct Polylang translation.
  *
  * @param string $url        Default URL.
  * @param int    $post_id    New quote ID (unused).
@@ -175,24 +277,9 @@ add_shortcode( 'wpis_submit_form', 'wpis_theme_submit_form_shortcode' );
  */
 function wpis_theme_submission_redirect_url( string $url, int $post_id, string $lang_hint = '' ): string {
 	unset( $post_id );
-	$lang = $lang_hint;
-	if ( '' === $lang && function_exists( 'pll_current_language' ) ) {
-		$cur = pll_current_language();
-		$lang = is_string( $cur ) ? $cur : '';
-	}
-	$page = get_page_by_path( 'submitted', OBJECT, 'page' );
-	if ( ! $page instanceof \WP_Post ) {
-		return $url;
-	}
-	if ( function_exists( 'pll_get_post' ) && '' !== $lang ) {
-		$translated = pll_get_post( (int) $page->ID, $lang );
-		if ( $translated ) {
-			$link = get_permalink( (int) $translated );
-			return is_string( $link ) ? $link : $url;
-		}
-	}
-	$link = get_permalink( $page );
-	return is_string( $link ) ? $link : $url;
+	$lang_pass = ( '' !== $lang_hint ) ? $lang_hint : null;
+	$resolved  = wpis_theme_resolve_page_permalink( 'submitted', $lang_pass );
+	return null !== $resolved ? $resolved : $url;
 }
 add_filter( 'wpis_submission_redirect_url', 'wpis_theme_submission_redirect_url', 10, 3 );
 
