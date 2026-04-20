@@ -1,10 +1,10 @@
 Bundled webfonts (local hosting, no Google Fonts CDN):
 
-- Fraunces (variable, Latin) — SIL Open Font License 1.1
+- Fraunces (variable, Latin): SIL Open Font License 1.1
   Source: https://github.com/googlefonts/fraunces
   Files extracted via @fontsource-variable/fraunces (same glyphs).
 
-- JetBrains Mono (400/500, Latin, normal + italic) — SIL Open Font License 1.1
+- JetBrains Mono (400/500, Latin, normal + italic): SIL Open Font License 1.1
   Source: https://github.com/JetBrains/JetBrainsMono
   Files extracted via @fontsource/jetbrains-mono.
 

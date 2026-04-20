@@ -183,7 +183,7 @@ function wpis_theme_get_quote_sort_from_request(): array {
  * Apply URL sort/filter params to a quote WP_Query args array.
  *
  * @param array<string, mixed> $args    Query args.
- * @param string               $context default|tax_claim|tax_sentiment — skip redundant tax filters on term archives.
+ * @param string               $context default|tax_claim|tax_sentiment: skip redundant tax filters on term archives.
  * @return array<string, mixed>
  */
 function wpis_theme_apply_quote_feed_args( array $args, string $context = 'default' ): array {

@@ -7,7 +7,7 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Block theme (FSE) for WordPress Is… — quote archives, submission flow, contributor profile and dynamic blocks.
+Block theme (FSE) for WordPress Is…, quote archives, submission flow, contributor profile and dynamic blocks.
 
 == Description ==
 
@@ -21,4 +21,4 @@ Pairs with the **WordPress Is… Core** plugin (`wpis-plugin`) for the `quote` p
 == Changelog ==
 
 = 0.1.0 =
-* WPIS block theme — templates, dynamic blocks, Git Updater headers (`wpis-theme`, PHP 8.2+).
+* WPIS block theme: templates, dynamic blocks, Git Updater headers (`wpis-theme`, PHP 8.2+).
