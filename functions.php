@@ -27,6 +27,79 @@ function wpis_theme_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_assets' );
 
 /**
+ * WP_Query args for published quote feeds (sort and filters from the current request).
+ *
+ * @param int $per_page Posts per page.
+ * @param int $paged    Page number.
+ * @return array<string, mixed>
+ */
+function wpis_theme_get_quote_feed_query_args( int $per_page, int $paged ): array {
+	$args = array(
+		'post_type'           => 'quote',
+		'post_status'         => 'publish',
+		'posts_per_page'      => $per_page,
+		'paged'               => max( 1, $paged ),
+		'ignore_sticky_posts' => true,
+		'no_found_rows'       => false,
+	);
+	return wpis_theme_apply_quote_feed_args( $args, 'default' );
+}
+
+/**
+ * Enqueue “load more” for quote feeds (index, blog home, quote archive).
+ *
+ * @return void
+ */
+function wpis_theme_enqueue_feed_load_more(): void {
+	if ( is_admin() ) {
+		return;
+	}
+	if ( ! is_home() && ! is_post_type_archive( 'quote' ) ) {
+		return;
+	}
+
+	$per_page = 10;
+	$count_q  = new WP_Query( wpis_theme_get_quote_feed_query_args( $per_page, 1 ) );
+	$total    = max( 1, (int) $count_q->max_num_pages );
+	wp_reset_postdata();
+
+	$paged = max( 1, (int) get_query_var( 'paged' ) );
+	$ord   = isset( $_GET['wpis_order'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_GET['wpis_order'] ) ) ) : 'DESC'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( ! in_array( $ord, array( 'ASC', 'DESC' ), true ) ) {
+		$ord = 'DESC';
+	}
+
+	wp_enqueue_script(
+		'wpis-feed-load-more',
+		get_template_directory_uri() . '/assets/js/feed-load-more.js',
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		true
+	);
+
+	wp_localize_script(
+		'wpis-feed-load-more',
+		'wpisFeedLoadMore',
+		array(
+			'restUrl'      => rest_url( 'wpis/v1/quote-feed' ),
+			'perPage'      => $per_page,
+			'totalPages'   => $total,
+			'currentPaged' => $paged,
+			'sort'         => isset( $_GET['wpis_sort'] ) ? sanitize_key( wp_unslash( $_GET['wpis_sort'] ) ) : 'date', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			'order'        => $ord,
+			'sentiment'    => isset( $_GET['sentiment'] ) ? sanitize_title( wp_unslash( $_GET['sentiment'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			'claimType'    => isset( $_GET['claim_type'] ) ? sanitize_title( wp_unslash( $_GET['claim_type'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			'lang'         => function_exists( 'pll_current_language' ) ? (string) pll_current_language() : '',
+			'i18n'         => array(
+				'loadMore' => __( 'Load more quotes', 'wpis-theme' ),
+				'loading'  => __( 'Loading...', 'wpis-theme' ),
+			),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_feed_load_more', 20 );
+
+/**
  * Register dynamic blocks.
  *
  * @return void

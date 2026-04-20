@@ -13,6 +13,8 @@
 </div>
 <!-- /wp:group -->
 
+<!-- wp:group {"className":"wpis-quote-feed","layout":{"type":"constrained"}} -->
+<div class="wp-block-group wpis-quote-feed">
 <!-- wp:query {"queryId":3,"query":{"perPage":10,"pages":0,"offset":0,"postType":"quote","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
 <div class="wp-block-query">
 	<!-- wp:post-template {"layout":{"type":"default"}} -->
@@ -30,7 +32,13 @@
 	<!-- /wp:group -->
 	<!-- /wp:post-template -->
 
-	<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between"}} -->
+	<!-- wp:html -->
+	<p class="wpis-load-more-wrap has-text-align-center" style="margin:1.25rem 0">
+		<button type="button" class="wpis-load-more wp-element-button wp-block-button__link" style="display:none" aria-busy="false"></button>
+	</p>
+	<!-- /wp:html -->
+
+	<!-- wp:query-pagination {"className":"wpis-feed-pagination","layout":{"type":"flex","justifyContent":"space-between"}} -->
 	<!-- wp:query-pagination-previous /-->
 	<!-- wp:query-pagination-numbers /-->
 	<!-- wp:query-pagination-next /-->
@@ -43,5 +51,7 @@
 	<!-- /wp:query-no-results -->
 </div>
 <!-- /wp:query -->
+</div>
+<!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
