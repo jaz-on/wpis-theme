@@ -497,3 +497,5 @@ function wpis_theme_pre_get_posts_quote_feeds( \WP_Query $query ): void {
 	}
 }
 add_action( 'pre_get_posts', 'wpis_theme_pre_get_posts_quote_feeds' );
+
+// Webhook delivery smoke test (no runtime effect).
