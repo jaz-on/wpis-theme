@@ -14,23 +14,72 @@ GitHub Theme URI: https://github.com/jaz-on/wpis-theme
 Primary Branch: main
 */
 
-/* Block styles live in theme.json and block stylesheets. */
+/*
+ * Design tokens: wordpress-is-mockup.html (:root light / dark + prefers-color-scheme).
+ * theme.json defines light palette; overrides below sync presets for dark + system preference.
+ */
 
-/* Dark theme: toggled via data-theme on <html> (see assets/js/theme-toggle.js). */
-:root[data-theme='dark'] {
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Dark palette — explicit toggle (matches mockup :root[data-theme="dark"]). */
+html[data-theme='dark'] {
 	color-scheme: dark;
+	--wp--preset--color--bg: #1a1816;
+	--wp--preset--color--ink: #ede8de;
+	--wp--preset--color--muted: #8a8578;
+	--wp--preset--color--accent: #f07878;
+	--wp--preset--color--accent-soft: #3a1f1f;
+	--wp--preset--color--paper: #221f1c;
+	--wp--preset--color--positive: #7fb896;
+	--wp--preset--color--negative: #e07a7f;
+	--wp--preset--color--neutral: #8a8578;
+	--wp--preset--color--mixed: #d4a84d;
+	--wp--custom--line: #ede8de;
 }
 
-:root[data-theme='dark'] body {
-	background-color: #121212;
-	color: #f0ebe3;
+/* Light palette — explicit toggle. */
+html[data-theme='light'] {
+	color-scheme: light;
+	--wp--preset--color--bg: #f5f2ea;
+	--wp--preset--color--ink: #1a1a1a;
+	--wp--preset--color--muted: #6b6b6b;
+	--wp--preset--color--accent: #d64545;
+	--wp--preset--color--accent-soft: #fbe8e8;
+	--wp--preset--color--paper: #fdfbf5;
+	--wp--preset--color--positive: #2d6a4f;
+	--wp--preset--color--negative: #9b2226;
+	--wp--preset--color--neutral: #6b6b6b;
+	--wp--preset--color--mixed: #b8860b;
+	--wp--custom--line: #1a1a1a;
 }
 
-:root[data-theme='dark'] a {
-	color: #f0ebe3;
+/* System dark when no manual theme stored (theme-toggle removes data-theme until user picks). */
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme='light']) {
+		color-scheme: dark;
+		--wp--preset--color--bg: #1a1816;
+		--wp--preset--color--ink: #ede8de;
+		--wp--preset--color--muted: #8a8578;
+		--wp--preset--color--accent: #f07878;
+		--wp--preset--color--accent-soft: #3a1f1f;
+		--wp--preset--color--paper: #221f1c;
+		--wp--preset--color--positive: #7fb896;
+		--wp--preset--color--negative: #e07a7f;
+		--wp--preset--color--neutral: #8a8578;
+		--wp--preset--color--mixed: #d4a84d;
+		--wp--custom--line: #ede8de;
+	}
 }
 
-:root[data-theme='dark'] .has-muted-color,
-:root[data-theme='dark'] .wp-block-navigation a {
-	color: #a8a29e;
+/* Fraunces optical size for display (mockup uses opsz 144 on titles). */
+.has-x-large-font-size,
+.wp-block-post-title,
+.wp-block-query-title {
+	font-variation-settings: "opsz" 144;
 }

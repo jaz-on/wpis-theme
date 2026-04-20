@@ -25,28 +25,80 @@
 			"fluid": true,
 			"fontFamilies": [
 				{
-					"fontFamily": "Fraunces, Georgia, serif",
+					"fontFamily": "\"Fraunces\", Georgia, serif",
 					"name": "Fraunces",
-					"slug": "fraunces"
+					"slug": "fraunces",
+					"fontFace": [
+						{
+							"fontFamily": "Fraunces",
+							"fontWeight": "100 900",
+							"fontStyle": "normal",
+							"src": [ "file:./assets/fonts/fraunces-latin-wght-normal.woff2" ]
+						},
+						{
+							"fontFamily": "Fraunces",
+							"fontWeight": "100 900",
+							"fontStyle": "italic",
+							"src": [ "file:./assets/fonts/fraunces-latin-wght-italic.woff2" ]
+						}
+					]
 				},
 				{
 					"fontFamily": "\"JetBrains Mono\", ui-monospace, monospace",
 					"name": "JetBrains Mono",
-					"slug": "jetbrains-mono"
+					"slug": "jetbrains-mono",
+					"fontFace": [
+						{
+							"fontFamily": "JetBrains Mono",
+							"fontWeight": "400",
+							"fontStyle": "normal",
+							"src": [ "file:./assets/fonts/jetbrains-mono-latin-400.woff2" ]
+						},
+						{
+							"fontFamily": "JetBrains Mono",
+							"fontWeight": "500",
+							"fontStyle": "normal",
+							"src": [ "file:./assets/fonts/jetbrains-mono-latin-500.woff2" ]
+						},
+						{
+							"fontFamily": "JetBrains Mono",
+							"fontWeight": "400",
+							"fontStyle": "italic",
+							"src": [ "file:./assets/fonts/jetbrains-mono-latin-400-italic.woff2" ]
+						},
+						{
+							"fontFamily": "JetBrains Mono",
+							"fontWeight": "500",
+							"fontStyle": "italic",
+							"src": [ "file:./assets/fonts/jetbrains-mono-latin-500-italic.woff2" ]
+						}
+					]
 				}
 			],
 			"fontSizes": [
+				{ "slug": "eyebrow", "size": "0.625rem", "name": "Eyebrow / meta" },
 				{ "slug": "small", "size": "0.875rem", "name": "Small" },
 				{ "slug": "medium", "size": "1rem", "name": "Medium" },
 				{ "slug": "large", "size": "1.25rem", "name": "Large" },
-				{ "slug": "x-large", "size": "clamp(2rem, 6vw, 3.5rem)", "name": "XL" }
+				{ "slug": "x-large", "size": "clamp(2rem, 6vw, 3.5rem)", "name": "XL" },
+				{
+					"slug": "hero-display",
+					"size": "clamp(3.25rem, 18vw, 6rem)",
+					"name": "Hero display"
+				},
+				{
+					"slug": "quote-display",
+					"size": "clamp(1.875rem, 9vw, 3.25rem)",
+					"name": "Quote display"
+				}
 			]
 		},
 		"spacing": {
 			"units": [ "px", "em", "rem", "vh", "vw" ]
 		},
 		"custom": {
-			"line": "#1a1a1a"
+			"line": "#1a1a1a",
+			"line-style": "1px solid var(--wp--preset--color--ink)"
 		}
 	},
 	"styles": {
@@ -56,6 +108,7 @@
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--fraunces)",
+			"fontSize": "1rem",
 			"lineHeight": "1.5"
 		},
 		"elements": {

@@ -12,6 +12,7 @@ Block theme (FSE) for the WordPress Is… project: quote archives and singles, e
 
 - **`style.css`** headers are what the theme installer uses (including **`Requires PHP`**). Keep them in sync with your host.
 - **`readme.txt`** follows the WordPress theme readme format (documentation; some tools read **`Requires PHP`** here too).
+- **Fonts** live under `assets/fonts/` (Fraunces + JetBrains Mono, OFL). Declared in `theme.json` `fontFace` — no Google Fonts CDN. See `assets/fonts/README.txt` to refresh files via npm/fontsource on a dev machine.
 
 ## Installation
 
