@@ -71,12 +71,15 @@ function wpis_theme_localize_static_hrefs_in_block( string $block_content, array
 		'explore'        => wpis_theme_page_url( 'explore' ),
 		'submit'         => wpis_theme_page_url( 'submit' ),
 		'profile'        => wpis_theme_page_url( 'profile' ),
+		'my-profile'     => wpis_theme_page_url( 'my-profile' ),
 		'submitted'      => wpis_theme_page_url( 'submitted' ),
 		'privacy-policy' => wpis_theme_page_url( 'privacy-policy' ),
 	);
 	foreach ( $map as $slug => $url ) {
-		$block_content = str_replace( 'href="/' . $slug . '/"', 'href="' . esc_url( $url ) . '"', $block_content );
+		$href = 'href="' . esc_url( $url ) . '"';
+		$block_content = str_replace( array( 'href="/' . $slug . '/"', 'href="/' . $slug . '"' ), array( $href, $href ), $block_content );
 	}
+	$block_content = str_replace( 'href="/"', 'href="' . esc_url( home_url( '/' ) ) . '"', $block_content );
 	return $block_content;
 }
 add_filter( 'render_block', 'wpis_theme_localize_static_hrefs_in_block', 9, 2 );
