@@ -1,6 +1,6 @@
 <?php
 /**
- * One-time setup on theme switch: pages, reading, primary menu.
+ * Theme switch setup: pages, reading, primary menu.
  *
  * Uses core APIs: get_page_by_path(), wp_insert_post(), serialize_block(), nav menus.
  *
@@ -205,18 +205,47 @@ function wpis_theme_setup_ensure_pages() {
 }
 
 /**
+ * Whether a post ID is a published page (usable as static front page).
+ *
+ * @param int $page_id Post ID.
+ * @return bool
+ */
+function wpis_theme_setup_is_published_page( $page_id ) {
+	$page_id = (int) $page_id;
+	if ( $page_id <= 0 ) {
+		return false;
+	}
+	$post = get_post( $page_id );
+	return $post instanceof WP_Post && 'page' === $post->post_type && 'publish' === $post->post_status;
+}
+
+/**
  * @param array<string, int> $ids_by_slug Slug => page ID.
  */
 function wpis_theme_setup_ensure_reading( $ids_by_slug ) {
-	if ( get_option( 'wpis_theme_reading_seeded', false ) ) {
-		return;
-	}
 	if ( empty( $ids_by_slug['home'] ) ) {
 		return;
 	}
-	update_option( 'show_on_front', 'page' );
-	update_option( 'page_on_front', (int) $ids_by_slug['home'] );
-	update_option( 'wpis_theme_reading_seeded', true );
+	$home_id  = (int) $ids_by_slug['home'];
+	$seeded   = (bool) get_option( 'wpis_theme_reading_seeded', false );
+	$show     = get_option( 'show_on_front', 'posts' );
+	$front_id = (int) get_option( 'page_on_front', 0 );
+
+	$apply_home = false;
+	if ( ! $seeded ) {
+		$apply_home = true;
+	} elseif ( 'page' === $show && ! wpis_theme_setup_is_published_page( $front_id ) ) {
+		$apply_home = true;
+	}
+
+	if ( $apply_home ) {
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $home_id );
+	}
+
+	if ( ! $seeded ) {
+		update_option( 'wpis_theme_reading_seeded', true );
+	}
 }
 
 /**
