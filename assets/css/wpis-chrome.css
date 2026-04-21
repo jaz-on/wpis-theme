@@ -100,6 +100,31 @@ body {
 
 .site-header-utils { display: inline-flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
 
+/* Header layout: mockup stacks lang + theme above nav, right-aligned */
+.site-header.wp-block-group { align-items: flex-start; }
+.site-header .site-title { align-self: center; }
+.site-header-right { flex: 1 1 280px; max-width: 100%; }
+.site-header-right .wp-block-navigation { width: 100%; }
+.site-header-right .wp-block-navigation__responsive-container-content { justify-content: flex-end; }
+.site-header-right .wp-block-navigation__container,
+.site-header-right .wp-block-page-list { gap: 14px; justify-content: flex-end; flex-wrap: wrap; }
+.site-header-right .wp-block-navigation .wp-block-navigation-item__content {
+	font-size: 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.site-footer.wp-block-group { margin-top: 3rem; }
+@media (min-width: 900px) {
+	.site-footer.wp-block-group {
+		max-width: 1400px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+}
+
 .wp-block-navigation .wp-block-navigation-item__content { color: var(--ink); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; white-space: nowrap; }
 .wp-block-navigation .current-menu-item .wp-block-navigation-item__content { border-color: var(--ink); }
 
@@ -129,6 +154,85 @@ body {
   height: 100%;
 }
 
+/* Explore: mockup tax + platform cards */
+.explore-section-title {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--muted);
+	margin-bottom: 16px;
+}
+.tax-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.tax-card {
+	padding: 20px;
+	border: 1px solid var(--line);
+	background: var(--paper);
+	text-decoration: none;
+	color: var(--ink);
+	display: block;
+	transition: border-color 0.15s;
+}
+.tax-card:hover { border-color: var(--accent); }
+.tax-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.tax-card h3 {
+	font-size: 22px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	line-height: 1.15;
+	font-variation-settings: "opsz" 144;
+	margin: 0;
+}
+.tax-card .tax-count {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 12px;
+	color: var(--muted);
+	flex-shrink: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+.tax-card .tax-desc { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 0 0 14px; }
+.tax-card .tax-bar { display: flex; height: 6px; background: var(--bg); overflow: hidden; margin-bottom: 8px; border: 1px solid var(--line); }
+.tax-card .tax-bar-seg { height: 100%; }
+.tax-card .tax-bar-seg.neg { background: var(--negative); }
+.tax-card .tax-bar-seg.pos { background: var(--positive); }
+.tax-card .tax-bar-seg.mix { background: var(--mixed); }
+.tax-card .tax-bar-seg.neu { background: var(--muted); }
+.tax-card .tax-breakdown {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 10px;
+	color: var(--muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+.tax-card .tax-breakdown span { display: flex; align-items: center; gap: 4px; }
+.tax-card .tax-breakdown .dot { width: 6px; height: 6px; display: inline-block; flex-shrink: 0; }
+.tax-card .tax-breakdown .dot.neg { background: var(--negative); }
+.tax-card .tax-breakdown .dot.pos { background: var(--positive); }
+.tax-card .tax-breakdown .dot.mix { background: var(--mixed); }
+.tax-card .tax-breakdown .dot.neu { background: var(--muted); }
+
+.platform-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.platform-card {
+	padding: 14px;
+	border: 1px solid var(--line);
+	background: var(--paper);
+	text-decoration: none;
+	color: var(--ink);
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	transition: border-color 0.15s;
+}
+.platform-card:hover { border-color: var(--accent); }
+.platform-card h4 { font-size: 15px; font-weight: 500; margin: 0; }
+.platform-card .p-count { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; color: var(--muted); }
+
+mark { background: var(--accent-soft); color: var(--ink); padding: 0 2px; }
+
 .eyebrow { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); }
 .is-word { font-style: italic; color: var(--accent); display: inline; }
 
@@ -154,8 +258,12 @@ body {
   color: var(--accent);
 }
 
-.hero-title { font-size: clamp(52px, 18vw, 96px); font-weight: 800; letter-spacing: -0.04em; line-height: 0.92; margin: 16px 0 24px; font-variation-settings: "opsz" 144; }
+.hero-title { font-size: clamp(52px, 18vw, 96px); font-weight: 800; letter-spacing: -0.04em; line-height: 0.92; margin: 16px 0 24px; font-variation-settings: "opsz" 144; white-space: nowrap; }
 .hero-title .dots { color: var(--accent); font-style: italic; font-weight: 400; }
+.hero-title .is-word { font-style: italic; font-weight: 400; color: var(--accent); }
+@media (max-width: 520px) {
+	.hero-title { white-space: normal; }
+}
 .hero-intro { font-size: 17px; line-height: 1.5; margin-bottom: 28px; max-width: 640px; }
 .hero-intro em { font-style: italic; color: var(--accent); }
 .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding-top: 20px; border-top: 1px dashed var(--muted); font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; color: var(--muted); }
@@ -177,7 +285,8 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
 .quote-card.sent-negative { border-left-color: var(--negative); }
 .quote-card.sent-positive { border-left-color: var(--positive); }
 .quote-card.sent-mixed { border-left-color: var(--mixed); }
-.quote-text { font-size: 22px; font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; font-variation-settings: "opsz" 144; transition: color 0.15s; }
+.quote-text { font-family: var(--wp--preset--font-family--fraunces); font-size: 22px; font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; font-variation-settings: "opsz" 144; transition: color 0.15s; margin: 0; }
+.quote-text .is-word { font-style: italic; color: var(--accent); }
 .quote-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .quote-footer-left { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .quote-footer-right { display: flex; gap: 10px; align-items: center; }
@@ -263,6 +372,10 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
   .subcat-bar { padding: 20px 32px; max-width: 1200px; margin: 0 auto; }
   .subcat-chip { padding: 8px 14px; font-size: 11px; }
   .subcat-label { padding: 20px 32px 0; max-width: 1200px; margin: 0 auto; font-size: 11px; }
+  .tax-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .tax-card { padding: 24px; }
+  .tax-card h3 { font-size: 24px; }
+  .platform-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
 }
 
 @media (hover: hover) {

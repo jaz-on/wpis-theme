@@ -10,47 +10,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Map sentiment to preset color for left border.
+ * Sentiment → quote-card modifier class (matches mockup).
  *
  * @param string $sentiment negative|positive|mixed.
- * @return string CSS var.
+ * @return string
  */
-function wpis_theme_seed_sentiment_border( $sentiment ) {
+function wpis_theme_seed_quote_card_class( $sentiment ) {
 	switch ( $sentiment ) {
 		case 'positive':
-			return 'var(--positive)';
+			return 'sent-positive';
 		case 'mixed':
-			return 'var(--mixed)';
+			return 'sent-mixed';
 		default:
-			return 'var(--negative)';
+			return 'sent-negative';
 	}
 }
 
 /**
- * One quote row: stacked group (border) + excerpt + meta row with link.
+ * One feed row: single clickable anchor like the mockup (whole card is the link).
  *
- * @param array<string,string> $q Keys: sentiment, claim, count, text (inner HTML for <p>), url.
+ * @param array<string,string> $q Keys: sentiment, claim, count, text (inner HTML for .quote-text), url.
  * @return string
  */
 function wpis_theme_seed_quote_stack( array $q ) {
-	$border = wpis_theme_seed_sentiment_border( $q['sentiment'] );
-	$claim  = isset( $q['claim'] ) ? esc_html( $q['claim'] ) : '';
-	$count  = isset( $q['count'] ) ? esc_html( $q['count'] ) : '';
-	$url    = isset( $q['url'] ) ? esc_url( $q['url'] ) : '/quote/sample/';
-	$text   = isset( $q['text'] ) ? $q['text'] : '';
+	$class = wpis_theme_seed_quote_card_class( isset( $q['sentiment'] ) ? $q['sentiment'] : 'negative' );
+	$claim = isset( $q['claim'] ) ? esc_html( $q['claim'] ) : '';
+	$count = isset( $q['count'] ) ? esc_html( $q['count'] ) : '';
+	$url   = isset( $q['url'] ) ? esc_url( $q['url'] ) : '/quote/sample/';
+	$text  = isset( $q['text'] ) ? wp_kses_post( $q['text'] ) : '';
+	$label = wp_strip_all_tags( $text );
+	if ( strlen( $label ) > 140 ) {
+		$label = substr( $label, 0, 137 ) . '…';
+	}
+	$aria = esc_attr( sprintf( __( 'View quote: %s', 'wpis-theme' ), $label ) );
 
 	return '
-<!-- wp:group {"style":{"border":{"left":{"color":"' . $border . '","width":"3px","style":"solid"},"bottom":{"color":"var(--line)","width":"1px","style":"solid"}},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"0.875rem"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"flex-start","flexWrap":"nowrap"}} -->
-<!-- wp:paragraph {"className":"wpis-quote-excerpt","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.3","letterSpacing":"-0.01em","fontWeight":"400"},"color":{"text":"var(--ink)"}}} -->
-<p>' . $text . '</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
-<p><span style="border:1px solid var(--line);padding:3px 8px;color:var(--ink);font-weight:500">' . $claim . '</span> <span style="background:var(--ink);color:var(--bg);padding:3px 8px;font-weight:500">' . $count . '</span> <a href="' . $url . '" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)">' . esc_html__( 'View quote', 'wpis-theme' ) . '</a></p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-<!-- /wp:group -->';
+<!-- wp:html -->
+<a href="' . $url . '" class="quote-card ' . esc_attr( $class ) . '" aria-label="' . $aria . '">
+<p class="quote-text">' . $text . '</p>
+<div class="quote-footer">
+<span class="claim-tag">' . $claim . '</span>
+<span class="count-badge">' . $count . '</span>
+</div>
+</a>
+<!-- /wp:html -->';
 }
 
 /**
@@ -176,7 +179,7 @@ function wpis_theme_build_home_seed() {
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":1,"className":"hero-title"} -->
-<h1 class="wp-block-heading hero-title">WordPress<br>is<span class="dots">…</span></h1>
+<h1 class="wp-block-heading hero-title">WordPress <span class="is-word">is</span><span class="dots">…</span></h1>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"hero-intro"} -->
@@ -425,7 +428,157 @@ WPIS;
 }
 
 /**
- * Explore page: hero + sections built from data.
+ * Inner HTML for explore "By claim type" grid (mockup tax-card markup).
+ *
+ * @return string
+ */
+function wpis_theme_explore_tax_cards_inner_html() {
+	$cards = array(
+		array(
+			'slug'  => 'security',
+			'title' => 'Security',
+			'count' => '287 quotes',
+			'desc'  => 'How safe, exposed or resilient WordPress is. Mostly about the plugin ecosystem, not core.',
+			'bar'   => array( 'neg' => 67, 'pos' => 25, 'mix' => 8 ),
+			'rows'  => array(
+				array( 'neg', '192 critical' ),
+				array( 'pos', '71 supportive' ),
+				array( 'mix', '24 mixed' ),
+			),
+		),
+		array(
+			'slug'  => 'performance',
+			'title' => 'Performance',
+			'count' => '423 quotes',
+			'desc'  => 'Speed, weight, responsiveness. Often about hosting setup as much as WordPress itself.',
+			'bar'   => array( 'neg' => 72, 'pos' => 18, 'mix' => 10 ),
+			'rows'  => array(
+				array( 'neg', '305 critical' ),
+				array( 'pos', '76 supportive' ),
+				array( 'mix', '42 mixed' ),
+			),
+		),
+		array(
+			'slug'  => 'community',
+			'title' => 'Community',
+			'count' => '512 quotes',
+			'desc'  => 'The people, the WordCamps, the ecosystem of contributors. Often the most emotional category.',
+			'bar'   => array( 'pos' => 78, 'neg' => 14, 'mix' => 8 ),
+			'rows'  => array(
+				array( 'pos', '399 supportive' ),
+				array( 'neg', '72 critical' ),
+				array( 'mix', '41 mixed' ),
+			),
+		),
+		array(
+			'slug'  => 'modernity',
+			'title' => 'Modernity',
+			'count' => '503 quotes',
+			'desc'  => 'Is WordPress keeping up? Gutenberg, block editor, headless use: the most contested territory.',
+			'bar'   => array( 'neg' => 48, 'pos' => 32, 'mix' => 20 ),
+			'rows'  => array(
+				array( 'neg', '241 critical' ),
+				array( 'pos', '161 supportive' ),
+				array( 'mix', '101 mixed' ),
+			),
+		),
+		array(
+			'slug'  => 'ecosystem',
+			'title' => 'Ecosystem',
+			'count' => '398 quotes',
+			'desc'  => 'Plugins, themes, integrations. The breadth vs quality debate lives here.',
+			'bar'   => array( 'pos' => 45, 'neg' => 40, 'mix' => 15 ),
+			'rows'  => array(
+				array( 'pos', '179 supportive' ),
+				array( 'neg', '159 critical' ),
+				array( 'mix', '60 mixed' ),
+			),
+		),
+		array(
+			'slug'  => 'ease-of-use',
+			'title' => 'Ease of use',
+			'count' => '341 quotes',
+			'desc'  => 'Who is WordPress for? The tension between accessibility for beginners and power for devs.',
+			'bar'   => array( 'pos' => 52, 'neg' => 30, 'mix' => 18 ),
+			'rows'  => array(
+				array( 'pos', '177 supportive' ),
+				array( 'neg', '102 critical' ),
+				array( 'mix', '62 mixed' ),
+			),
+		),
+		array(
+			'slug'  => 'business-viability',
+			'title' => 'Business viability',
+			'count' => '214 quotes',
+			'desc'  => 'Can you build a real business on WordPress? Scale, pricing, long-term bets.',
+			'bar'   => array( 'mix' => 42, 'pos' => 32, 'neg' => 26 ),
+			'rows'  => array(
+				array( 'mix', '90 mixed' ),
+				array( 'pos', '68 supportive' ),
+				array( 'neg', '56 critical' ),
+			),
+		),
+		array(
+			'slug'  => 'accessibility',
+			'title' => 'Accessibility',
+			'count' => '89 quotes',
+			'desc'  => 'Smaller category, big stakes. How WordPress handles disability, a11y standards and inclusion.',
+			'bar'   => array( 'neg' => 55, 'pos' => 30, 'mix' => 15 ),
+			'rows'  => array(
+				array( 'neg', '49 critical' ),
+				array( 'pos', '27 supportive' ),
+				array( 'mix', '13 mixed' ),
+			),
+		),
+	);
+
+	$html = '';
+	foreach ( $cards as $c ) {
+		$href = esc_url( '/taxonomy/' . $c['slug'] . '/' );
+		$html .= '<a href="' . $href . '" class="tax-card">';
+		$html .= '<div class="tax-card-head"><h3>' . esc_html( $c['title'] ) . '</h3><span class="tax-count">' . esc_html( $c['count'] ) . '</span></div>';
+		$html .= '<p class="tax-desc">' . esc_html( $c['desc'] ) . '</p>';
+		$html .= '<div class="tax-bar">';
+		foreach ( $c['bar'] as $seg => $pct ) {
+			$w = (int) $pct;
+			$html .= '<div class="tax-bar-seg ' . esc_attr( $seg ) . '" style="width:' . $w . '%;"></div>';
+		}
+		$html .= '</div><div class="tax-breakdown">';
+		foreach ( $c['rows'] as $row ) {
+			$html .= '<span><span class="dot ' . esc_attr( $row[0] ) . '"></span>' . esc_html( $row[1] ) . '</span>';
+		}
+		$html .= '</div></a>';
+	}
+
+	return $html;
+}
+
+/**
+ * Inner HTML for explore platform grid.
+ *
+ * @return string
+ */
+function wpis_theme_explore_platform_grid_inner_html() {
+	$items = array(
+		array( 'Mastodon', '841' ),
+		array( 'LinkedIn', '623' ),
+		array( 'Reddit', '412' ),
+		array( 'Bluesky', '287' ),
+		array( 'X', '284' ),
+		array( 'Blog', '202' ),
+		array( 'YouTube', '198' ),
+		array( 'HN', '87' ),
+	);
+	$html  = '';
+	$href  = esc_url( '/' );
+	foreach ( $items as $it ) {
+		$html .= '<a href="' . $href . '" class="platform-card"><h4>' . esc_html( $it[0] ) . '</h4><span class="p-count">' . esc_html( $it[1] ) . '</span></a>';
+	}
+	return $html;
+}
+
+/**
+ * Explore page: hero + mockup-style tax cards + platform grid.
  *
  * @return string
  */
@@ -447,109 +600,40 @@ function wpis_theme_build_explore_seed() {
 
 WPIS;
 
-	$cards = array(
-		array( 'Security', '287 quotes', 'How safe, exposed or resilient WordPress is. Mostly about the plugin ecosystem, not core.' ),
-		array( 'Performance', '423 quotes', 'Speed, weight, responsiveness. Often about hosting setup as much as WordPress itself.' ),
-		array( 'Community', '512 quotes', 'The people, the WordCamps, the ecosystem of contributors. Often the most emotional category.' ),
-		array( 'Modernity', '503 quotes', 'Is WordPress keeping up? Gutenberg, block editor, headless use: the most contested territory.' ),
-		array( 'Ecosystem', '398 quotes', 'Plugins, themes, integrations. The breadth vs quality debate lives here.' ),
-		array( 'Ease of use', '341 quotes', 'Who is WordPress for? The tension between accessibility for beginners and power for devs.' ),
-		array( 'Business viability', '214 quotes', 'Can you build a real business on WordPress? Scale, pricing, long-term bets.' ),
-		array( 'Accessibility', '89 quotes', 'Smaller category, big stakes. How WordPress handles disability, a11y standards and inclusion.' ),
-	);
+	$tax_inner = wpis_theme_explore_tax_cards_inner_html();
+	$plat_inner = wpis_theme_explore_platform_grid_inner_html();
 
-	$section_open  = <<<'WPIS'
+	$section_tax = <<<WPIS
 <!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--muted)"}}} -->
+<!-- wp:paragraph {"className":"explore-section-title"} -->
 <p>By claim type</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"layout":{"type":"grid","columnCount":2},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
+<!-- wp:html -->
+<div class="tax-grid">
+{$tax_inner}
+</div>
+<!-- /wp:html -->
+<!-- /wp:group -->
 
 WPIS;
-	$section_close = <<<'WPIS'
 
-<!-- /wp:group -->
-<!-- /wp:group -->
-
-WPIS;
-
-	$card_blocks = '';
-	foreach ( $cards as $c ) {
-		$title = esc_html( $c[0] );
-		$meta  = esc_html( $c[1] );
-		$desc  = esc_html( $c[2] );
-		$card_blocks .= <<<CARD
-<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1.25rem","right":"1.25rem","bottom":"1.25rem","left":"1.25rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"baseline","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">{$title}</h3>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.75rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
-<p>{$meta}</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-
-<!-- wp:paragraph {"style":{"color":{"text":"var(--muted)"},"typography":{"fontSize":"0.875rem","lineHeight":"1.5"}}} -->
-<p>{$desc}</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:buttons -->
-<!-- wp:button {"width":100,"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/taxonomy/security/">Browse {$title}</a></div>
-<!-- /wp:button -->
-<!-- /wp:buttons -->
-<!-- /wp:group -->
-
-CARD;
-	}
-
-	$platforms = array(
-		array( 'Mastodon', '841' ),
-		array( 'LinkedIn', '623' ),
-		array( 'Reddit', '412' ),
-		array( 'Bluesky', '287' ),
-		array( 'X', '284' ),
-		array( 'Blog', '202' ),
-		array( 'YouTube', '198' ),
-		array( 'HN', '87' ),
-	);
-	$plat_open   = <<<'WPIS'
+	$section_plat = <<<WPIS
 <!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--muted)"}}} -->
+<!-- wp:paragraph {"className":"explore-section-title"} -->
 <p>By source platform</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"layout":{"type":"grid","columnCount":2},"style":{"spacing":{"blockGap":"0.625rem"}}} -->
+<!-- wp:html -->
+<div class="platform-grid">
+{$plat_inner}
+</div>
+<!-- /wp:html -->
+<!-- /wp:group -->
 
 WPIS;
-	$plat_close  = <<<'WPIS'
 
-<!-- /wp:group -->
-<!-- /wp:group -->
-
-WPIS;
-
-	$plat_blocks = '';
-	foreach ( $platforms as $p ) {
-		$n  = esc_html( $p[0] );
-		$ct = esc_html( $p[1] );
-		$plat_blocks .= <<<PLAT
-<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","right":"0.875rem","bottom":"0.875rem","left":"0.875rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"baseline"}} -->
-<!-- wp:heading {"level":4,"style":{"typography":{"fontSize":"0.9375rem","fontWeight":"500"}}} -->
-<h4 class="wp-block-heading">{$n}</h4>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem"},"color":{"text":"var(--muted)"}}} -->
-<p>{$ct}</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-
-PLAT;
-	}
-
-	return $hero . $section_open . $card_blocks . $section_close . $plat_open . $plat_blocks . $plat_close;
+	return $hero . $section_tax . $section_plat;
 }
 
 /**
