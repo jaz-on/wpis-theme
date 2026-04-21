@@ -25,6 +25,7 @@ function wpis_theme_get_content_html( $filename ) {
 }
 
 require_once get_template_directory() . '/inc/theme-setup.php';
+require_once get_template_directory() . '/inc/register-patterns.php';
 
 /**
  * Skip link targeting #wpis-main (main group anchor in templates).
@@ -52,14 +53,14 @@ function wpis_theme_semantic_colors_in_content( $content ) {
 	}
 	$map = array(
 		'var(--wp--preset--color--accent-soft)' => 'var(--accent-soft)',
-		'var(--wp--preset--color--positive)'     => 'var(--positive)',
-		'var(--wp--preset--color--negative)'   => 'var(--negative)',
+		'var(--wp--preset--color--positive)'    => 'var(--positive)',
+		'var(--wp--preset--color--negative)'    => 'var(--negative)',
 		'var(--wp--preset--color--mixed)'       => 'var(--mixed)',
 		'var(--wp--preset--color--paper)'       => 'var(--paper)',
 		'var(--wp--preset--color--muted)'       => 'var(--muted)',
 		'var(--wp--preset--color--bg)'          => 'var(--bg)',
-		'var(--wp--preset--color--accent)'     => 'var(--accent)',
-		'var(--wp--preset--color--ink)'        => 'var(--ink)',
+		'var(--wp--preset--color--accent)'      => 'var(--accent)',
+		'var(--wp--preset--color--ink)'         => 'var(--ink)',
 	);
 	return str_replace( array_keys( $map ), array_values( $map ), $content );
 }
@@ -68,7 +69,7 @@ add_filter( 'the_content', 'wpis_theme_semantic_colors_in_content', 5 );
 /**
  * Theme supports: menus, editor styles.
  */
-function wpis_theme_setup() {
+function wpis_theme_register_theme_support() {
 	register_nav_menus(
 		array(
 			'primary' => __( 'WPIS Primary', 'wpis-theme' ),
@@ -76,7 +77,7 @@ function wpis_theme_setup() {
 	);
 	add_editor_style( 'assets/css/wpis-global.css' );
 }
-add_action( 'after_setup_theme', 'wpis_theme_setup' );
+add_action( 'after_setup_theme', 'wpis_theme_register_theme_support' );
 
 /**
  * Block styles backed by theme.json (layout shells).
@@ -226,7 +227,7 @@ function wpis_theme_enqueue_assets() {
 	}
 
 	$feed_js = $theme_dir . '/assets/js/feed-demo.js';
-	if ( is_readable( $feed_js ) ) {
+	if ( is_readable( $feed_js ) && ( is_front_page() || is_page( 'security' ) ) ) {
 		wp_enqueue_script(
 			'wpis-feed-demo',
 			$theme_uri . '/assets/js/feed-demo.js',
@@ -288,7 +289,7 @@ function wpis_theme_register_block_variations() {
 add_action( 'init', 'wpis_theme_register_block_variations', 20 );
 
 /**
- * Pattern category for bundled patterns (see patterns/*.php).
+ * Pattern category for bundled patterns (PHP-registered bodies + patterns/*.php fragments).
  */
 function wpis_theme_register_pattern_category() {
 	if ( class_exists( 'WP_Block_Pattern_Categories_Registry' ) && WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'wpis-screens' ) ) {
@@ -302,3 +303,4 @@ function wpis_theme_register_pattern_category() {
 	);
 }
 add_action( 'init', 'wpis_theme_register_pattern_category' );
+add_action( 'init', 'wpis_theme_register_screen_patterns', 15 );

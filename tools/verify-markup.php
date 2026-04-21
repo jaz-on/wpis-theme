@@ -14,7 +14,7 @@
  * Strict: flag any <a> that wraps block-level tags (also catches tax-card, platform-card, etc.):
  *   WPIS_VERIFY_MARKUP_STRICT=1 php tools/verify-markup.php
  *
- * Scans `templates/`, `parts/`, `content/html/` and `patterns/*.php` only (`inc/seed-content.php` was removed; seeds live under `content/html/`).
+ * Scans `templates/`, `parts/`, `content/html/`, `patterns/*.php`, and `inc/register-patterns.php`.
  *
  * Optional (parse_blocks() smoke test; requires WordPress):
  *   WP_LOAD_PATH=/path/to/wordpress/wp-load.php php tools/verify-markup.php
@@ -133,6 +133,7 @@ $file_groups = array(
 	wpis_verify_collect_files( $theme_root . '/parts', array( '.html' ) ),
 	wpis_verify_collect_files( $theme_root . '/content/html', array( '.html' ) ),
 	wpis_verify_collect_files( $theme_root . '/patterns', array( '.php' ) ),
+	array( $theme_root . '/inc/register-patterns.php' ),
 );
 
 foreach ( $file_groups as $group ) {

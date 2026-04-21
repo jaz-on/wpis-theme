@@ -286,7 +286,6 @@ function wpis_theme_setup_clean_manifest_pages( bool $force = false ): int {
 function wpis_theme_setup_reset_reading_after_clean(): void {
 	$front_id = (int) get_option( 'page_on_front', 0 );
 	if ( $front_id <= 0 ) {
-		delete_option( 'wpis_theme_reading_seeded' );
 		return;
 	}
 	$post = get_post( $front_id );
@@ -294,7 +293,6 @@ function wpis_theme_setup_reset_reading_after_clean(): void {
 		update_option( 'show_on_front', 'posts' );
 		update_option( 'page_on_front', 0 );
 	}
-	delete_option( 'wpis_theme_reading_seeded' );
 }
 
 /**
@@ -327,7 +325,6 @@ function wpis_theme_setup_ensure_reading( $ids_by_slug ) {
 	}
 	update_option( 'show_on_front', 'page' );
 	update_option( 'page_on_front', $home_id );
-	update_option( 'wpis_theme_reading_seeded', true );
 }
 
 /**
