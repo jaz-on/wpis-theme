@@ -41,7 +41,7 @@ function wpis_theme_seed_quote_stack( array $q ) {
 
 	return '
 <!-- wp:group {"style":{"border":{"left":{"color":"' . $border . '","width":"3px","style":"solid"},"bottom":{"color":"var(--line)","width":"1px","style":"solid"}},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"0.875rem"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"flex-start","flexWrap":"nowrap"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.3","letterSpacing":"-0.01em"},"color":{"text":"var(--ink)"}}} -->
+<!-- wp:paragraph {"className":"wpis-quote-excerpt","style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.3","letterSpacing":"-0.01em","fontWeight":"400"},"color":{"text":"var(--ink)"}}} -->
 <p>' . $text . '</p>
 <!-- /wp:paragraph -->
 
