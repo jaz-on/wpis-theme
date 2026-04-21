@@ -7,8 +7,105 @@
 <h1 class="wp-block-heading">How a claim gets in.</h1>
 <!-- /wp:heading -->
 
-<!-- wp:html -->
-<div class="how-step-list"><div class="how-step"><div class="num">1</div><div class="body"><h3>You spot a claim</h3><p>Someone online says something about WordPress. A tweet, a blog post, a Reddit thread, a video comment. You think it <em>belongs here</em>.</p><p class="note">→ Or one of our bots finds it on Mastodon or Bluesky automatically.</p></div></div><div class="how-step"><div class="num">2</div><div class="body"><h3>You submit it</h3><p>Paste the text, drop a screenshot or share the link. No account needed. We extract what's useful: the claim itself, the platform, the language, and strip out <em>personal details</em>.</p><p class="note">→ Screenshots are deleted after extraction. Only the domain is stored, never the full URL.</p></div></div><div class="how-step"><div class="num">3</div><div class="body"><h3>AI pre-tags it</h3><p>An AI suggests a sentiment, a claim type and a translation. It also looks for similar claims already in the database, to avoid duplicates. None of this is final: <em>it's a starting point</em>.</p></div></div><div class="how-step"><div class="num">4</div><div class="body"><h3>A human validates</h3><p>Every submission: yours, a bot's, someone else's: lands in a moderation queue. A human reads it, checks the AI's work, merges <em>duplicates</em>, edits if needed.</p><p class="note">→ Yes, one person does this for now. Yes, it's slow on purpose.</p></div></div><div class="how-step"><div class="num">5</div><div class="body"><h3>It goes live</h3><p>Once validated, the claim joins the database. It gets a counter that rises each time someone resubmits the same idea. It's linked to opposing views from other contributors, so readers see <em>the full tension</em>.</p></div></div><div class="how-step"><div class="num">6</div><div class="body"><h3>You can track it</h3><p>If you created an account, you'll see your submissions in your <em>private profile</em>: validated, merged, rejected or still pending. No public profiles, no leaderboards, no social clout.</p></div></div></div>
-<!-- /wp:html -->
+<!-- wp:group {"className":"how-step-list","layout":{"type":"default"}} -->
+<!-- wp:group {"className":"how-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<!-- wp:paragraph {"className":"num","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="num">1</p>
+<!-- /wp:paragraph -->
 
+<!-- wp:group {"className":"body","layout":{"type":"constrained","contentSize":"100%"}} -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">You spot a claim</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Someone online says something about WordPress. A tweet, a blog post, a Reddit thread, a video comment. You think it <em>belongs here</em>.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"note","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="note">→ Or one of our bots finds it on Mastodon or Bluesky automatically.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"how-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<!-- wp:paragraph {"className":"num","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="num">2</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"body","layout":{"type":"constrained","contentSize":"100%"}} -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">You submit it</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Paste the text, drop a screenshot or share the link. No account needed. We extract what’s useful: the claim itself, the platform, the language, and strip out <em>personal details</em>.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"note","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="note">→ Screenshots are deleted after extraction. Only the domain is stored, never the full URL.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"how-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<!-- wp:paragraph {"className":"num","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="num">3</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"body","layout":{"type":"constrained","contentSize":"100%"}} -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">AI pre-tags it</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>An AI suggests a sentiment, a claim type and a translation. It also looks for similar claims already in the database, to avoid duplicates. None of this is final: <em>it’s a starting point</em>.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"how-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<!-- wp:paragraph {"className":"num","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="num">4</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"body","layout":{"type":"constrained","contentSize":"100%"}} -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">A human validates</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Every submission: yours, a bot’s, someone else’s: lands in a moderation queue. A human reads it, checks the AI’s work, merges <em>duplicates</em>, edits if needed.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"note","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="note">→ Yes, one person does this for now. Yes, it’s slow on purpose.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"how-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<!-- wp:paragraph {"className":"num","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="num">5</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"body","layout":{"type":"constrained","contentSize":"100%"}} -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">It goes live</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Once validated, the claim joins the database. It gets a counter that rises each time someone resubmits the same idea. It’s linked to opposing views from other contributors, so readers see <em>the full tension</em>.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"how-step","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<!-- wp:paragraph {"className":"num","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p class="num">6</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"body","layout":{"type":"constrained","contentSize":"100%"}} -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">You can track it</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>If you created an account, you’ll see your submissions in your <em>private profile</em>: validated, merged, rejected or still pending. No public profiles, no leaderboards, no social clout.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+<!-- /wp:group -->
+
+<!-- /wp:group -->
 <!-- /wp:group -->

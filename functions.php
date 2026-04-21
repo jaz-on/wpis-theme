@@ -227,7 +227,9 @@ function wpis_theme_enqueue_assets() {
 	}
 
 	$feed_js = $theme_dir . '/assets/js/feed-demo.js';
-	if ( is_readable( $feed_js ) && ( is_front_page() || is_page( 'security' ) ) ) {
+	// home.html (front page) uses a block Query on quote; the demo script targets legacy HTML in content/html (see security), not the block feed.
+	$load_feed = is_readable( $feed_js ) && is_page( 'security' );
+	if ( $load_feed && ( ! defined( 'WPIS_DISABLE_FEED_DEMO' ) || ! WPIS_DISABLE_FEED_DEMO ) ) {
 		wp_enqueue_script(
 			'wpis-feed-demo',
 			$theme_uri . '/assets/js/feed-demo.js',
@@ -304,3 +306,63 @@ function wpis_theme_register_pattern_category() {
 }
 add_action( 'init', 'wpis_theme_register_pattern_category' );
 add_action( 'init', 'wpis_theme_register_screen_patterns', 15 );
+
+/**
+ * Add sentiment stripe class to quote feed cards in the main query (template part).
+ *
+ * @param string $content Rendered block HTML.
+ * @param array  $block  Parsed block.
+ * @return string
+ */
+function wpis_theme_quote_feed_card_sentiment( $content, $block ) {
+	if ( ( $block['blockName'] ?? '' ) !== 'core/group' ) {
+		return $content;
+	}
+	if ( ( $block['attrs']['metadata']['name'] ?? '' ) !== 'Quote feed card' ) {
+		return $content;
+	}
+	if ( ! in_the_loop() || 'quote' !== get_post_type() ) {
+		return $content;
+	}
+	$append = '';
+	$terms  = get_the_terms( get_the_ID(), 'sentiment' );
+	if ( is_array( $terms ) && ! is_wp_error( $terms ) && isset( $terms[0] ) && $terms[0] instanceof \WP_Term ) {
+		$slug = $terms[0]->slug;
+		if ( in_array( $slug, array( 'positive', 'negative', 'mixed' ), true ) ) {
+			$append = ' sent-' . $slug;
+		}
+	}
+	if ( '' === $append || ! is_string( $content ) || '' === $content ) {
+		return $content;
+	}
+	$replaced = preg_replace( '/\bquote-card\b/', 'quote-card' . $append, $content, 1 );
+	return is_string( $replaced ) ? $replaced : $content;
+}
+add_filter( 'render_block', 'wpis_theme_quote_feed_card_sentiment', 10, 2 );
+
+/**
+ * Replace placeholder counter in quote feed card when a quote post exposes _wpis_counter.
+ *
+ * @param string $content Rendered block HTML.
+ * @param array  $block  Parsed block.
+ * @return string
+ */
+function wpis_theme_quote_card_counter( $content, $block ) {
+	if ( ( $block['blockName'] ?? '' ) !== 'core/paragraph' ) {
+		return $content;
+	}
+	$cname = (string) ( $block['attrs']['className'] ?? '' );
+	if ( ! str_contains( $cname, 'count-badge' ) ) {
+		return $content;
+	}
+	if ( ! in_the_loop() || 'quote' !== get_post_type() ) {
+		return $content;
+	}
+	$n = (int) get_post_meta( get_the_ID(), '_wpis_counter', true );
+	if ( $n < 1 ) {
+		$n = 1;
+	}
+	$replaced = preg_replace( '/(<p[^>]+>)([^<]+)(<\/p>)/', '${1}×' . esc_html( (string) (int) $n ) . '${3}', $content, 1 );
+	return is_string( $replaced ) ? $replaced : $content;
+}
+add_filter( 'render_block', 'wpis_theme_quote_card_counter', 10, 2 );

@@ -626,6 +626,11 @@ body {
 	margin-bottom: 2px;
 }
 
+/*
+ * C4: feed-*, .quote-card, .filter-*, .load-more — still required while home and security
+ * use the feed-demo script and/or the static home pattern. After C3b (Query Loop on quote)
+ * and C4.1, shrink or remove this block; see docs/wpis-global-css-inventory.md.
+ */
 .feed-header { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .feed-title { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .feed-sort { display: flex; gap: 6px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }

@@ -10,7 +10,11 @@
 
 - Le thème repose sur une **séparation claire** : jetons et variations dans `theme.json`, chrome et mode sombre dans [assets/css/wpis-global.css](../assets/css/wpis-global.css), corps d’écran dans [content/html/*.html](../content/html/) avec patterns enregistrés par [inc/register-patterns.php](../inc/register-patterns.php) et import démo **optionnel** via `wp wpis-seed` ([inc/wpis-cli-seed.php](../inc/wpis-cli-seed.php)) ou [tools/seed-demo.php](../tools/seed-demo.php). **Aucun** hook `after_switch_theme` n’apparaît dans le thème, en phase avec l’esprit Twenty Twenty.
 - **Documentation d’intention** : [docs/wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) et [.cursor/rules/wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) sont **alignés** sur le code (import explicite `wp wpis-seed`, `wpis-global.css`, pas de seed à l’activation), avec le [README.md](../README.md) (L23–24).
-- **Gaps produit** : pas de [archive.html](../templates) pour le CPT `quote` / taxos ([templates/index.html](../templates/index.html) cible le post type `post` par défaut). Le plugin gouvernera single / archives.
+- **Gaps produit (suivi 2026)** : [single-quote.html](../templates/single-quote.html), [archive-quote.html](../templates/archive-quote.html) et [taxonomy-claim_type.html](../templates/taxonomy-claim_type.html) couvrent le CPT / taxo ; [index.html](../templates/index.html) interroge `quote` (voir [THEME-INDEX-STRATEGY.md](THEME-INDEX-STRATEGY.md)) ; l’[home (pattern)](../content/html/home.html) utilise un Query Loop sur `quote`. `feed-demo.js` ne s’enregistre plus sur l’accueil (démo résiduelle : page *security*).
+
+### Chantier 1 (filtre `the_content` et presets) : critères de sortie
+
+Le filtre [wpis_theme_semantic_colors_in_content](../functions.php) reste le mécanisme par défaut : le HTML enregistré peut encore référencer `var(--wp--preset--color--*)` (palette jour) et le thème re-map vers les alias sémantiques de [wpis-global.css](../assets/css/wpis-global.css) pour le contraste en mode nuit. **Stratégie retenue** : ne pas imposer une re-synchronisation de tout le contenu par défaut ; conserver le filtre tant que le volume de pages avec presets n’est pas migré bloc par bloc. Procédure de scan, décision et tests : [docs/wpis-fse-semantic-colors.md](wpis-fse-semantic-colors.md).
 
 ---
 
@@ -18,22 +22,24 @@
 
 Légende : **FSE** = `theme.json`, blocs, HTML de templates. **Démo** = contenu d’exemple / styles proches de la [maquette](../../wordpress-is-mockup.html).
 
-| Zone | Chemins | Rôle | FSE / démo | Note |
-|------|---------|------|------------|------|
-| Métadonnées | [style.css](../style.css), [readme.txt](../readme.txt), [README.md](../README.md) | en-têtes, doc install | Meta | `README` = vérité import |
-| Thème FSE | [theme.json](../theme.json) | jetons, `styles` globaux, variations `core/group` + `core/paragraph` | FSE | cœur visuel + complément [wpis-global.css](../assets/css/wpis-global.css) |
-| Qualité | [phpcs.xml.dist](../phpcs.xml.dist), [composer.json](../composer.json) | WPCS, CI | Outil | `vendor/bin/phpcs` : 0 erreur (exécution locale) |
-| Bootstrap | [functions.php](../functions.php) | `wpis_theme_get_content_html`, skip link, `the_content` → alias, supports, enreg. styles / variations, assets, [register-patterns.php](../inc/register-patterns.php) | FSE + `the_content` | filtre couleur = dette (§7) |
-| Setup / seed | [inc/theme-setup.php](../inc/theme-setup.php), [inc/wpis-cli-seed.php](../inc/wpis-cli-seed.php), [tools/seed-demo.php](../tools/seed-demo.php) | manifest pages, menu **WPIS Primary**, lecture statique, WP-CLI `wp wpis-seed` | Démo (DB) | **Pas** d’accroche activation |
-| Patterns | [inc/register-patterns.php](../inc/register-patterns.php) | enreg. patterns écran → `content/html/*.html` | FSE | remplace d’anciens `*-body.php` monolithiques |
-| Fragments inserter | [patterns/hero-stats-row.php](../patterns/hero-stats-row.php), [patterns/quote-card-negative.php](../patterns/quote-card-negative.php) | blocs d’exemple | FSE + démo | — |
-| CSS | [assets/css/wpis-global.css](../assets/css/wpis-global.css) | `--*` sémantiques, `data-theme`, header/footer, feed, explore, cartes, **legacy** `.nav-bar` / `.screen` (~L87–L97) | maquette + FSE | réduire quand le JSON couvre assez |
-| JS | [assets/js/theme-toggle.js](../assets/js/theme-toggle.js), [assets/js/feed-demo.js](../assets/js/feed-demo.js) | thème clair/sombre ; démo feed | toggle = garder ; feed = **démo** | [functions.php L229–L237](../functions.php) : `feed-demo` seulement front + page `security` |
-| Polices | [assets/fonts/](../assets/fonts/), [assets/fonts/README.txt](../assets/fonts/README.txt) | WOFF2 locaux | FSE (`fontFace` dans [theme.json](../theme.json)) | — |
-| Parts | [parts/header.html](../parts/header.html), [footer.html](../parts/footer.html), [quote-feed-card.html](../parts/quote-feed-card.html) | en-tête (nav `primary`), pied, fragment carte | FSE | — |
-| Templates | [templates/](../templates/) (6 fichiers : `front-page`, `index`, `page`, `single`, `search`, `404`) | coquille | FSE | pas d’`archive.html` |
-| Contenu | [content/html/*.html](../content/html/) (13 fichiers) | **source unique** patterns + `wpis-seed` | démo | `empty.html` : pattern seulement, **hors** manifest import ([theme-setup L46+](../inc/theme-setup.php)) |
-| Outils / CI | [tools/verify-markup.php](../tools/verify-markup.php), [.github/workflows/ci.yml](../.github/workflows/ci.yml) | HTML custom, `register-patterns.php` ; `php -l` + PHPCS + strict | CI | voir §9 |
+
+| Zone               | Chemins                                                                                                                                         | Rôle                                                                                                                                                                 | FSE / démo                                        | Note                                                                                                    |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Métadonnées        | [style.css](../style.css), [readme.txt](../readme.txt), [README.md](../README.md)                                                               | en-têtes, doc install                                                                                                                                                | Meta                                              | `README` = vérité import                                                                                |
+| Thème FSE          | [theme.json](../theme.json)                                                                                                                     | jetons, `styles` globaux, variations `core/group` + `core/paragraph`                                                                                                 | FSE                                               | cœur visuel + complément [wpis-global.css](../assets/css/wpis-global.css)                               |
+| Qualité            | [phpcs.xml.dist](../phpcs.xml.dist), [composer.json](../composer.json)                                                                          | WPCS, CI                                                                                                                                                             | Outil                                             | `vendor/bin/phpcs` : 0 erreur (exécution locale)                                                        |
+| Bootstrap          | [functions.php](../functions.php)                                                                                                               | `wpis_theme_get_content_html`, skip link, `the_content` → alias, supports, enreg. styles / variations, assets, [register-patterns.php](../inc/register-patterns.php) | FSE + `the_content`                               | filtre couleur = stratégie documentée (Chantier 1 ci-dessus)                                            |
+| Setup / seed       | [inc/theme-setup.php](../inc/theme-setup.php), [inc/wpis-cli-seed.php](../inc/wpis-cli-seed.php), [tools/seed-demo.php](../tools/seed-demo.php) | manifest pages, menu **WPIS Primary**, lecture statique, WP-CLI `wp wpis-seed`                                                                                       | Démo (DB)                                         | **Pas** d’accroche activation                                                                           |
+| Patterns           | [inc/register-patterns.php](../inc/register-patterns.php)                                                                                       | enreg. patterns écran → `content/html/*.html`                                                                                                                        | FSE                                               | remplace d’anciens `*-body.php` monolithiques                                                           |
+| Fragments inserter | [patterns/hero-stats-row.php](../patterns/hero-stats-row.php), [patterns/quote-card-negative.php](../patterns/quote-card-negative.php)          | blocs d’exemple                                                                                                                                                      | FSE + démo                                        | —                                                                                                       |
+| CSS                | [assets/css/wpis-global.css](../assets/css/wpis-global.css)                                                                                     | `--`* sémantiques, `data-theme`, header/footer, feed, explore, cartes, **legacy** `.nav-bar` / `.screen` (~L87–L97)                                                  | maquette + FSE                                    | réduire quand le JSON couvre assez                                                                      |
+| JS                 | [assets/js/theme-toggle.js](../assets/js/theme-toggle.js), [assets/js/feed-demo.js](../assets/js/feed-demo.js)                                  | thème clair/sombre ; démo feed (HTML legacy)                                                                                                                         | toggle = garder ; `feed-demo` = page *security*   | [functions.php](../functions.php) : `feed-demo` **pas** sur l’accueil (Query sur `home`)                    |
+| Polices            | [assets/fonts/](../assets/fonts/), [assets/fonts/README.txt](../assets/fonts/README.txt)                                                        | WOFF2 locaux                                                                                                                                                         | FSE (`fontFace` dans [theme.json](../theme.json)) | —                                                                                                       |
+| Parts              | [parts/header.html](../parts/header.html), [footer.html](../parts/footer.html), [quote-feed-card.html](../parts/quote-feed-card.html)           | en-tête (nav `primary`), pied, fragment carte                                                                                                                        | FSE                                               | —                                                                                                       |
+| Templates          | [templates/](../templates/) (`front-page`, `index`, `page`, `single`, `search`, `404` + `single-quote`, `archive-quote`, `taxonomy-claim_type`) | coquille + CPT / taxo                                                                                                                                                 | FSE                                               | voir [THEME-INDEX-STRATEGY.md](THEME-INDEX-STRATEGY.md)                                                 |
+| Contenu            | [content/html/*.html](../content/html/) (13 fichiers)                                                                                           | **source unique** patterns + `wpis-seed`                                                                                                                             | démo                                              | `empty.html` : pattern seulement, **hors** manifest import ([theme-setup L46+](../inc/theme-setup.php)) |
+| Outils / CI        | [tools/verify-markup.php](../tools/verify-markup.php), [.github/workflows/ci.yml](../.github/workflows/ci.yml)                                  | HTML custom, `register-patterns.php` ; `php -l` + PHPCS + strict                                                                                                     | CI                                                | voir §9                                                                                                 |
+
 
 **Règles Cursor** (mono-repo) : [no-oxford-comma-english.mdc](../../.cursor/rules/no-oxford-comma-english.mdc), [no-unauthorized-version-bumps.mdc](../../.cursor/rules/no-unauthorized-version-bumps.mdc) — OK ; [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) — **à jour** (import explicite, `wpis-global.css`).
 
@@ -41,13 +47,15 @@ Légende : **FSE** = `theme.json`, blocs, HTML de templates. **Démo** = contenu
 
 ## 3. Cohérence activation, seed, CLI
 
-| Source | Comportement annoncé | Statut |
-|--------|----------------------|--------|
-| [functions.php](../functions.php) | pas de `after_switch_theme` | **Aligné TT*** |
-| [inc/theme-setup.php L1–3](../inc/theme-setup.php) | seed « WP-CLI / seed-demo.php only » | **Cohérent** |
-| [README L23–24](../README.md) | `wp wpis-seed` + `php tools/seed-demo.php` | **Cohérent** |
+
+| Source                                                               | Comportement annoncé                                  | Statut                             |
+| -------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------- |
+| [functions.php](../functions.php)                                    | pas de `after_switch_theme`                           | **Aligné TT***                     |
+| [inc/theme-setup.php L1–3](../inc/theme-setup.php)                   | seed « WP-CLI / seed-demo.php only »                  | **Cohérent**                       |
+| [README L23–24](../README.md)                                        | `wp wpis-seed` + `php tools/seed-demo.php`            | **Cohérent**                       |
 | [docs/wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) | import explicite, pas d’activation, `wpis-global.css` | **Aligné** (réécriture post-audit) |
-| [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) | idem + commandes | **Aligné** |
+| [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc)         | idem + commandes                                      | **Aligné**                         |
+
 
 [wp wpis-seed import](../inc/wpis-cli-seed.php) : `sync_content` **vrai** par défaut (écrasement des corps de pages démo). Le [README](../README.md) et l’[architecture](../../docs/wpis-fse-architecture.md) le documentent ; `--no-sync` évite l’écrasement.
 
@@ -57,19 +65,21 @@ Légende : **FSE** = `theme.json`, blocs, HTML de templates. **Démo** = contenu
 
 Barre d’outils [wordpress-is-mockup.html L495–L506](../../wordpress-is-mockup.html) : `home`, `detail`, `explore`, `taxonomy`, `search`, `about`, `how`, `submit`, `confirm`, `empty`, `profile`.
 
-| Mockup | Mécanisme WP | Pattern [register-patterns.php](../inc/register-patterns.php) / seed | Après `wpis-seed import` | Écarts |
-|--------|----------------|--------------------------------------|-----------------------------|--------|
-| home | [front-page.html](../templates/front-page.html) + page `home` | `home-body` → `home.html` | contenu en **DB** | Query Loop + CPT ; `feed-demo.js` |
-| detail | pages `quote` / `sample` (parent/enfant) ou futur `single` CPT | `detail-body` → `sample.html` | **DB** | modèle `single-quote` côté plugin |
-| explore | page `explore` | `explore-body` | **DB** | liens d’archives taxo |
-| taxonomy | pages `taxonomy`, `security` | `taxonomy-body` pointe **security.html** (pas `taxonomy.html`) | **DB** | nom « taxonomy » vs fichier enfant ; pas de template d’**archive** taxo |
-| search | [search.html](../templates/search.html) vs page `search-demo` | `search-body` → `search-demo.html` | page démo en **DB** | recherche WP **≠** page maquette seule |
-| about | page `about` | `about-body` | **DB** | — |
-| how | page `how-it-works` | `how-body` | **DB** | — |
-| submit | page `submit` | `submit-body` | **DB** | forme → plugin REST |
-| confirm | page `submitted` | `confirm-body` | **DB** | — |
-| empty / 404 | [404.html](../templates/404.html) + `empty.html` en pattern seulement | `empty-body` | **fichier** (pattern) ; pas d’import page | normal |
-| profile | page `profile` | `profile-body` | **DB** | données profil = plugin |
+
+| Mockup      | Mécanisme WP                                                          | Pattern [register-patterns.php](../inc/register-patterns.php) / seed | Après `wpis-seed import`                  | Écarts                                                                  |
+| ----------- | --------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------- |
+| home        | [front-page.html](../templates/front-page.html) + page `home`         | `home-body` → `home.html`                                            | contenu en **DB**                         | Query Loop (pattern) sur `quote` ; re-seed si besoin                      |
+| detail      | pages `quote` / `sample` (parent/enfant) ou futur `single` CPT        | `detail-body` → `sample.html`                                        | **DB**                                    | modèle `single-quote` côté plugin                                       |
+| explore     | page `explore`                                                        | `explore-body`                                                       | **DB**                                    | liens `claim` `/claim/…` + barres HTML démo (plugin pour termes réels)   |
+| taxonomy    | pages `taxonomy`, `security`                                          | `taxonomy-body` pointe **security.html** (pas `taxonomy.html`)       | **DB**                                    | modèle FSE [taxonomy-claim_type.html](../templates/taxonomy-claim_type.html) quand l’arbre sert d’entré taxo publique (plugin) |
+| search      | [search.html](../templates/search.html) vs page `search-demo`         | `search-body` → `search-demo.html`                                   | page démo en **DB**                       | recherche WP **≠** page maquette seule                                  |
+| about       | page `about`                                                          | `about-body`                                                         | **DB**                                    | —                                                                       |
+| how         | page `how-it-works`                                                   | `how-body`                                                           | **DB**                                    | —                                                                       |
+| submit      | page `submit`                                                         | `submit-body`                                                        | **DB**                                    | forme → plugin REST                                                     |
+| confirm     | page `submitted`                                                      | `confirm-body`                                                       | **DB**                                    | —                                                                       |
+| empty / 404 | [404.html](../templates/404.html) + `empty.html` en pattern seulement | `empty-body`                                                         | **fichier** (pattern) ; pas d’import page | normal                                                                  |
+| profile     | page `profile`                                                        | `profile-body`                                                       | **DB**                                    | données profil = plugin                                                 |
+
 
 ---
 
@@ -83,7 +93,7 @@ Barre d’outils [wordpress-is-mockup.html L495–L506](../../wordpress-is-mocku
 
 - **theme.json** : [layout 720 / 1320px](../theme.json) ; paires de couleurs jour/nuit ; variations `wpis-*` (groupes) ; alignement global des hex avec la [maquette L9–L24](../../wordpress-is-mockup.html).
 - **wpis-global.css** : L23+ aliases **obligatoires** pour le couple `data-theme` + [theme-toggle.js](../assets/js/theme-toggle.js) ; skip-link ; header/footer ; explore (`.tax-card`, etc.) et feed (`.quote-card`) — **héritage maquette** dans `core/html` ; `.nav-bar` / `.screen` = **héritage outil** maquette, supprimables si plus référencés.
-- **Filtre** `wpis_theme_semantic_colors_in_content` [functions L50–66](../functions.php) : raccourci pour sombre ; alternative long terme : ne sauver que sémantique ou imposer les alias en éditeur.
+- **Filtre** `wpis_theme_semantic_colors_in_content` [functions L50–66](../functions.php) : raccourci pour sombre (voir chapitre *Chantier 1* en tête de ce document et [wpis-fse-semantic-colors.md](wpis-fse-semantic-colors.md)) ; alternative long terme : n’enregistrer que des alias dans le contenu, ou étendre le remplacement aux champs d’**attributs** de blocs.
 - **theme-toggle** : L26+ `data-theme` / stockage / icône ; [parts/header L13–L14](../parts/header.html) `aria-label` sur le lien.
 - **feed-demo** : à supprimer quand le flux est géré par [Query Loop + plugin](../../docs/wpis-feed-query-loop.md).
 
@@ -93,15 +103,15 @@ Barre d’outils [wordpress-is-mockup.html L495–L506](../../wordpress-is-mocku
 
 ### À supprimer ou conditionner (démo)
 
-- Règles **`.nav-bar` / `.screen`** inutilisées dans le contenu public.
+- Règles `**.nav-bar` / `.screen`** inutilisées dans le contenu public.
 - **feed-demo.js** (ou constante thème) après adoption Query Loop.
 - (Traité) Ancienne dette `after_switch_theme` / `wpis-chrome.css` : docs et règle Cursor remises en phase avec le code.
 
 ### À recoder (blocs / templates / architecture)
 
-- Gros `core/html` : migrer vers blocs, boucle, plugin.
-- Filtre **the_content** (couleurs) : stratégie sans réécriture.
-- [templates/index.html](../templates/index.html) : `postType` « post » vs stratégie blog / citations.
+- Gros `core/html` (search-demo partiel, profile, submit, *security* feed démo) : affiner en blocs quand le produit s’y prête.
+- (Traité) Filtre **the_content** (couleurs) : voir *Chantier 1* en tête de ce document.
+- (Traité) [templates/index.html](../templates/index.html) : `postType: quote` ; [THEME-INDEX-STRATEGY.md](THEME-INDEX-STRATEGY.md).
 
 ### À garder provisoirement
 
@@ -144,15 +154,19 @@ flowchart LR
   cli --> db
 ```
 
+
+
 ---
 
 ## 9. Qualité, CI, limites
 
-| Outil | Couvert | Manque |
-|--------|---------|--------|
-| [verify-markup.php L131+](../tools/verify-markup.php) | templates, parts, `content/html`, [patterns/](../patterns/), [register-patterns.php](../inc/register-patterns.php) | `theme.json` ; tests rendu patterns |
-| CI [.github/workflows/ci.yml](../.github/workflows/ci.yml) | `php -l`, PHPCS, `WPIS_VERIFY_MARKUP_STRICT=1` | — |
-| `parse_blocks` | optionnelle si `WP_LOAD_PATH` | profondeur limitée (warning L163) |
+
+| Outil                                                      | Couvert                                                                                                            | Manque                              |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| [verify-markup.php L131+](../tools/verify-markup.php)      | templates, parts, `content/html`, [patterns/](../patterns/), [register-patterns.php](../inc/register-patterns.php) | `theme.json` ; tests rendu patterns |
+| CI [.github/workflows/ci.yml](../.github/workflows/ci.yml) | `php -l`, PHPCS, `WPIS_VERIFY_MARKUP_STRICT=1`                                                                     | —                                   |
+| `parse_blocks`                                             | optionnelle si `WP_LOAD_PATH`                                                                                      | profondeur limitée (warning L163)   |
+
 
 **PHPCS** : 0 signalement (run local 2026).
 
@@ -160,15 +174,17 @@ flowchart LR
 
 ## 10. Index des références (fichiers `wpis-theme/`)
 
-| Sujet | Fichier |
-|-------|---------|
-| Manifest | `inc/theme-setup.php` ~`wpis_theme_setup_get_manifest` L46+ |
-| Patterns écran | `inc/register-patterns.php` |
-| Filtre contenu | `functions.php` `wpis_theme_semantic_colors_in_content` |
-| Navigation | `parts/header.html` |
-| Assets | `functions.php` `wpis_theme_enqueue_assets` L204+ |
-| CLI | `inc/wpis-cli-seed.php` |
-| JS démo | `assets/js/feed-demo.js` ; condition `functions.php` L229–L237 |
-| Sémantique couleur | `assets/css/wpis-global.css` L1–L77 |
+
+| Sujet              | Fichier                                                        |
+| ------------------ | -------------------------------------------------------------- |
+| Manifest           | `inc/theme-setup.php` ~`wpis_theme_setup_get_manifest` L46+    |
+| Patterns écran     | `inc/register-patterns.php`                                    |
+| Filtre contenu     | `functions.php` `wpis_theme_semantic_colors_in_content`        |
+| Navigation         | `parts/header.html`                                            |
+| Assets             | `functions.php` `wpis_theme_enqueue_assets` L204+              |
+| CLI                | `inc/wpis-cli-seed.php`                                        |
+| JS démo            | `assets/js/feed-demo.js` ; condition `wpis_theme_enqueue_assets` (page *security* ; pas d’enregistrement sur l’accueil) |
+| Sémantique couleur | `assets/css/wpis-global.css` L1–L77                            |
+
 
 *Aucun bump de `Version` dans `style.css`.*
