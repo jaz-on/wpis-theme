@@ -12,6 +12,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_template_directory() . '/inc/theme-setup.php';
 
 /**
+ * Rewrite preset color CSS variables in rendered block HTML to semantic aliases from wpis-chrome.css.
+ *
+ * Saved post content still references --wp--preset--color--* (light palette). --ink, --muted, etc.
+ * follow prefers-color-scheme and data-theme so feeds and cards stay readable in dark mode.
+ *
+ * @param string $content Post content.
+ * @return string
+ */
+function wpis_theme_semantic_colors_in_content( $content ) {
+	if ( ! is_string( $content ) || '' === $content || false === strpos( $content, '--wp--preset--color-' ) ) {
+		return $content;
+	}
+	$map = array(
+		'var(--wp--preset--color--accent-soft)' => 'var(--accent-soft)',
+		'var(--wp--preset--color--positive)'     => 'var(--positive)',
+		'var(--wp--preset--color--negative)'   => 'var(--negative)',
+		'var(--wp--preset--color--mixed)'       => 'var(--mixed)',
+		'var(--wp--preset--color--paper)'       => 'var(--paper)',
+		'var(--wp--preset--color--muted)'       => 'var(--muted)',
+		'var(--wp--preset--color--bg)'          => 'var(--bg)',
+		'var(--wp--preset--color--accent)'     => 'var(--accent)',
+		'var(--wp--preset--color--ink)'        => 'var(--ink)',
+	);
+	return str_replace( array_keys( $map ), array_values( $map ), $content );
+}
+add_filter( 'the_content', 'wpis_theme_semantic_colors_in_content', 5 );
+
+/**
  * Read a seed file from content/html/ (single source for patterns and optional tooling).
  *
  * @param string $filename Basename, e.g. home.html.
