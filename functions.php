@@ -25,6 +25,7 @@ function wpis_theme_get_content_html( $filename ) {
 }
 
 require_once get_template_directory() . '/inc/theme-setup.php';
+require_once get_template_directory() . '/inc/languages.php';
 require_once get_template_directory() . '/inc/register-patterns.php';
 if ( is_admin() ) {
 	require_once get_template_directory() . '/inc/admin-seed.php';
@@ -178,6 +179,84 @@ function wpis_theme_register_block_styles() {
 		array(
 			'name'  => 'wpis-confirm',
 			'label' => __( 'WPIS confirmation', 'wpis-theme' ),
+		)
+	);
+	/* Site chrome (header / footer parts): named styles in the Site Editor. */
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-header-band',
+			'label' => __( 'WPIS header band', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-header',
+			'label' => __( 'WPIS site header row', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-header-right',
+			'label' => __( 'WPIS header right column', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-header-utils',
+			'label' => __( 'WPIS header tools row', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-site-footer',
+			'label' => __( 'WPIS site footer', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-footer-top',
+			'label' => __( 'WPIS footer top row', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-header-site-title',
+			'label' => __( 'WPIS site title', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-footer-top-left',
+			'label' => __( 'WPIS footer byline', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-footer-top-right',
+			'label' => __( 'WPIS footer quick links', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-footer-trademark',
+			'label' => __( 'WPIS footer legal note', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/button',
+		array(
+			'name'  => 'wpis-header-theme-toggle',
+			'label' => __( 'WPIS header theme button', 'wpis-theme' ),
 		)
 	);
 	register_block_style(

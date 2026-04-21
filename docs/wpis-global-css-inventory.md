@@ -22,7 +22,7 @@ Correspondance **zone de lignes** → **fichiers / role** → **action**. Les cl
 
 ## C0.4 — L117–220 (header bande, footer, nav)
 
-- **Rôle** : grilles en-tête / pied, soulignement onglet courant, `.footer-top`, `.footer-trademark`.
+- **Rôle** : grilles en-tête / pied, soulignement onglet courant, `is-style-wpis-footer-top`, `is-style-wpis-footer-trademark`.
 - **Alignement** : [parts/header.html](../parts/header.html), [parts/footer.html](../parts/footer.html).
 - **Action** : **garder** ; partiellement migrable vers styles de blocs long terme.
 
