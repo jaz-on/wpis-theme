@@ -245,13 +245,16 @@ WPIS;
       </div>
     </div>
 
-    <div id="feedList">
+<!-- /wp:html -->
+
+<!-- wp:group {"anchor":"feedList","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0"}}} -->
 
 WPIS;
 
 	$suffix = <<<'WPIS'
 
-    </div>
+<!-- /wp:group -->
+<!-- wp:html -->
     <div class="no-results-msg hidden" id="noResults" role="status" aria-live="polite">No quotes match these filters yet.</div>
     <button type="button" class="load-more-btn" id="loadMoreBtn">Load more</button>
 <!-- /wp:html -->
@@ -319,14 +322,16 @@ WPIS;
         <button type="button">Random</button>
       </div>
     </div>
-    <div id="feedList">
+
+<!-- /wp:html -->
+
+<!-- wp:group {"anchor":"feedList","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0"}}} -->
 
 WPIS;
 
 	$feed_close = <<<'WPIS'
 
-    </div>
-<!-- /wp:html -->
+<!-- /wp:group -->
 <!-- /wp:group -->
 
 WPIS;
