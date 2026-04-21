@@ -87,6 +87,10 @@ add_action( 'after_setup_theme', 'wpis_theme_editor_styles' );
  * Register core block variations aligned with mockup layout classes.
  */
 function wpis_theme_register_block_variations() {
+	if ( ! function_exists( 'register_block_variation' ) ) {
+		return;
+	}
+
 	$variations = array(
 		array(
 			'block'  => 'core/group',
@@ -144,7 +148,7 @@ function wpis_theme_register_block_variations() {
 		);
 	}
 }
-add_action( 'init', 'wpis_theme_register_block_variations' );
+add_action( 'init', 'wpis_theme_register_block_variations', 20 );
 
 /**
  * Pattern category for mockup-derived patterns.
