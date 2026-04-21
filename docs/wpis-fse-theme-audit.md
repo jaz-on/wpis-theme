@@ -9,7 +9,7 @@
 ## 1. Résumé exécutif
 
 - Le thème repose sur une **séparation claire** : jetons et variations dans `theme.json`, chrome et mode sombre dans [assets/css/wpis-global.css](../assets/css/wpis-global.css), corps d’écran dans [content/html/*.html](../content/html/) avec patterns enregistrés par [inc/register-patterns.php](../inc/register-patterns.php) et import démo **optionnel** via `wp wpis-seed` ([inc/wpis-cli-seed.php](../inc/wpis-cli-seed.php)) ou [tools/seed-demo.php](../tools/seed-demo.php). **Aucun** hook `after_switch_theme` n’apparaît dans le thème, en phase avec l’esprit Twenty Twenty.
-- **Dette documentaire** : [docs/wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) (mono-repo) et, si le dossier [`.cursor`](../../.cursor) est présent au même niveau que le thème, [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) : ils décrivent encore un bootstrap à l’activation et un fichier `wpis-chrome.css` inexistant. Le [README.md](../README.md) (L23–24) est **à jour** sur l’import explicite. Aligner l’architecture et la règle Cursor sur le code est une **action recommandée**.
+- **Documentation d’intention** : [docs/wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) et [.cursor/rules/wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) sont **alignés** sur le code (import explicite `wp wpis-seed`, `wpis-global.css`, pas de seed à l’activation), avec le [README.md](../README.md) (L23–24).
 - **Gaps produit** : pas de [archive.html](../templates) pour le CPT `quote` / taxos ([templates/index.html](../templates/index.html) cible le post type `post` par défaut). Le plugin gouvernera single / archives.
 
 ---
@@ -35,7 +35,7 @@ Légende : **FSE** = `theme.json`, blocs, HTML de templates. **Démo** = contenu
 | Contenu | [content/html/*.html](../content/html/) (13 fichiers) | **source unique** patterns + `wpis-seed` | démo | `empty.html` : pattern seulement, **hors** manifest import ([theme-setup L46+](../inc/theme-setup.php)) |
 | Outils / CI | [tools/verify-markup.php](../tools/verify-markup.php), [.github/workflows/ci.yml](../.github/workflows/ci.yml) | HTML custom, `register-patterns.php` ; `php -l` + PHPCS + strict | CI | voir §9 |
 
-**Règles Cursor** (mono-repo) : [no-oxford-comma-english.mdc](../../.cursor/rules/no-oxford-comma-english.mdc), [no-unauthorized-version-bumps.mdc](../../.cursor/rules/no-unauthorized-version-bumps.mdc) — OK ; [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) : **désuét** (activation) — mettre à jour.
+**Règles Cursor** (mono-repo) : [no-oxford-comma-english.mdc](../../.cursor/rules/no-oxford-comma-english.mdc), [no-unauthorized-version-bumps.mdc](../../.cursor/rules/no-unauthorized-version-bumps.mdc) — OK ; [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) — **à jour** (import explicite, `wpis-global.css`).
 
 ---
 
@@ -46,10 +46,10 @@ Légende : **FSE** = `theme.json`, blocs, HTML de templates. **Démo** = contenu
 | [functions.php](../functions.php) | pas de `after_switch_theme` | **Aligné TT*** |
 | [inc/theme-setup.php L1–3](../inc/theme-setup.php) | seed « WP-CLI / seed-demo.php only » | **Cohérent** |
 | [README L23–24](../README.md) | `wp wpis-seed` + `php tools/seed-demo.php` | **Cohérent** |
-| [docs/wpis-fse-architecture.md § Theme activation](../../docs/wpis-fse-architecture.md) | `after_switch_theme` | **Obsolète** |
-| Même doc L10 : `wpis-chrome.css` | — | **Fichier inexistant** ; thème = `assets/css/wpis-global.css` |
+| [docs/wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) | import explicite, pas d’activation, `wpis-global.css` | **Aligné** (réécriture post-audit) |
+| [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) | idem + commandes | **Aligné** |
 
-[wp wpis-seed import](../inc/wpis-cli-seed.php) : `sync_content` **vrai** par défaut (écrasement des pages démo). Le [README](../README.md) l’indique. L’ancienne promesse contractuelle « jamais d’écrasement » dans [wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) est **en conflit** avec l’import actuel — à réécrire.
+[wp wpis-seed import](../inc/wpis-cli-seed.php) : `sync_content` **vrai** par défaut (écrasement des corps de pages démo). Le [README](../README.md) et l’[architecture](../../docs/wpis-fse-architecture.md) le documentent ; `--no-sync` évite l’écrasement.
 
 ---
 
@@ -95,7 +95,7 @@ Barre d’outils [wordpress-is-mockup.html L495–L506](../../wordpress-is-mocku
 
 - Règles **`.nav-bar` / `.screen`** inutilisées dans le contenu public.
 - **feed-demo.js** (ou constante thème) après adoption Query Loop.
-- Paragraphes **obsolètes** (activation) dans [wpis-fse-architecture.md](../../docs/wpis-fse-architecture.md) et [wpis-fse-theme.mdc](../../.cursor/rules/wpis-fse-theme.mdc) ; mention **wpis-chrome.css**.
+- (Traité) Ancienne dette `after_switch_theme` / `wpis-chrome.css` : docs et règle Cursor remises en phase avec le code.
 
 ### À recoder (blocs / templates / architecture)
 
