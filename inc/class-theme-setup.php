@@ -198,9 +198,30 @@ final class WPIS_Theme_Setup {
 	}
 
 	/**
+	 * Nav menu helpers live in a file that is not loaded on every bootstrap; theme activation can run before it.
+	 */
+	private static function load_nav_menu_api_if_needed(): void {
+		if ( function_exists( 'wp_update_nav_menu_item' ) ) {
+			return;
+		}
+		if ( ! is_string( ABSPATH ) || ABSPATH === '' ) {
+			return;
+		}
+		$file = ABSPATH . 'wp-admin/includes/nav-menu.php';
+		if ( is_readable( $file ) ) {
+			require_once $file;
+		}
+	}
+
+	/**
 	 * @param array<string, int> $ids_by_slug
 	 */
 	private static function ensure_menu( array $ids_by_slug ): void {
+		self::load_nav_menu_api_if_needed();
+		if ( ! function_exists( 'wp_get_nav_menus' ) || ! function_exists( 'wp_create_nav_menu' ) || ! function_exists( 'wp_update_nav_menu_item' ) ) {
+			return;
+		}
+
 		$menu_name = 'WPIS Primary';
 		$menu_id   = 0;
 		foreach ( wp_get_nav_menus() as $menu ) {
