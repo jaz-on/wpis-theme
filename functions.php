@@ -12,6 +12,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_template_directory() . '/inc/theme-setup.php';
 
 /**
+ * Skip link targeting #wpis-main (main group anchor in templates).
+ *
+ * Keeping this out of parts/header.html avoids core/html validation failures in the Site Editor
+ * (serialization and whitespace must match exactly or blocks show as invalid).
+ */
+function wpis_theme_skip_link() {
+	echo '<a class="skip-link" href="#wpis-main">' . esc_html__( 'Skip to content', 'wpis-theme' ) . '</a>';
+}
+add_action( 'wp_body_open', 'wpis_theme_skip_link', 5 );
+
+/**
  * Rewrite preset color CSS variables in rendered block HTML to semantic aliases from wpis-chrome.css.
  *
  * Saved post content still references --wp--preset--color--* (light palette). --ink, --muted, etc.
