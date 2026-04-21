@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Quote detail (mockup body)
+ * Title: Quote detail (page body)
  * Slug: wpis-theme/detail-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

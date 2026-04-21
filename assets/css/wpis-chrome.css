@@ -1,3 +1,17 @@
+/**
+ * Site chrome: layout, typography and components (class names aligned with content seeds).
+ */
+
+html {
+  background: var(--bg);
+}
+
+.wp-site-blocks {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
 :root {
   --bg: #f5f2ea; --ink: #1a1a1a; --muted: #6b6b6b; --line: #1a1a1a;
   --accent: #d64545; --accent-soft: #fbe8e8;
@@ -42,8 +56,11 @@ body { font-family: 'Fraunces', Georgia, serif; background: var(--bg); color: va
 .site-header-utils { display: flex; align-items: center; gap: 10px; }
 .site-nav { display: flex; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; justify-content: flex-end; }
 .site-nav::-webkit-scrollbar { display: none; }
-.site-nav a { color: var(--ink); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; white-space: nowrap; }
-.site-nav a.active { border-color: var(--ink); }
+.site-nav a,
+.site-nav.wp-block-navigation .wp-block-navigation-item__content { color: var(--ink); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; white-space: nowrap; }
+.site-nav a.active,
+.site-nav.wp-block-navigation .current-menu-item .wp-block-navigation-item__content { border-color: var(--ink); }
+.site-header .wp-block-navigation.site-nav .wp-block-navigation__container { gap: 14px; justify-content: flex-end; flex-wrap: nowrap; }
 .lang-switcher { display: inline-flex; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
 .lang-switcher a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid var(--muted); }
 .lang-switcher a.active { color: var(--ink); border-color: var(--ink); }
@@ -469,7 +486,8 @@ mark { background: var(--accent-soft); color: var(--accent); padding: 1px 3px; }
 
 @media (hover: hover) {
   .nav-bar button:hover { background: rgba(245,242,234,0.1); }
-  .site-nav a:hover { border-color: var(--ink); }
+  .site-nav a:hover,
+  .site-nav.wp-block-navigation .wp-block-navigation-item__content:hover { border-color: var(--ink); }
   .filter-option:hover { color: var(--accent); }
   .upload-zone:hover { border-color: var(--accent); color: var(--accent); }
   .btn-primary:hover { background: var(--accent); }

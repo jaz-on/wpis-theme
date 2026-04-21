@@ -1,12 +1,12 @@
 # WPIS Theme (`wpis-theme`)
 
-Block theme (FSE) for the WordPress Is… project: mockup-aligned layouts with core blocks and patterns, ready for quote archives, explore and submit flows and contributor profile UI.
+Block theme (FSE) for the WordPress Is… project: product-aligned layouts with core blocks and patterns, ready for quote archives, explore and submit flows and contributor profile UI.
 
 ## Requirements
 
 - WordPress **6.9+**
 - PHP **8.2+**
-- The **WordPress Is… Core** plugin (`wpis-plugin`) when you wire dynamic quotes, submissions and REST. The theme runs standalone for the static mockup screens.
+- The **WordPress Is… Core** plugin (`wpis-plugin`) when you wire dynamic quotes, submissions and REST. The theme runs standalone for static screen content until the plugin is connected.
 
 ## WordPress metadata
 
@@ -21,7 +21,7 @@ Block theme (FSE) for the WordPress Is… project: mockup-aligned layouts with c
    wp-content/themes/wpis-theme/
   ```
 2. Activate **WPIS Theme** under **Appearance → Themes**.
-3. On first activation the theme creates mockup **pages** from [`content/html/`](./content/html/) when missing, sets **Reading** to a static front page (`home`) once, and ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
+3. On first activation the theme creates **pages** from [`content/html/`](./content/html/) when missing, sets **Reading** to a static front page (`home`) once, and ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
 4. Operator notes and checklists: **[contribution/README.md](../contribution/README.md)**. Architecture contract: **[docs/wpis-fse-architecture.md](../docs/wpis-fse-architecture.md)**.
 
 ## Updates with Git Updater
@@ -35,7 +35,7 @@ Bump the `**Version:`** field in `style.css` when you ship changes you want site
 
 ## Development
 
-No Node build step is required. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/mockup.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
+No Node build step is required. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-chrome.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
 
 ## License
 

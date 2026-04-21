@@ -38,7 +38,7 @@ function wpis_theme_setup_theme() {
 add_action( 'after_setup_theme', 'wpis_theme_setup_theme' );
 
 /**
- * Create mockup pages, reading options and primary menu once per site rules.
+ * Create seeded pages, reading options and primary menu once per site rules.
  */
 function wpis_theme_after_switch_theme() {
 	WPIS_Theme_Setup::run();
@@ -52,11 +52,11 @@ function wpis_theme_enqueue_assets() {
 	$theme_dir = get_template_directory();
 	$theme_uri = get_template_directory_uri();
 
-	$css_path = $theme_dir . '/assets/css/mockup.css';
+	$css_path = $theme_dir . '/assets/css/wpis-chrome.css';
 	if ( is_readable( $css_path ) ) {
 		wp_enqueue_style(
-			'wpis-mockup',
-			$theme_uri . '/assets/css/mockup.css',
+			'wpis-chrome',
+			$theme_uri . '/assets/css/wpis-chrome.css',
 			array(),
 			(string) filemtime( $css_path )
 		);
@@ -76,15 +76,15 @@ function wpis_theme_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_assets' );
 
 /**
- * Load mockup layer in the block editor.
+ * Load front-end chrome styles in the block editor.
  */
 function wpis_theme_editor_styles() {
-	add_editor_style( 'assets/css/mockup.css' );
+	add_editor_style( 'assets/css/wpis-chrome.css' );
 }
 add_action( 'after_setup_theme', 'wpis_theme_editor_styles' );
 
 /**
- * Register core block variations aligned with mockup layout classes.
+ * Register core block variations aligned with layout utility classes.
  */
 function wpis_theme_register_block_variations() {
 	if ( ! function_exists( 'register_block_variation' ) ) {
@@ -151,16 +151,16 @@ function wpis_theme_register_block_variations() {
 add_action( 'init', 'wpis_theme_register_block_variations', 20 );
 
 /**
- * Pattern category for mockup-derived patterns.
+ * Pattern category for full-page body patterns and utilities.
  */
 function wpis_theme_register_pattern_category() {
-	if ( class_exists( 'WP_Block_Pattern_Categories_Registry' ) && WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'wpis-mockup' ) ) {
+	if ( class_exists( 'WP_Block_Pattern_Categories_Registry' ) && WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'wpis-screens' ) ) {
 		return;
 	}
 	register_block_pattern_category(
-		'wpis-mockup',
+		'wpis-screens',
 		array(
-			'label' => __( 'WPIS mockup', 'wpis-theme' ),
+			'label' => __( 'WPIS screens', 'wpis-theme' ),
 		)
 	);
 }

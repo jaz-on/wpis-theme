@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Empty state / 404 (mockup body)
+ * Title: Empty state / 404 (page body)
  * Slug: wpis-theme/empty-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: no
  *
  * @package WPIS

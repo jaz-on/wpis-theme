@@ -2,7 +2,7 @@
 /**
  * Title: WPIS quote card (negative sentiment)
  * Slug: wpis-theme/quote-card-negative
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

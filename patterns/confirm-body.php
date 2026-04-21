@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Submitted confirmation (mockup body)
+ * Title: Submitted confirmation (page body)
  * Slug: wpis-theme/confirm-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

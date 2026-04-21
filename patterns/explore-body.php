@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Explore (mockup body)
+ * Title: Explore (page body)
  * Slug: wpis-theme/explore-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

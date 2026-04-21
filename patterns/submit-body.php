@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Submit (mockup body)
+ * Title: Submit (page body)
  * Slug: wpis-theme/submit-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

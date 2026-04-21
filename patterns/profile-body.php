@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Profile (mockup body)
+ * Title: Profile (page body)
  * Slug: wpis-theme/profile-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

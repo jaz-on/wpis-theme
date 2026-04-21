@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Taxonomy archive (mockup body)
+ * Title: Taxonomy archive (page body)
  * Slug: wpis-theme/taxonomy-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

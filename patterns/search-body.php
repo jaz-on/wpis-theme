@@ -1,8 +1,8 @@
 <?php
 /**
- * Title: Search results demo (mockup body)
+ * Title: Search results demo (page body)
  * Slug: wpis-theme/search-body
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS

@@ -1,5 +1,5 @@
 /**
- * Light / dark theme: sets data-theme on documentElement (matches mockup CSS).
+ * Light / dark theme: sets data-theme on documentElement (aligned with wpis-chrome.css).
  */
 (function () {
 	'use strict';

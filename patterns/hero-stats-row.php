@@ -2,7 +2,7 @@
 /**
  * Title: WPIS hero stats (4 columns)
  * Slug: wpis-theme/hero-stats-row
- * Categories: wpis-mockup
+ * Categories: wpis-screens
  * Inserter: yes
  *
  * @package WPIS
