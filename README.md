@@ -7,6 +7,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
 - WordPress **6.9+**
 - PHP **8.2+**
 - The **WordPress Is… Core** plugin (`wpis-plugin`) when you wire dynamic quotes, submissions and REST. The theme runs standalone for static screen content until the plugin is connected.
+- **Relevanssi** (optional) replaces default site search; see [docs/RELEVANSSI.md](docs/RELEVANSSI.md) and the plugin’s [RELEVANSSI.md](https://github.com/jaz-on/wpis-plugin/blob/main/docs/RELEVANSSI.md) for indexing `quote`.
 
 ## WordPress metadata
 

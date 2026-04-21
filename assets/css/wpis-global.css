@@ -697,6 +697,17 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
 .btn-secondary { background: transparent; color: var(--ink); border: 1px solid var(--ink); padding: 14px 22px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; }
 .queue-indicator { display: block; margin-top: 14px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; color: var(--muted); text-align: center; }
 
+/* templates/search.html — block search + query (Relevanssi augments the main `?s=` query) */
+.is-style-wpis-search { padding-top: 1.5rem; padding-bottom: 2rem; }
+.is-style-wpis-search .wp-block-search__inside-wrapper { border: 1px solid var(--line); background: var(--paper); }
+.is-style-wpis-search .wp-block-search__input {
+	font-family: var(--wp--preset--font-family--fraunces);
+	font-size: 18px;
+	padding: 16px 14px;
+}
+.is-style-wpis-search .wp-block-search .wp-block-search__button { border-radius: 0; }
+.is-style-wpis-search .wp-block-query { margin-top: 0.5rem; }
+
 .search-container { padding: 24px 20px; }
 .search-bar { position: relative; margin-bottom: 24px; border: 1px solid var(--line); background: var(--paper); display: flex; align-items: center; }
 .search-bar input { flex: 1; background: transparent; border: none; padding: 16px 14px; font-family: var(--wp--preset--font-family--fraunces); font-size: 18px; color: var(--ink); outline: none; }
