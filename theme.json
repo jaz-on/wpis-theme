@@ -94,12 +94,12 @@
 			"lineHeight": "1.5"
 		},
 		"color": {
-			"background": "var(--wp--preset--color--bg)",
-			"text": "var(--wp--preset--color--ink)"
+			"background": "var(--bg)",
+			"text": "var(--ink)"
 		},
 		"elements": {
 			"link": {
-				"color": { "text": "var(--wp--preset--color--ink)" }
+				"color": { "text": "var(--ink)" }
 			},
 			"h1": {
 				"typography": {
@@ -147,8 +147,8 @@
 			},
 			"mark": {
 				"color": {
-					"text": "var(--wp--preset--color--accent)",
-					"background": "var(--wp--preset--color--accent-soft)"
+					"text": "var(--accent)",
+					"background": "var(--accent-soft)"
 				},
 				"spacing": {
 					"padding": {
@@ -185,7 +185,7 @@
 						},
 						"border": {
 							"bottom": {
-								"color": "var(--wp--preset--color--ink)",
+								"color": "var(--line)",
 								"width": "1px",
 								"style": "solid"
 							}
@@ -242,7 +242,7 @@
 						},
 						"border": {
 							"bottom": {
-								"color": "var(--wp--preset--color--ink)",
+								"color": "var(--line)",
 								"width": "1px",
 								"style": "solid"
 							}
@@ -259,7 +259,7 @@
 						},
 						"border": {
 							"bottom": {
-								"color": "var(--wp--preset--color--ink)",
+								"color": "var(--line)",
 								"width": "1px",
 								"style": "solid"
 							}
@@ -276,7 +276,7 @@
 						},
 						"border": {
 							"bottom": {
-								"color": "var(--wp--preset--color--ink)",
+								"color": "var(--line)",
 								"width": "1px",
 								"style": "solid"
 							}
@@ -350,7 +350,7 @@
 							"letterSpacing": "0.15em"
 						},
 						"color": {
-							"text": "var(--wp--preset--color--muted)"
+							"text": "var(--muted)"
 						}
 					},
 					"wpis-pull-quote": {
@@ -371,12 +371,12 @@
 						},
 						"border": {
 							"top": {
-								"color": "var(--wp--preset--color--ink)",
+								"color": "var(--line)",
 								"width": "1px",
 								"style": "solid"
 							},
 							"bottom": {
-								"color": "var(--wp--preset--color--ink)",
+								"color": "var(--line)",
 								"width": "1px",
 								"style": "solid"
 							}

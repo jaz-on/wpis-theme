@@ -18,11 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 function wpis_theme_seed_sentiment_border( $sentiment ) {
 	switch ( $sentiment ) {
 		case 'positive':
-			return 'var(--wp--preset--color--positive)';
+			return 'var(--positive)';
 		case 'mixed':
-			return 'var(--wp--preset--color--mixed)';
+			return 'var(--mixed)';
 		default:
-			return 'var(--wp--preset--color--negative)';
+			return 'var(--negative)';
 	}
 }
 
@@ -40,14 +40,14 @@ function wpis_theme_seed_quote_stack( array $q ) {
 	$text   = isset( $q['text'] ) ? $q['text'] : '';
 
 	return '
-<!-- wp:group {"style":{"border":{"left":{"color":"' . $border . '","width":"3px","style":"solid"},"bottom":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"}},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"0.875rem"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"flex-start","flexWrap":"nowrap"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.3","letterSpacing":"-0.01em"}}} -->
+<!-- wp:group {"style":{"border":{"left":{"color":"' . $border . '","width":"3px","style":"solid"},"bottom":{"color":"var(--line)","width":"1px","style":"solid"}},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"0.875rem"}}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"flex-start","flexWrap":"nowrap"}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"1.375rem","lineHeight":"1.3","letterSpacing":"-0.01em"},"color":{"text":"var(--ink)"}}} -->
 <p>' . $text . '</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
-<p><span style="border:1px solid var(--wp--preset--color--ink);padding:3px 8px;color:var(--wp--preset--color--ink);font-weight:500">' . $claim . '</span> <span style="background:var(--wp--preset--color--ink);color:var(--wp--preset--color--bg);padding:3px 8px;font-weight:500">' . $count . '</span> <a href="' . $url . '">' . esc_html__( 'View quote', 'wpis-theme' ) . '</a></p>
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
+<p><span style="border:1px solid var(--line);padding:3px 8px;color:var(--ink);font-weight:500">' . $claim . '</span> <span style="background:var(--ink);color:var(--bg);padding:3px 8px;font-weight:500">' . $count . '</span> <a href="' . $url . '" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)">' . esc_html__( 'View quote', 'wpis-theme' ) . '</a></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:group -->';
@@ -284,7 +284,7 @@ function wpis_theme_build_security_seed() {
 <h1 class="wp-block-heading">Security</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--wp--preset--color--ink)"},"spacing":{"margin":{"bottom":"0"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--ink)"},"spacing":{"margin":{"bottom":"0"}}}} -->
 <p>Claims about how safe, exposed or resilient WordPress is.</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
@@ -435,7 +435,7 @@ function wpis_theme_build_explore_seed() {
 <h1 class="wp-block-heading">The map of the conversation</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--wp--preset--color--ink)"},"spacing":{"margin":{"bottom":"0"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--ink)"},"spacing":{"margin":{"bottom":"0"}}}} -->
 <p>All the claims people make about WordPress, grouped by what they're actually talking about. Pick a theme to dive into the arguments and counter-arguments.</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
@@ -455,7 +455,7 @@ WPIS;
 
 	$section_open  = <<<'WPIS'
 <!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--muted)"}}} -->
 <p>By claim type</p>
 <!-- /wp:paragraph -->
 
@@ -475,18 +475,18 @@ WPIS;
 		$meta  = esc_html( $c[1] );
 		$desc  = esc_html( $c[2] );
 		$card_blocks .= <<<CARD
-<!-- wp:group {"style":{"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1.25rem","right":"1.25rem","bottom":"1.25rem","left":"1.25rem"}},"color":{"background":"var(--wp--preset--color--paper)"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1.25rem","right":"1.25rem","bottom":"1.25rem","left":"1.25rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
 <!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"baseline","flexWrap":"wrap"},"style":{"spacing":{"blockGap":"0.75rem"}}} -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">{$title}</h3>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.75rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.75rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
 <p>{$meta}</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
-<!-- wp:paragraph {"style":{"color":{"text":"var(--wp--preset--color--muted)"},"typography":{"fontSize":"0.875rem","lineHeight":"1.5"}}} -->
+<!-- wp:paragraph {"style":{"color":{"text":"var(--muted)"},"typography":{"fontSize":"0.875rem","lineHeight":"1.5"}}} -->
 <p>{$desc}</p>
 <!-- /wp:paragraph -->
 
@@ -512,7 +512,7 @@ CARD;
 	);
 	$plat_open   = <<<'WPIS'
 <!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1200px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--muted)"}}} -->
 <p>By source platform</p>
 <!-- /wp:paragraph -->
 
@@ -531,12 +531,12 @@ WPIS;
 		$n  = esc_html( $p[0] );
 		$ct = esc_html( $p[1] );
 		$plat_blocks .= <<<PLAT
-<!-- wp:group {"style":{"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","right":"0.875rem","bottom":"0.875rem","left":"0.875rem"}},"color":{"background":"var(--wp--preset--color--paper)"}},"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"baseline"}} -->
+<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","right":"0.875rem","bottom":"0.875rem","left":"0.875rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"baseline"}} -->
 <!-- wp:heading {"level":4,"style":{"typography":{"fontSize":"0.9375rem","fontWeight":"500"}}} -->
 <h4 class="wp-block-heading">{$n}</h4>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem"},"color":{"text":"var(--muted)"}}} -->
 <p>{$ct}</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
@@ -614,7 +614,7 @@ WPIS;
 	foreach ( $steps as $s ) {
 		$note_block = '';
 		if ( '' !== $s['note'] ) {
-			$note_block = '<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+			$note_block = '<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem"},"color":{"text":"var(--muted)"}}} -->
 <p>' . esc_html( $s['note'] ) . '</p>
 <!-- /wp:paragraph -->';
 		}
@@ -622,8 +622,8 @@ WPIS;
 		$title_e    = esc_html( $s['title'] );
 		$num_e      = esc_html( $s['num'] );
 		$mid       .= <<<STEP
-<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"flex-start"},"style":{"spacing":{"blockGap":"1rem","margin":{"bottom":"2rem"},"padding":{"bottom":"1.75rem"}},"border":{"bottom":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"3rem","fontWeight":"400","lineHeight":"1"},"color":{"text":"var(--wp--preset--color--accent)"}}} -->
+<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"flex-start"},"style":{"spacing":{"blockGap":"1rem","margin":{"bottom":"2rem"},"padding":{"bottom":"1.75rem"}},"border":{"bottom":{"color":"var(--ink)","width":"1px","style":"solid"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"3rem","fontWeight":"400","lineHeight":"1"},"color":{"text":"var(--accent)"}}} -->
 <p>{$num_e}</p>
 <!-- /wp:paragraph -->
 
@@ -652,28 +652,28 @@ STEP;
  */
 function wpis_theme_build_profile_seed() {
 	$items = array(
-		array( 'WordPress <span class="is-word">is</span> a mess but I love it anyway.', 'Validated', 'April 14', 'background:var(--wp--preset--color--positive);color:var(--wp--preset--color--bg);' ),
-		array( 'WordPress <span class="is-word">is</span> not a real developer tool.', 'Merged ×11', 'April 12', 'background:var(--wp--preset--color--muted);color:var(--wp--preset--color--bg);' ),
-		array( 'WordPress <span class="is-word">est</span> ma plateforme de choix depuis 2012.', 'Pending', 'April 11', 'background:var(--wp--preset--color--mixed);color:var(--wp--preset--color--bg);' ),
-		array( 'WordPress <span class="is-word">is</span> single-handedly why the web isn\'t just Facebook.', 'Validated', 'April 8', 'background:var(--wp--preset--color--positive);color:var(--wp--preset--color--bg);' ),
-		array( 'WordPress <span class="is-word">is</span> dead.', 'Rejected', 'April 5', 'background:var(--wp--preset--color--negative);color:var(--wp--preset--color--bg);' ),
+		array( 'WordPress <span class="is-word">is</span> a mess but I love it anyway.', 'Validated', 'April 14', 'background:var(--positive);color:var(--bg);' ),
+		array( 'WordPress <span class="is-word">is</span> not a real developer tool.', 'Merged ×11', 'April 12', 'background:var(--muted);color:var(--bg);' ),
+		array( 'WordPress <span class="is-word">est</span> ma plateforme de choix depuis 2012.', 'Pending', 'April 11', 'background:var(--mixed);color:var(--bg);' ),
+		array( 'WordPress <span class="is-word">is</span> single-handedly why the web isn\'t just Facebook.', 'Validated', 'April 8', 'background:var(--positive);color:var(--bg);' ),
+		array( 'WordPress <span class="is-word">is</span> dead.', 'Rejected', 'April 5', 'background:var(--negative);color:var(--bg);' ),
 	);
 
 	$open = <<<'WPIS'
 <!-- wp:group {"className":"is-style-wpis-profile","layout":{"type":"constrained","contentSize":"900px"}} -->
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"1.75rem"},"padding":{"bottom":"1rem"}},"border":{"bottom":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"}}}} -->
+<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"1.75rem"},"padding":{"bottom":"1rem"}},"border":{"bottom":{"color":"var(--ink)","width":"1px","style":"solid"}}}} -->
 <!-- wp:heading {"level":1,"style":{"typography":{"fontSize":"2rem","fontWeight":"800","letterSpacing":"-0.02em","lineHeight":"1.05"}}} -->
 <h1 class="wp-block-heading">Your contributions</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
 <p>Private · visible only to you · member since March 2026</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
 <!-- wp:group {"layout":{"type":"grid","columnCount":2},"style":{"spacing":{"blockGap":"0.75rem","margin":{"bottom":"2.25rem"}}}} -->
-<!-- wp:group {"style":{"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--wp--preset--color--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
 <p>Total submitted</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
@@ -681,8 +681,8 @@ function wpis_theme_build_profile_seed() {
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--wp--preset--color--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
 <p>Validated</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
@@ -690,17 +690,17 @@ function wpis_theme_build_profile_seed() {
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--wp--preset--color--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
 <p>Acceptance rate</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
-<p>81<span style="font-size:1rem;color:var(--wp--preset--color--muted);margin-left:2px">%</span></p>
+<p>81<span style="font-size:1rem;color:var(--muted);margin-left:2px">%</span></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--wp--preset--color--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
 <p>Pending</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
@@ -709,7 +709,7 @@ function wpis_theme_build_profile_seed() {
 <!-- /wp:group -->
 <!-- /wp:group -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
 <p>Your recent submissions</p>
 <!-- /wp:paragraph -->
 
@@ -728,7 +728,7 @@ WPIS;
 		$date        = esc_html( $it[2] );
 		$badge_style = $it[3];
 		$mid        .= <<<ROW
-<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"flex-start"},"style":{"spacing":{"blockGap":"0.625rem","padding":{"top":"1rem","bottom":"1rem"}},"border":{"bottom":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"}}}} -->
+<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"flex-start"},"style":{"spacing":{"blockGap":"0.625rem","padding":{"top":"1rem","bottom":"1rem"}},"border":{"bottom":{"color":"var(--ink)","width":"1px","style":"solid"}}}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.35"}}} -->
 <p>{$text_raw}</p>
 <!-- /wp:paragraph -->
@@ -738,7 +738,7 @@ WPIS;
 <p><span style="padding:4px 8px;display:inline-block;{$badge_style}">{$label}</span></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem"},"color":{"text":"var(--muted)"}}} -->
 <p>{$date}</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
@@ -758,13 +758,13 @@ ROW;
 function wpis_theme_build_sample_seed() {
 	return <<<'WPIS'
 <!-- wp:group {"className":"is-style-wpis-detail","layout":{"type":"constrained","contentSize":"900px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em","lineHeight":"1.6"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em","lineHeight":"1.6"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
 <p><a href="/">Feed</a> <span style="margin:0 6px">/</span> <a href="/taxonomy/security/">Security</a> <span style="margin:0 6px">/</span> This quote</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.625rem","margin":{"bottom":"1.25rem"}}}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em"}}} -->
-<p><span style="border:1px solid var(--wp--preset--color--ink);padding:3px 8px;font-weight:500">Security</span> <span style="color:var(--wp--preset--color--muted)">·</span> <span style="color:var(--wp--preset--color--muted)">Submitted 24 times since March 2026</span></p>
+<p><span style="border:1px solid var(--ink);padding:3px 8px;font-weight:500">Security</span> <span style="color:var(--muted)">·</span> <span style="color:var(--muted)">Submitted 24 times since March 2026</span></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
@@ -772,8 +772,8 @@ function wpis_theme_build_sample_seed() {
 <h1 class="wp-block-heading">WordPress <span class="is-word">is</span> not secure: too many plugins with backdoors.</h1>
 <!-- /wp:heading -->
 
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--paper)"},"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.25rem","right":"1.25rem"},"margin":{"top":"0","bottom":"2.5rem"}}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.15em"},"color":{"text":"var(--wp--preset--color--accent)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--paper)"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.25rem","right":"1.25rem"},"margin":{"top":"0","bottom":"2.5rem"}}},"layout":{"type":"default"}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.15em"},"color":{"text":"var(--accent)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
 <p><span aria-hidden="true">⇄</span> Someone disagrees</p>
 <!-- /wp:paragraph -->
 
@@ -782,57 +782,57 @@ function wpis_theme_build_sample_seed() {
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.625rem","margin":{"top":"0.875rem"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
-<p><span style="border:1px solid var(--wp--preset--color--ink);padding:3px 8px;font-size:10px">Security</span> <span style="background:var(--wp--preset--color--ink);color:var(--wp--preset--color--bg);padding:3px 8px">×12</span> Seen on Blog, Mastodon <a href="/taxonomy/security/" style="color:var(--wp--preset--color--accent);text-decoration:none;border-bottom:1px dotted var(--wp--preset--color--accent);margin-left:auto">See 3 more opposing views →</a></p>
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
+<p><span style="border:1px solid var(--ink);padding:3px 8px;font-size:10px">Security</span> <span style="background:var(--ink);color:var(--bg);padding:3px 8px">×12</span> Seen on Blog, Mastodon <a href="/taxonomy/security/" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);margin-left:auto">See 3 more opposing views →</a></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"spacing":{"margin":{"top":"2.5rem","bottom":"2rem"}}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
 <p>How this claim spreads</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":{"top":"0.75rem","left":"0.75rem"}}}}} -->
 <!-- wp:column -->
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--paper)"},"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--paper)"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"1.75rem","fontWeight":"600","lineHeight":"1"}}} -->
 <p>24</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"}}} -->
 <p>total submissions</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--paper)"},"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--paper)"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"1.75rem","fontWeight":"600","lineHeight":"1"}}} -->
 <p>4</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"}}} -->
 <p>platforms</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--paper)"},"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--paper)"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"1.75rem","fontWeight":"600","lineHeight":"1"}}} -->
 <p>3</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"}}} -->
 <p>languages</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--paper)"},"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--paper)"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem","left":"0.875rem","right":"0.875rem"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"1.75rem","fontWeight":"600","lineHeight":"1"}}} -->
 <p>11</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"}}} -->
 <p>variants merged</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
@@ -841,33 +841,33 @@ function wpis_theme_build_sample_seed() {
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"spacing":{"margin":{"top":"2rem"}}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
 <p>A few of the variants</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem"}},"border":{"bottom":{"color":"var(--wp--preset--color--muted)","width":"1px","style":"dashed"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem"}},"border":{"bottom":{"color":"var(--muted)","width":"1px","style":"dashed"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.4"}}} -->
 <p>WordPress n'est pas sûr à cause de ses extensions</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
 <p>FR · Mastodon · 2026</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem"}},"border":{"bottom":{"color":"var(--wp--preset--color--muted)","width":"1px","style":"dashed"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem"}},"border":{"bottom":{"color":"var(--muted)","width":"1px","style":"dashed"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.4"}}} -->
 <p>WordPress has a security problem with its plugin ecosystem</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
 <p>EN · Reddit · 2026</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem"}},"border":{"bottom":{"color":"var(--wp--preset--color--muted)","width":"1px","style":"dashed"}}},"layout":{"type":"default"}} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0.75rem","bottom":"0.75rem"}},"border":{"bottom":{"color":"var(--muted)","width":"1px","style":"dashed"}}},"layout":{"type":"default"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.4"}}} -->
 <p>WordPress ist unsicher wegen der Plugins</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
 <p>DE · Mastodon · 2026</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
@@ -876,19 +876,19 @@ function wpis_theme_build_sample_seed() {
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.4"}}} -->
 <p>WP plugins are a security nightmare</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
 <p>EN · X · 2026</p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:group -->
 
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--accent-soft)"},"border":{"left":{"color":"var(--wp--preset--color--accent)","width":"3px","style":"solid"}},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.25rem","right":"1.25rem"},"margin":{"top":"2.5rem"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--wp--preset--color--accent)"},"spacing":{"margin":{"bottom":"0.75rem"}}}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--accent-soft)"},"border":{"left":{"color":"var(--accent)","width":"3px","style":"solid"}},"spacing":{"padding":{"top":"1.5rem","bottom":"1.5rem","left":"1.25rem","right":"1.25rem"},"margin":{"top":"2.5rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.12em"},"color":{"text":"var(--accent)"},"spacing":{"margin":{"bottom":"0.75rem"}}}} -->
 <p>A note from the editor</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.55"}}} -->
-<p>This claim surfaces often and has real basis: the WordPress plugin ecosystem does produce security incidents because anyone can publish plugins with varying code quality. But WordPress core itself is actively audited and security-patched. The distinction matters: criticizing "WordPress" for plugin vulnerabilities is like criticizing a browser for extension malware. <em style="font-style:italic;font-weight:500;color:var(--wp--preset--color--ink)">Both the criticism and the counter-argument hold: it depends on how you use it.</em></p>
+<p>This claim surfaces often and has real basis: the WordPress plugin ecosystem does produce security incidents because anyone can publish plugins with varying code quality. But WordPress core itself is actively audited and security-patched. The distinction matters: criticizing "WordPress" for plugin vulnerabilities is like criticizing a browser for extension malware. <em style="font-style:italic;font-weight:500;color:var(--ink)">Both the criticism and the counter-argument hold: it depends on how you use it.</em></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:group -->
@@ -968,7 +968,7 @@ WPIS;
 function wpis_theme_build_empty_seed() {
 	return <<<'WPIS'
 <!-- wp:group {"className":"is-style-wpis-empty-state","layout":{"type":"constrained","contentSize":"560px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"6rem","lineHeight":"1","fontStyle":"italic","fontWeight":"400"},"color":{"text":"var(--wp--preset--color--accent)"},"spacing":{"margin":{"bottom":"1.25rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"6rem","lineHeight":"1","fontStyle":"italic","fontWeight":"400"},"color":{"text":"var(--accent)"},"spacing":{"margin":{"bottom":"1.25rem"}}}} -->
 <p>?</p>
 <!-- /wp:paragraph -->
 
@@ -976,7 +976,7 @@ function wpis_theme_build_empty_seed() {
 <h1 class="wp-block-heading">WordPress <span class="is-word">is</span>… not here.</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"color":{"text":"var(--wp--preset--color--muted)"}}} -->
+<!-- wp:paragraph {"style":{"color":{"text":"var(--muted)"}}} -->
 <p>Either this claim hasn't been submitted yet or the page you're looking for doesn't exist. Both are genuinely possible.</p>
 <!-- /wp:paragraph -->
 
@@ -1002,7 +1002,7 @@ function wpis_theme_build_submit_seed() {
 <h1 class="wp-block-heading">Seen a "WordPress <span class="is-word">is</span>…" quote somewhere?</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1.75rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1.75rem"}}}} -->
 <p>Paste the text, drop a screenshot or share the link. We'll take care of the rest. No account required.</p>
 <!-- /wp:paragraph -->
 
@@ -1044,7 +1044,7 @@ WPIS;
 function wpis_theme_build_submitted_seed() {
 	return <<<'WPIS'
 <!-- wp:group {"className":"is-style-wpis-confirm","layout":{"type":"constrained","contentSize":"720px"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"5rem","lineHeight":"1","fontWeight":"400"},"color":{"text":"var(--wp--preset--color--accent)"},"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"5rem","lineHeight":"1","fontWeight":"400"},"color":{"text":"var(--accent)"},"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
 <p>✓</p>
 <!-- /wp:paragraph -->
 
@@ -1052,20 +1052,20 @@ function wpis_theme_build_submitted_seed() {
 <h1 class="wp-block-heading">Thanks. We've got it.</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1.75rem"}}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1.75rem"}}}} -->
 <p>Your submission is in the moderation queue. A human will review it: usually within a few days.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"style":{"color":{"background":"var(--wp--preset--color--paper)"},"border":{"color":"var(--wp--preset--color--ink)","width":"1px","style":"solid"},"typography":{"fontSize":"1.0625rem","lineHeight":"1.4","textAlign":"left"},"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem","left":"1.25rem","right":"1.25rem"},"margin":{"bottom":"2rem"}}}} -->
+<!-- wp:paragraph {"style":{"color":{"background":"var(--paper)"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"typography":{"fontSize":"1.0625rem","lineHeight":"1.4","textAlign":"left"},"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem","left":"1.25rem","right":"1.25rem"},"margin":{"bottom":"2rem"}}}} -->
 <p>"WordPress <span class="is-word">is</span> honestly the most democratic publishing platform we have."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--muted)"},"border":{"top":{"color":"var(--wp--preset--color--muted)","width":"1px","style":"dashed"},"bottom":{"color":"var(--wp--preset--color--muted)","width":"1px","style":"dashed"}},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem"},"margin":{"bottom":"1.75rem"}}}} -->
-<p><strong style="font-family:var(--wp--preset--font-family--fraunces);color:var(--wp--preset--color--ink);font-size:1rem;letter-spacing:normal;font-weight:600">47 submissions</strong> currently pending moderation</p>
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"},"border":{"top":{"color":"var(--muted)","width":"1px","style":"dashed"},"bottom":{"color":"var(--muted)","width":"1px","style":"dashed"}},"spacing":{"padding":{"top":"0.875rem","bottom":"0.875rem"},"margin":{"bottom":"1.75rem"}}}} -->
+<p><strong style="font-family:var(--wp--preset--font-family--fraunces);color:var(--ink);font-size:1rem;letter-spacing:normal;font-weight:600">47 submissions</strong> currently pending moderation</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"color":{"background":"var(--wp--preset--color--accent-soft)"},"border":{"left":{"color":"var(--wp--preset--color--accent)","width":"3px","style":"solid"}},"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem","left":"1.25rem","right":"1.25rem"},"margin":{"bottom":"1.75rem"}},"typography":{"textAlign":"left"}}} -->
-<!-- wp:heading {"level":3,"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--wp--preset--color--accent)"},"spacing":{"margin":{"bottom":"0.625rem"}}}} -->
+<!-- wp:group {"style":{"color":{"background":"var(--accent-soft)"},"border":{"left":{"color":"var(--accent)","width":"3px","style":"solid"}},"spacing":{"padding":{"top":"1.25rem","bottom":"1.25rem","left":"1.25rem","right":"1.25rem"},"margin":{"bottom":"1.75rem"}},"typography":{"textAlign":"left"}}} -->
+<!-- wp:heading {"level":3,"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--accent)"},"spacing":{"margin":{"bottom":"0.625rem"}}}} -->
 <h3 class="wp-block-heading">Want to follow this?</h3>
 <!-- /wp:heading -->
 
