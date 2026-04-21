@@ -90,8 +90,9 @@ body {
 .screen { display: none; min-height: calc(100vh - 45px); }
 .screen.active { display: block; }
 
-.site-title { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; font-variation-settings: "opsz" 144; text-decoration: none; color: var(--ink); flex-shrink: 0; display: flex; align-items: center; }
-.site-title .dots { color: var(--accent); }
+.site-title { font-family: var(--wp--preset--font-family--fraunces), Georgia, serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; font-variation-settings: "opsz" 144; text-decoration: none; color: var(--ink); flex-shrink: 0; display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.15em; }
+.site-title .dots { color: var(--accent); font-style: italic; font-weight: 400; }
+.site-title .is-word { font-style: italic; font-weight: 400; color: var(--accent); }
 .lang-switcher { display: inline-flex; gap: 4px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; }
 .lang-switcher a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid var(--muted); }
 .lang-switcher a.active { color: var(--ink); border-color: var(--ink); }
@@ -100,10 +101,25 @@ body {
 
 .site-header-utils { display: inline-flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
 
-/* Header layout: mockup stacks lang + theme above nav, right-aligned */
-.site-header.wp-block-group { align-items: flex-start; }
+/* Header: mockup column — utils on first row, main nav directly below, both right-aligned */
+.site-header.wp-block-group {
+	align-items: flex-start;
+	width: 100%;
+	max-width: 1320px;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+}
 .site-header .site-title { align-self: center; }
-.site-header-right { flex: 1 1 280px; max-width: 100%; }
+.site-header-right {
+	flex: 1 1 280px;
+	max-width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	align-self: stretch;
+}
+.site-header-right .site-header-utils { justify-content: flex-end; }
 .site-header-right .wp-block-navigation { width: 100%; }
 .site-header-right .wp-block-navigation__responsive-container-content { justify-content: flex-end; }
 .site-header-right .wp-block-navigation__container,
@@ -114,12 +130,16 @@ body {
 	letter-spacing: 0.08em;
 }
 
-.site-footer.wp-block-group { margin-top: 3rem; }
+.site-footer.wp-block-group {
+	margin-top: 3rem;
+	width: 100%;
+	max-width: 1320px;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+}
 @media (min-width: 900px) {
 	.site-footer.wp-block-group {
-		max-width: 1400px;
-		margin-left: auto;
-		margin-right: auto;
 		padding-left: 2rem;
 		padding-right: 2rem;
 	}
@@ -128,22 +148,49 @@ body {
 .wp-block-navigation .wp-block-navigation-item__content { color: var(--ink); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; white-space: nowrap; }
 .wp-block-navigation .current-menu-item .wp-block-navigation-item__content { border-color: var(--ink); }
 
-.footer-top { display: flex; flex-direction: column; gap: 0.5rem; line-height: 1.55; }
-.footer-top a { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; }
-.footer-top a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.footer-top {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 1rem 1.5rem;
+	flex-wrap: wrap;
+	line-height: 1.55;
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 0.625rem;
+	letter-spacing: 0.08em;
+	padding-bottom: 1.25rem;
+	margin-bottom: 0;
+	border-bottom: 1px solid var(--line);
+	color: var(--ink);
+}
+.footer-top-left,
+.footer-top-right {
+	flex: 1 1 12rem;
+	min-width: min(100%, 16rem);
+}
+.footer-top-right { text-align: right; }
+.footer-top a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
+}
+.footer-top a:hover {
+	color: var(--accent);
+}
 .footer-trademark {
-  font-family: var(--wp--preset--font-family--fraunces);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 0.625rem;
   line-height: 1.55;
   text-transform: none;
   letter-spacing: 0.01em;
   font-weight: 400;
-  opacity: 0.9;
-  padding-top: 10px;
-  margin-top: 2px;
-  border-top: 1px dotted var(--muted);
+  padding-top: 1.25rem;
+  margin-top: 0;
+  border-top: none;
   color: var(--muted);
-  max-width: 52rem;
+  max-width: none;
 }
 
 /* Explore: card grid readability (core columns + stacked groups) */
@@ -266,6 +313,215 @@ mark { background: var(--accent-soft); color: var(--ink); padding: 0 2px; }
 }
 .hero-intro { font-size: 17px; line-height: 1.5; margin-bottom: 28px; max-width: 640px; }
 .hero-intro em { font-style: italic; color: var(--accent); }
+/* About / long-form prose: same treatment as mockup .about-container em */
+.is-style-wpis-prose em { font-style: italic; color: var(--accent); }
+
+/* How it works: mockup .how-step timeline */
+.is-style-wpis-how h1.wp-block-heading {
+	font-size: clamp(2.25rem, 9vw, 3.5rem);
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	line-height: 1.05;
+	margin-top: 0;
+	margin-bottom: 2rem;
+	font-variation-settings: "opsz" 144;
+}
+.is-style-wpis-how .how-step-list { margin: 0; padding: 0; }
+.is-style-wpis-how .how-step {
+	display: flex;
+	gap: 16px;
+	margin-bottom: 32px;
+	padding-bottom: 28px;
+	border-bottom: 1px solid var(--line);
+	align-items: flex-start;
+}
+.is-style-wpis-how .how-step:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.is-style-wpis-how .how-step .num {
+	font-family: var(--wp--preset--font-family--fraunces), Georgia, serif;
+	font-size: 48px;
+	font-weight: 400;
+	color: var(--accent);
+	line-height: 1;
+	font-variation-settings: "opsz" 144;
+	flex-shrink: 0;
+	min-width: 50px;
+}
+.is-style-wpis-how .how-step .body {
+	flex: 1;
+	min-width: 0;
+}
+.is-style-wpis-how .how-step .body h3 {
+	font-size: 19px;
+	font-weight: 600;
+	margin: 0 0 8px;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+	font-family: var(--wp--preset--font-family--fraunces), Georgia, serif;
+}
+.is-style-wpis-how .how-step .body > p:not(.note) {
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--ink);
+	margin: 0 0 10px;
+}
+.is-style-wpis-how .how-step .body .note {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 11px;
+	color: var(--muted);
+	line-height: 1.5;
+	margin: 0;
+}
+.is-style-wpis-how .how-step .body em {
+	font-style: italic;
+	color: var(--accent);
+}
+@media (min-width: 760px) {
+	.is-style-wpis-how .how-step {
+		gap: 24px;
+		padding-bottom: 36px;
+		margin-bottom: 40px;
+	}
+	.is-style-wpis-how .how-step:last-child {
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	.is-style-wpis-how .how-step .num {
+		font-size: 64px;
+		min-width: 70px;
+	}
+	.is-style-wpis-how .how-step .body h3 {
+		font-size: 22px;
+	}
+	.is-style-wpis-how .how-step .body > p:not(.note) {
+		font-size: 16px;
+	}
+}
+
+/* My profile: mockup .profile-container */
+.is-style-wpis-profile .wpis-profile {
+	max-width: 100%;
+}
+.is-style-wpis-profile .profile-header {
+	margin-bottom: 28px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--line);
+}
+.is-style-wpis-profile .profile-header h1 {
+	font-size: clamp(1.75rem, 5vw, 2.5rem);
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	margin: 0 0 8px;
+	line-height: 1.05;
+	font-variation-settings: "opsz" 144;
+	font-family: var(--wp--preset--font-family--fraunces), Georgia, serif;
+}
+.is-style-wpis-profile .profile-header p {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 10px;
+	color: var(--muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	line-height: 1.5;
+	margin: 0;
+}
+.is-style-wpis-profile .stats-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px;
+	margin-bottom: 36px;
+}
+.is-style-wpis-profile .stat-card {
+	border: 1px solid var(--line);
+	padding: 16px;
+	background: var(--paper);
+}
+.is-style-wpis-profile .stat-card .label {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 9px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--muted);
+	margin-bottom: 6px;
+}
+.is-style-wpis-profile .stat-card .value {
+	font-size: 34px;
+	font-weight: 600;
+	font-variation-settings: "opsz" 144;
+	letter-spacing: -0.02em;
+	line-height: 1;
+	font-family: var(--wp--preset--font-family--fraunces), Georgia, serif;
+}
+.is-style-wpis-profile .stat-card .suffix {
+	font-size: 16px;
+	color: var(--muted);
+	margin-left: 2px;
+	font-weight: 500;
+}
+.is-style-wpis-profile .submission-list h2 {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	margin: 0 0 16px;
+	color: var(--muted);
+}
+.is-style-wpis-profile .sub-item {
+	padding: 16px 0;
+	border-bottom: 1px solid var(--line);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.is-style-wpis-profile .sub-item:last-child {
+	border-bottom: none;
+}
+.is-style-wpis-profile .sub-text {
+	font-size: 16px;
+	line-height: 1.35;
+	font-family: var(--wp--preset--font-family--fraunces), Georgia, serif;
+	margin: 0;
+}
+.is-style-wpis-profile .sub-meta-line {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.is-style-wpis-profile .status-badge {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 9px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	padding: 4px 8px;
+	display: inline-block;
+}
+.is-style-wpis-profile .status-pending {
+	background: var(--mixed);
+	color: var(--bg);
+}
+.is-style-wpis-profile .status-validated {
+	background: var(--positive);
+	color: var(--bg);
+}
+.is-style-wpis-profile .status-rejected {
+	background: var(--negative);
+	color: var(--bg);
+}
+.is-style-wpis-profile .status-merged {
+	background: var(--muted);
+	color: var(--bg);
+}
+.is-style-wpis-profile .sub-date {
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 10px;
+	color: var(--muted);
+}
+
 .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding-top: 20px; border-top: 1px dashed var(--muted); font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; color: var(--muted); }
 .hero-stats strong { display: block; font-family: var(--wp--preset--font-family--fraunces); font-size: 26px; color: var(--ink); font-weight: 600; font-variation-settings: "opsz" 144; margin-bottom: 2px; }
 
@@ -369,9 +625,9 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
   .btn-primary { width: auto; padding: 18px 32px; font-size: 12px; }
   .search-container { max-width: 900px; margin: 0 auto; padding: 40px 32px; }
   .search-bar input { font-size: 20px; padding: 20px 16px; }
-  .subcat-bar { padding: 20px 32px; max-width: 1200px; margin: 0 auto; }
+  .subcat-bar { padding: 20px 32px; max-width: 1320px; margin: 0 auto; }
   .subcat-chip { padding: 8px 14px; font-size: 11px; }
-  .subcat-label { padding: 20px 32px 0; max-width: 1200px; margin: 0 auto; font-size: 11px; }
+  .subcat-label { padding: 20px 32px 0; max-width: 1320px; margin: 0 auto; font-size: 11px; }
   .tax-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .tax-card { padding: 24px; }
   .tax-card h3 { font-size: 24px; }

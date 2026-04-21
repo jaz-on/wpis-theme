@@ -217,6 +217,17 @@ function wpis_theme_enqueue_assets() {
 			true
 		);
 	}
+
+	$feed_js = $theme_dir . '/assets/js/feed-demo.js';
+	if ( is_readable( $feed_js ) ) {
+		wp_enqueue_script(
+			'wpis-feed-demo',
+			$theme_uri . '/assets/js/feed-demo.js',
+			array(),
+			(string) filemtime( $feed_js ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_assets' );
 

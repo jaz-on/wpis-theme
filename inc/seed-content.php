@@ -29,11 +29,12 @@ function wpis_theme_seed_quote_card_class( $sentiment ) {
 /**
  * One feed row: single clickable anchor like the mockup (whole card is the link).
  *
- * @param array<string,string> $q Keys: sentiment, claim, count, text (inner HTML for .quote-text), url.
+ * @param array<string,string> $q Keys: sentiment, claim, count, text, url, optional platforms, date (Y-m-d for client sort/filter).
  * @return string
  */
 function wpis_theme_seed_quote_stack( array $q ) {
-	$class = wpis_theme_seed_quote_card_class( isset( $q['sentiment'] ) ? $q['sentiment'] : 'negative' );
+	$sent  = isset( $q['sentiment'] ) ? $q['sentiment'] : 'negative';
+	$class = wpis_theme_seed_quote_card_class( $sent );
 	$claim = isset( $q['claim'] ) ? esc_html( $q['claim'] ) : '';
 	$count = isset( $q['count'] ) ? esc_html( $q['count'] ) : '';
 	$url   = isset( $q['url'] ) ? esc_url( $q['url'] ) : '/quote/sample/';
@@ -42,11 +43,18 @@ function wpis_theme_seed_quote_stack( array $q ) {
 	if ( strlen( $label ) > 140 ) {
 		$label = substr( $label, 0, 137 ) . '…';
 	}
-	$aria = esc_attr( sprintf( __( 'View quote: %s', 'wpis-theme' ), $label ) );
+	$aria            = esc_attr( sprintf( __( 'View quote: %s', 'wpis-theme' ), $label ) );
+	$platforms       = isset( $q['platforms'] ) ? esc_attr( $q['platforms'] ) : '';
+	$date            = isset( $q['date'] ) ? esc_attr( $q['date'] ) : '';
+	$count_str       = isset( $q['count'] ) ? $q['count'] : '';
+	$count_num_match = array();
+	preg_match( '/\d+/', (string) $count_str, $count_num_match );
+	$count_num = ! empty( $count_num_match[0] ) ? $count_num_match[0] : '0';
+	$data_attr = ' data-sentiment="' . esc_attr( $sent ) . '" data-claim="' . esc_attr( isset( $q['claim'] ) ? $q['claim'] : '' ) . '" data-platforms="' . $platforms . '" data-date="' . $date . '" data-count="' . esc_attr( $count_num ) . '"';
 
 	return '
 <!-- wp:html -->
-<a href="' . $url . '" class="quote-card ' . esc_attr( $class ) . '" aria-label="' . $aria . '">
+<a href="' . $url . '" class="quote-card ' . esc_attr( $class ) . '"' . $data_attr . ' aria-label="' . $aria . '">
 <p class="quote-text">' . $text . '</p>
 <div class="quote-footer">
 <span class="claim-tag">' . $claim . '</span>
@@ -62,106 +70,140 @@ function wpis_theme_seed_quote_stack( array $q ) {
 function wpis_theme_seed_home_quotes() {
 	return array(
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Performance',
-			'count'     => '×8',
-			'text'      => 'WordPress <span class="is-word">is</span> bloated and slow on shared hosting.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Performance',
+			'count'      => '×8',
+			'platforms'  => 'Mastodon,LinkedIn,Reddit',
+			'date'       => '2026-04-20',
+			'text'       => 'WordPress <span class="is-word">is</span> bloated and slow on shared hosting.',
 		),
 		array(
-			'sentiment' => 'positive',
-			'claim'     => 'Community',
-			'count'     => '×3',
-			'text'      => 'WordPress <span class="is-word">is</span> the reason I still have a career in the web.',
+			'sentiment'  => 'positive',
+			'claim'      => 'Community',
+			'count'      => '×3',
+			'platforms'  => 'Bluesky,LinkedIn',
+			'date'       => '2026-04-19',
+			'text'       => 'WordPress <span class="is-word">is</span> the reason I still have a career in the web.',
 		),
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Security',
-			'count'     => '×24',
-			'text'      => 'WordPress <span class="is-word">is</span> not secure: too many plugins with backdoors.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Security',
+			'count'      => '×24',
+			'platforms'  => 'Reddit,YouTube,X,Mastodon',
+			'date'       => '2026-04-18',
+			'text'       => 'WordPress <span class="is-word">is</span> not secure: too many plugins with backdoors.',
 		),
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Modernity',
-			'count'     => '×17',
-			'text'      => 'WordPress <span class="is-word">is</span> just for blogs, you can\'t build a real app with it.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Modernity',
+			'count'      => '×17',
+			'platforms'  => 'X,YouTube,HN',
+			'date'       => '2026-04-17',
+			'text'       => 'WordPress <span class="is-word">is</span> just for blogs, you can\'t build a real app with it.',
 		),
 		array(
-			'sentiment' => 'positive',
-			'claim'     => 'Community',
-			'count'     => '×6',
-			'text'      => 'WordPress <span class="is-word">is</span> more than software. It\'s two decades of people who believed in an open web.',
+			'sentiment'  => 'positive',
+			'claim'      => 'Community',
+			'count'      => '×6',
+			'platforms'  => 'Mastodon,Blog',
+			'date'       => '2026-04-16',
+			'text'       => 'WordPress <span class="is-word">is</span> more than software. It\'s two decades of people who believed in an open web.',
 		),
 		array(
-			'sentiment' => 'mixed',
-			'claim'     => 'Business viability',
-			'count'     => '×11',
-			'text'      => 'WordPress <span class="is-word">is</span> fine for small sites but don\'t scale it.',
+			'sentiment'  => 'mixed',
+			'claim'      => 'Business viability',
+			'count'      => '×11',
+			'platforms'  => 'LinkedIn,HN,YouTube',
+			'date'       => '2026-04-15',
+			'text'       => 'WordPress <span class="is-word">is</span> fine for small sites but don\'t scale it.',
 		),
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Ecosystem',
-			'count'     => '×14',
-			'text'      => 'WordPress <span class="is-word">is</span> a plugin graveyard. Half of them are abandoned.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Ecosystem',
+			'count'      => '×14',
+			'platforms'  => 'Reddit,X',
+			'date'       => '2026-04-14',
+			'text'       => 'WordPress <span class="is-word">is</span> a plugin graveyard. Half of them are abandoned.',
 		),
 		array(
-			'sentiment' => 'positive',
-			'claim'     => 'Ease of use',
-			'count'     => '×9',
-			'text'      => 'WordPress <span class="is-word">is</span> the only CMS my non-technical clients can actually maintain themselves.',
+			'sentiment'  => 'positive',
+			'claim'      => 'Ease of use',
+			'count'      => '×9',
+			'platforms'  => 'Blog,LinkedIn,Mastodon',
+			'date'       => '2026-04-13',
+			'text'       => 'WordPress <span class="is-word">is</span> the only CMS my non-technical clients can actually maintain themselves.',
 		),
 		array(
-			'sentiment' => 'mixed',
-			'claim'     => 'Modernity',
-			'count'     => '×21',
-			'text'      => 'Gutenberg <span class="is-word">is</span> both the best and worst thing that happened to WordPress.',
+			'sentiment'  => 'mixed',
+			'claim'      => 'Modernity',
+			'count'      => '×21',
+			'platforms'  => 'HN,X,Reddit',
+			'date'       => '2026-04-12',
+			'text'       => 'Gutenberg <span class="is-word">is</span> both the best and worst thing that happened to WordPress.',
 		),
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Accessibility',
-			'count'     => '×5',
-			'text'      => 'WordPress core <span class="is-word">is</span> still shipping accessibility bugs that were reported years ago.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Accessibility',
+			'count'      => '×5',
+			'platforms'  => 'Blog,Mastodon',
+			'date'       => '2026-04-11',
+			'text'       => 'WordPress core <span class="is-word">is</span> still shipping accessibility bugs that were reported years ago.',
 		),
 		array(
-			'sentiment' => 'positive',
-			'claim'     => 'Community',
-			'count'     => '×13',
-			'text'      => 'Nothing beats the feeling of a WordCamp. The energy, the people, the openness.',
+			'sentiment'  => 'positive',
+			'claim'      => 'Community',
+			'count'      => '×13',
+			'platforms'  => 'Mastodon,Bluesky,LinkedIn',
+			'date'       => '2026-04-10',
+			'text'       => 'Nothing beats the feeling of a WordCamp. The energy, the people, the openness.',
 		),
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Performance',
-			'count'     => '×7',
-			'text'      => 'WordPress <span class="is-word">is</span> what you get when PHP from 2003 meets a marketing team.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Performance',
+			'count'      => '×7',
+			'platforms'  => 'HN,X',
+			'date'       => '2026-04-09',
+			'text'       => 'WordPress <span class="is-word">is</span> what you get when PHP from 2003 meets a marketing team.',
 		),
 		array(
-			'sentiment' => 'mixed',
-			'claim'     => 'Business viability',
-			'count'     => '×4',
-			'text'      => 'WordPress <span class="is-word">is</span> a great starting point but you\'ll outgrow it faster than you think.',
+			'sentiment'  => 'mixed',
+			'claim'      => 'Business viability',
+			'count'      => '×4',
+			'platforms'  => 'LinkedIn,Blog',
+			'date'       => '2026-04-08',
+			'text'       => 'WordPress <span class="is-word">is</span> a great starting point but you\'ll outgrow it faster than you think.',
 		),
 		array(
-			'sentiment' => 'positive',
-			'claim'     => 'Ecosystem',
-			'count'     => '×8',
-			'text'      => 'The WordPress plugin ecosystem <span class="is-word">is</span> unmatched. Whatever you need, someone already built it.',
+			'sentiment'  => 'positive',
+			'claim'      => 'Ecosystem',
+			'count'      => '×8',
+			'platforms'  => 'Reddit,Mastodon',
+			'date'       => '2026-04-07',
+			'text'       => 'The WordPress plugin ecosystem <span class="is-word">is</span> unmatched. Whatever you need, someone already built it.',
 		),
 		array(
-			'sentiment' => 'negative',
-			'claim'     => 'Security',
-			'count'     => '×6',
-			'text'      => 'Every other week there\'s another WordPress plugin 0-day. At some point it\'s the platform\'s fault.',
+			'sentiment'  => 'negative',
+			'claim'      => 'Security',
+			'count'      => '×6',
+			'platforms'  => 'X,YouTube',
+			'date'       => '2026-04-06',
+			'text'       => 'Every other week there\'s another WordPress plugin 0-day. At some point it\'s the platform\'s fault.',
 		),
 		array(
-			'sentiment' => 'positive',
-			'claim'     => 'Modernity',
-			'count'     => '×10',
-			'text'      => 'Headless WordPress <span class="is-word">is</span> quietly powering more serious apps than people realize.',
+			'sentiment'  => 'positive',
+			'claim'      => 'Modernity',
+			'count'      => '×10',
+			'platforms'  => 'Blog,Mastodon,LinkedIn',
+			'date'       => '2026-04-05',
+			'text'       => 'Headless WordPress <span class="is-word">is</span> quietly powering more serious apps than people realize.',
 		),
 		array(
-			'sentiment' => 'mixed',
-			'claim'     => 'Ease of use',
-			'count'     => '×5',
-			'text'      => 'WordPress <span class="is-word">is</span> easy until you need it to do something specific. Then it\'s a nightmare.',
+			'sentiment'  => 'mixed',
+			'claim'      => 'Ease of use',
+			'count'      => '×5',
+			'platforms'  => 'Reddit,HN',
+			'date'       => '2026-04-04',
+			'text'       => 'WordPress <span class="is-word">is</span> easy until you need it to do something specific. Then it\'s a nightmare.',
 		),
 	);
 }
@@ -173,7 +215,7 @@ function wpis_theme_seed_home_quotes() {
  */
 function wpis_theme_build_home_seed() {
 	$hero = <<<'WPIS'
-<!-- wp:group {"className":"is-style-wpis-hero","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-hero","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:paragraph {"className":"is-style-wpis-eyebrow"} -->
 <p>A database of claims</p>
 <!-- /wp:paragraph -->
@@ -199,7 +241,7 @@ function wpis_theme_build_home_seed() {
 WPIS;
 
 	$prefix = <<<'WPIS'
-<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:html -->
     <div class="feed-header">
       <div class="feed-title">The feed <button type="button" class="filter-show-toggle" id="filterShowToggle" aria-expanded="true">Hide filters</button></div>
@@ -250,7 +292,7 @@ WPIS;
 
 <!-- /wp:html -->
 
-<!-- wp:group {"anchor":"feedList","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0"}}} -->
+<!-- wp:group {"anchor":"feedlist","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0"}}} -->
 
 WPIS;
 
@@ -281,7 +323,7 @@ WPIS;
  */
 function wpis_theme_build_security_seed() {
 	$hero = <<<'WPIS'
-<!-- wp:group {"className":"is-style-wpis-tax-hero","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-tax-hero","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:paragraph {"className":"is-style-wpis-eyebrow"} -->
 <p>Claim type</p>
 <!-- /wp:paragraph -->
@@ -315,20 +357,20 @@ WPIS;
 WPIS;
 
 	$feed_open = <<<'WPIS'
-<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:html -->
     <div class="feed-header">
       <div class="feed-title">287 quotes in this category</div>
-      <div class="feed-sort">
-        <button type="button" class="active">Most repeated</button>
-        <button type="button">Recent</button>
-        <button type="button">Random</button>
+      <div class="feed-sort" id="feedSort">
+        <button type="button" class="active" data-sort="repeated">Most repeated</button>
+        <button type="button" data-sort="recent">Recent</button>
+        <button type="button" data-sort="random">Random</button>
       </div>
     </div>
 
 <!-- /wp:html -->
 
-<!-- wp:group {"anchor":"feedList","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0"}}} -->
+<!-- wp:group {"anchor":"feedlist","layout":{"type":"default"},"style":{"spacing":{"blockGap":"0"}}} -->
 
 WPIS;
 
@@ -344,24 +386,32 @@ WPIS;
 			'sentiment' => 'negative',
 			'claim'     => 'Security',
 			'count'     => '×24',
+			'platforms' => 'Reddit,Mastodon',
+			'date'      => '2026-04-18',
 			'text'      => 'WordPress <span class="is-word">is</span> not secure: too many plugins with backdoors.',
 		),
 		array(
 			'sentiment' => 'positive',
 			'claim'     => 'Security',
 			'count'     => '×12',
+			'platforms' => 'Blog,LinkedIn',
+			'date'      => '2026-04-17',
 			'text'      => 'WordPress <span class="is-word">is</span> as secure as you configure it to be: that\'s the point of open source.',
 		),
 		array(
 			'sentiment' => 'negative',
 			'claim'     => 'Security',
 			'count'     => '×18',
+			'platforms' => 'X,Reddit',
+			'date'      => '2026-04-16',
 			'text'      => 'WordPress <span class="is-word">is</span> the most hacked CMS on the planet.',
 		),
 		array(
 			'sentiment' => 'mixed',
 			'claim'     => 'Security',
 			'count'     => '×7',
+			'platforms' => 'Mastodon,HN',
+			'date'      => '2026-04-15',
 			'text'      => 'WordPress <span class="is-word">is</span> secure if you know what you\'re doing, which most people don\'t.',
 		),
 	);
@@ -397,24 +447,32 @@ WPIS;
 			'sentiment' => 'negative',
 			'claim'     => 'Performance',
 			'count'     => '×8',
+			'platforms' => 'Mastodon,Reddit',
+			'date'      => '2026-04-20',
 			'text'      => 'WordPress <span class="is-word">is</span> <mark>bloated</mark> and slow on shared hosting.',
 		),
 		array(
 			'sentiment' => 'negative',
 			'claim'     => 'Performance',
 			'count'     => '×5',
+			'platforms' => 'LinkedIn,X',
+			'date'      => '2026-04-19',
 			'text'      => 'Every <mark>bloated</mark> WordPress site I\'ve inherited had 40+ plugins. That\'s the real problem.',
 		),
 		array(
 			'sentiment' => 'mixed',
 			'claim'     => 'Performance',
 			'count'     => '×4',
+			'platforms' => 'HN,Blog',
+			'date'      => '2026-04-18',
 			'text'      => 'WordPress <span class="is-word">is</span> <mark>bloated</mark> only if you treat it like an app framework.',
 		),
 		array(
 			'sentiment' => 'negative',
 			'claim'     => 'Modernity',
 			'count'     => '×11',
+			'platforms' => 'YouTube,Reddit',
+			'date'      => '2026-04-17',
 			'text'      => 'Gutenberg made WordPress even more <mark>bloated</mark> than before.',
 		),
 	);
@@ -584,7 +642,7 @@ function wpis_theme_explore_platform_grid_inner_html() {
  */
 function wpis_theme_build_explore_seed() {
 	$hero = <<<'WPIS'
-<!-- wp:group {"className":"is-style-wpis-explore-hero","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-explore-hero","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:paragraph {"className":"is-style-wpis-eyebrow"} -->
 <p>Explore · </p>
 <!-- /wp:paragraph -->
@@ -604,7 +662,7 @@ WPIS;
 	$plat_inner = wpis_theme_explore_platform_grid_inner_html();
 
 	$section_tax = <<<WPIS
-<!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:paragraph {"className":"explore-section-title"} -->
 <p>By claim type</p>
 <!-- /wp:paragraph -->
@@ -619,7 +677,7 @@ WPIS;
 WPIS;
 
 	$section_plat = <<<WPIS
-<!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"className":"is-style-wpis-explore-section","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:paragraph {"className":"explore-section-title"} -->
 <p>By source platform</p>
 <!-- /wp:paragraph -->
@@ -646,37 +704,37 @@ function wpis_theme_build_how_seed() {
 		array(
 			'num'   => '1',
 			'title' => 'You spot a claim',
-			'body'  => 'Someone online says something about WordPress. A tweet, a blog post, a Reddit thread, a video comment. You think it belongs here.',
+			'body'  => 'Someone online says something about WordPress. A tweet, a blog post, a Reddit thread, a video comment. You think it <em>belongs here</em>.',
 			'note'  => '→ Or one of our bots finds it on Mastodon or Bluesky automatically.',
 		),
 		array(
 			'num'   => '2',
 			'title' => 'You submit it',
-			'body'  => 'Paste the text, drop a screenshot or share the link. No account needed. We extract what\'s useful: the claim itself, the platform, the language, and strip out personal details.',
+			'body'  => 'Paste the text, drop a screenshot or share the link. No account needed. We extract what\'s useful: the claim itself, the platform, the language, and strip out <em>personal details</em>.',
 			'note'  => '→ Screenshots are deleted after extraction. Only the domain is stored, never the full URL.',
 		),
 		array(
 			'num'   => '3',
 			'title' => 'AI pre-tags it',
-			'body'  => 'An AI suggests a sentiment, a claim type and a translation. It also looks for similar claims already in the database, to avoid duplicates. None of this is final: it\'s a starting point.',
+			'body'  => 'An AI suggests a sentiment, a claim type and a translation. It also looks for similar claims already in the database, to avoid duplicates. None of this is final: <em>it\'s a starting point</em>.',
 			'note'  => '',
 		),
 		array(
 			'num'   => '4',
 			'title' => 'A human validates',
-			'body'  => 'Every submission: yours, a bot\'s, someone else\'s: lands in a moderation queue. A human reads it, checks the AI\'s work, merges duplicates, edits if needed.',
+			'body'  => 'Every submission: yours, a bot\'s, someone else\'s: lands in a moderation queue. A human reads it, checks the AI\'s work, merges <em>duplicates</em>, edits if needed.',
 			'note'  => '→ Yes, one person does this for now. Yes, it\'s slow on purpose.',
 		),
 		array(
 			'num'   => '5',
 			'title' => 'It goes live',
-			'body'  => 'Once validated, the claim joins the database. It gets a counter that rises each time someone resubmits the same idea. It\'s linked to opposing views from other contributors, so readers see the full tension.',
+			'body'  => 'Once validated, the claim joins the database. It gets a counter that rises each time someone resubmits the same idea. It\'s linked to opposing views from other contributors, so readers see <em>the full tension</em>.',
 			'note'  => '',
 		),
 		array(
 			'num'   => '6',
 			'title' => 'You can track it',
-			'body'  => 'If you created an account, you\'ll see your submissions in your private profile: validated, merged, rejected or still pending. No public profiles, no leaderboards, no social clout.',
+			'body'  => 'If you created an account, you\'ll see your submissions in your <em>private profile</em>: validated, merged, rejected or still pending. No public profiles, no leaderboards, no social clout.',
 			'note'  => '',
 		),
 	);
@@ -699,39 +757,19 @@ WPIS;
 
 WPIS;
 
-	$mid = '';
+	$html_steps = '';
 	foreach ( $steps as $s ) {
-		$note_block = '';
-		if ( '' !== $s['note'] ) {
-			$note_block = '<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem"},"color":{"text":"var(--muted)"}}} -->
-<p>' . esc_html( $s['note'] ) . '</p>
-<!-- /wp:paragraph -->';
+		$num       = esc_html( $s['num'] );
+		$title     = esc_html( $s['title'] );
+		$body      = wp_kses_post( $s['body'] );
+		$note_html = '';
+		if ( isset( $s['note'] ) && '' !== $s['note'] ) {
+			$note_html = '<p class="note">' . esc_html( $s['note'] ) . '</p>';
 		}
-		$body_p     = wp_kses_post( $s['body'] );
-		$title_e    = esc_html( $s['title'] );
-		$num_e      = esc_html( $s['num'] );
-		$mid       .= <<<STEP
-<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"flex-start"},"style":{"spacing":{"blockGap":"1rem","margin":{"bottom":"2rem"},"padding":{"bottom":"1.75rem"}},"border":{"bottom":{"color":"var(--ink)","width":"1px","style":"solid"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--fraunces)","fontSize":"3rem","fontWeight":"400","lineHeight":"1"},"color":{"text":"var(--accent)"}}} -->
-<p>{$num_e}</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:group {"layout":{"type":"default"},"style":{"spacing":{"blockGap":"0.5rem"}}} -->
-<!-- wp:heading {"level":3,"style":{"typography":{"fontSize":"1.1875rem","fontWeight":"600","letterSpacing":"-0.01em","lineHeight":"1.25"}}} -->
-<h3 class="wp-block-heading">{$title_e}</h3>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.55"}}} -->
-<p>{$body_p}</p>
-<!-- /wp:paragraph -->
-{$note_block}
-<!-- /wp:group -->
-<!-- /wp:group -->
-
-STEP;
+		$html_steps .= '<div class="how-step"><div class="num">' . $num . '</div><div class="body"><h3>' . $title . '</h3><p>' . $body . '</p>' . $note_html . '</div></div>';
 	}
 
-	return $open . $mid . $close;
+	return $open . '<!-- wp:html --><div class="how-step-list">' . $html_steps . '</div><!-- /wp:html -->' . $close;
 }
 
 /**
@@ -741,102 +779,70 @@ STEP;
  */
 function wpis_theme_build_profile_seed() {
 	$items = array(
-		array( 'WordPress <span class="is-word">is</span> a mess but I love it anyway.', 'Validated', 'April 14', 'background:var(--positive);color:var(--bg);' ),
-		array( 'WordPress <span class="is-word">is</span> not a real developer tool.', 'Merged ×11', 'April 12', 'background:var(--muted);color:var(--bg);' ),
-		array( 'WordPress <span class="is-word">est</span> ma plateforme de choix depuis 2012.', 'Pending', 'April 11', 'background:var(--mixed);color:var(--bg);' ),
-		array( 'WordPress <span class="is-word">is</span> single-handedly why the web isn\'t just Facebook.', 'Validated', 'April 8', 'background:var(--positive);color:var(--bg);' ),
-		array( 'WordPress <span class="is-word">is</span> dead.', 'Rejected', 'April 5', 'background:var(--negative);color:var(--bg);' ),
+		array(
+			'text'   => 'WordPress <span class="is-word">is</span> a mess but I love it anyway.',
+			'status' => 'validated',
+			'label'  => 'Validated',
+			'date'   => 'April 14',
+		),
+		array(
+			'text'   => 'WordPress <span class="is-word">is</span> not a real developer tool.',
+			'status' => 'merged',
+			'label'  => 'Merged ×11',
+			'date'   => 'April 12',
+		),
+		array(
+			'text'   => 'WordPress <span class="is-word">est</span> ma plateforme de choix depuis 2012.',
+			'status' => 'pending',
+			'label'  => 'Pending',
+			'date'   => 'April 11',
+		),
+		array(
+			'text'   => 'WordPress <span class="is-word">is</span> single-handedly why the web isn\'t just Facebook.',
+			'status' => 'validated',
+			'label'  => 'Validated',
+			'date'   => 'April 8',
+		),
+		array(
+			'text'   => 'WordPress <span class="is-word">is</span> dead.',
+			'status' => 'rejected',
+			'label'  => 'Rejected',
+			'date'   => 'April 5',
+		),
 	);
 
-	$open = <<<'WPIS'
-<!-- wp:group {"className":"is-style-wpis-profile","layout":{"type":"constrained","contentSize":"900px"}} -->
-<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"1.75rem"},"padding":{"bottom":"1rem"}},"border":{"bottom":{"color":"var(--ink)","width":"1px","style":"solid"}}}} -->
-<!-- wp:heading {"level":1,"style":{"typography":{"fontSize":"2rem","fontWeight":"800","letterSpacing":"-0.02em","lineHeight":"1.05"}}} -->
-<h1 class="wp-block-heading">Your contributions</h1>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
-<p>Private · visible only to you · member since March 2026</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-
-<!-- wp:group {"layout":{"type":"grid","columnCount":2},"style":{"spacing":{"blockGap":"0.75rem","margin":{"bottom":"2.25rem"}}}} -->
-<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
-<p>Total submitted</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
-<p>42</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-
-<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
-<p>Validated</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
-<p>34</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-
-<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
-<p>Acceptance rate</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
-<p>81<span style="font-size:1rem;color:var(--muted);margin-left:2px">%</span></p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-
-<!-- wp:group {"style":{"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"1rem","right":"1rem","bottom":"1rem","left":"1rem"}},"color":{"background":"var(--paper)"}},"layout":{"type":"default"}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"}}} -->
-<p>Pending</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"2.125rem","fontWeight":"600","letterSpacing":"-0.02em","lineHeight":"1"}}} -->
-<p>3</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-<!-- /wp:group -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.6875rem","textTransform":"uppercase","letterSpacing":"0.1em"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1rem"}}}} -->
-<p>Your recent submissions</p>
-<!-- /wp:paragraph -->
-
-WPIS;
-
-	$close = <<<'WPIS'
-
-<!-- /wp:group -->
-
-WPIS;
-
-	$mid = '';
+	$rows = '';
 	foreach ( $items as $it ) {
-		$text_raw    = wp_kses_post( $it[0] );
-		$label       = esc_html( $it[1] );
-		$date        = esc_html( $it[2] );
-		$badge_style = $it[3];
-		$mid        .= <<<ROW
-<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"flex-start"},"style":{"spacing":{"blockGap":"0.625rem","padding":{"top":"1rem","bottom":"1rem"}},"border":{"bottom":{"color":"var(--ink)","width":"1px","style":"solid"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.35"}}} -->
-<p>{$text_raw}</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.625rem"}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.5625rem","textTransform":"uppercase","letterSpacing":"0.08em"}}} -->
-<p><span style="padding:4px 8px;display:inline-block;{$badge_style}">{$label}</span></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem"},"color":{"text":"var(--muted)"}}} -->
-<p>{$date}</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
-<!-- /wp:group -->
-
-ROW;
+		$text   = wp_kses_post( $it['text'] );
+		$label  = esc_html( $it['label'] );
+		$date   = esc_html( $it['date'] );
+		$status = esc_attr( $it['status'] );
+		$rows  .= '<div class="sub-item"><div class="sub-text">' . $text . '</div><div class="sub-meta-line"><span class="status-badge status-' . $status . '">' . $label . '</span><span class="sub-date">' . $date . '</span></div></div>';
 	}
 
-	return $open . $mid . $close;
+	return <<<WPIS
+<!-- wp:group {"className":"is-style-wpis-profile","layout":{"type":"constrained","contentSize":"900px"}} -->
+<!-- wp:html -->
+<div class="wpis-profile">
+<div class="profile-header">
+<h1>Your contributions</h1>
+<p>Private · visible only to you · member since March 2026</p>
+</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="label">Total submitted</div><div class="value">42</div></div>
+<div class="stat-card"><div class="label">Validated</div><div class="value">34</div></div>
+<div class="stat-card"><div class="label">Acceptance rate</div><div class="value">81<span class="suffix">%</span></div></div>
+<div class="stat-card"><div class="label">Pending</div><div class="value">3</div></div>
+</div>
+<div class="submission-list">
+<h2>Your recent submissions</h2>
+{$rows}
+</div>
+</div>
+<!-- /wp:html -->
+<!-- /wp:group -->
+
+WPIS;
 }
 
 /**
