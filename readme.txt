@@ -19,7 +19,7 @@ For the full data layer (custom post types, REST and submissions) pair with the 
 
 1. Upload or deploy the theme folder as `wp-content/themes/wpis-theme/`.
 2. Activate under **Appearance → Themes**.
-3. First activation seeds missing pages from `content/html/`, sets static front page to `home` once, and creates the WPIS Primary menu on the `primary` location. Reactivation does not overwrite edited page content.
+3. First activation seeds missing pages from `content/html/` (same files as block patterns, loaded via `wpis_theme_get_content_html()` in `functions.php`), sets static front page to `home` once, and creates the WPIS Primary menu on the `primary` location. Reactivation does not overwrite edited page content.
 4. See repo `contribution/README.md` and `docs/wpis-fse-architecture.md` for the full contract.
 
 == Changelog ==

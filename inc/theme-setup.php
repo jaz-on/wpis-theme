@@ -164,7 +164,6 @@ function wpis_theme_setup_seed_post_content( $raw ) {
  */
 function wpis_theme_setup_ensure_pages() {
 	$ids_by_slug = array();
-	require_once get_template_directory() . '/inc/seed-content.php';
 
 	foreach ( wpis_theme_setup_get_manifest() as $row ) {
 		$path     = wpis_theme_setup_page_path( $row['slug'], $row['parent_slug'] );
@@ -183,14 +182,7 @@ function wpis_theme_setup_ensure_pages() {
 			}
 		}
 
-		$built     = wpis_theme_seed_content_for_slug( $row['slug'] );
-		if ( is_string( $built ) && '' !== $built ) {
-			$inner = $built;
-		} else {
-			$seed_path = get_template_directory() . '/content/html/' . $row['file'];
-			$inner     = is_readable( $seed_path ) ? file_get_contents( $seed_path ) : '';
-			$inner     = is_string( $inner ) ? $inner : '';
-		}
+		$inner = wpis_theme_get_content_html( $row['file'] );
 
 		$new_id = wp_insert_post(
 			array(

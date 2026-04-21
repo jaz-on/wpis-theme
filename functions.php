@@ -9,6 +9,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Read a seed file from content/html/ (single source for patterns and activation).
+ *
+ * @param string $filename Basename, e.g. home.html.
+ * @return string File contents or empty string.
+ */
+function wpis_theme_get_content_html( $filename ) {
+	$path = get_template_directory() . '/content/html/' . ltrim( $filename, '/' );
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+	$raw = file_get_contents( $path );
+	return is_string( $raw ) ? $raw : '';
+}
+
 require_once get_template_directory() . '/inc/theme-setup.php';
 
 /**
@@ -49,21 +64,6 @@ function wpis_theme_semantic_colors_in_content( $content ) {
 	return str_replace( array_keys( $map ), array_values( $map ), $content );
 }
 add_filter( 'the_content', 'wpis_theme_semantic_colors_in_content', 5 );
-
-/**
- * Read a seed file from content/html/ (single source for patterns and optional tooling).
- *
- * @param string $filename Basename, e.g. home.html.
- * @return string File contents or empty string.
- */
-function wpis_theme_get_content_html( $filename ) {
-	$path = get_template_directory() . '/content/html/' . ltrim( $filename, '/' );
-	if ( ! is_readable( $path ) ) {
-		return '';
-	}
-	$raw = file_get_contents( $path );
-	return is_string( $raw ) ? $raw : '';
-}
 
 /**
  * Theme supports: menus, editor styles.

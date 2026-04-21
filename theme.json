@@ -388,6 +388,7 @@
 	},
 	"templateParts": [
 		{ "name": "header", "title": "Header", "area": "header" },
-		{ "name": "footer", "title": "Footer", "area": "footer" }
+		{ "name": "footer", "title": "Footer", "area": "footer" },
+		{ "name": "quote-feed-card", "title": "Quote feed card", "area": "general" }
 	]
 }

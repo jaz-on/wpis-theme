@@ -21,7 +21,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
    wp-content/themes/wpis-theme/
   ```
 2. Activate **WPIS Theme** under **Appearance → Themes**.
-3. On first activation the theme creates **pages** from `[content/html/](./content/html/)` when missing, sets **Reading** to a static front page (`home`) once, and ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
+3. On first activation the theme creates **pages** when missing by reading each manifest seed from `[content/html/](./content/html/)` through `wpis_theme_get_content_html()` (the same helper used by `patterns/*-body.php`). It sets **Reading** to a static front page (`home`) once and ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
 4. Operator notes and checklists: **[contribution/README.md](../contribution/README.md)**. Architecture contract: **[docs/wpis-fse-architecture.md](../docs/wpis-fse-architecture.md)**.
 
 ## Updates with Git Updater

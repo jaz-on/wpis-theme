@@ -11,5 +11,5 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-require_once get_template_directory() . '/inc/seed-content.php';
-echo wpis_theme_build_security_seed();
+
+echo wpis_theme_get_content_html( 'security.html' );

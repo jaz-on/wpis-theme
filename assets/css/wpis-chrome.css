@@ -1,7 +1,13 @@
 /**
- * Minimal bridge: semantic tokens, demo nav, feed filters, quote-card links, raw form HTML.
+ * WPIS « chrome » — styles that are not (or not yet) expressed in theme.json.
  *
- * Layout shells and most section padding live in theme.json (group / paragraph style variations).
+ * In theme.json: palette, font families, global body/heading/mark, core/navigation typography,
+ * group + paragraph style variations (wpis-*).
+ *
+ * Here only: semantic color aliases + dark mode (prefers-color-scheme, data-theme), skip-link,
+ * demo shell (.nav-bar / .screen), header/footer flex + wide max-width (--wp--style--global--wide-size),
+ * mockup HTML (forms, feed filters, quote-card, explore cards, search UI), :has() selectors,
+ * .footer-trademark system font. theme-toggle.js pairs with :root[data-theme].
  */
 
 html {
@@ -120,7 +126,7 @@ body {
 .site-header-utils .wp-block-button.site-theme-toggle .wp-block-button__link { min-height: auto; padding: 2px 8px; font-size: 13px; line-height: 1.4; border: 1px solid var(--muted); background: transparent; color: var(--muted); text-decoration: none; }
 .site-header-utils .wp-block-button.site-theme-toggle .wp-block-button__link:hover { color: var(--ink); border-color: var(--ink); }
 
-/* Header: full-bleed band + constrained inner row (matches 1320px content column) */
+/* Header: full-bleed band + constrained inner row (wide width from theme.json layout.wideSize) */
 .site-header-band.wp-block-group {
 	width: 100%;
 	box-sizing: border-box;
@@ -128,7 +134,7 @@ body {
 .site-header-band .site-header.wp-block-group {
 	align-items: flex-start;
 	width: 100%;
-	max-width: 1320px;
+	max-width: var(--wp--style--global--wide-size);
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: clamp(1.25rem, 4vw, 2rem);
@@ -150,16 +156,11 @@ body {
 .site-header-right .wp-block-navigation { width: 100%; }
 .site-header-right .wp-block-navigation__responsive-container-content { justify-content: flex-end; }
 .site-header-right .wp-block-navigation__container,
-.site-header-right .wp-block-page-list { gap: 14px; justify-content: flex-end; flex-wrap: wrap; }
-.site-header-right .wp-block-navigation .wp-block-navigation-item__content {
-	font-size: 10px;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-}
+.site-header-right .wp-block-page-list { justify-content: flex-end; flex-wrap: wrap; }
 
 .site-footer.wp-block-group {
 	width: 100%;
-	max-width: 1320px;
+	max-width: var(--wp--style--global--wide-size);
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: clamp(1.25rem, 4vw, 2rem);
@@ -732,10 +733,7 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
   }
   .site-header-right .wp-block-navigation__container,
   .site-header-right .wp-block-page-list {
-    gap: 24px;
-  }
-  .site-header-right .wp-block-navigation .wp-block-navigation-item__content {
-    font-size: 12px;
+    gap: 1.5rem;
   }
   .site-footer.wp-block-group {
     margin-top: 4rem;
@@ -768,9 +766,9 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
   .btn-primary { width: auto; padding: 18px 32px; font-size: 12px; }
   .search-container { max-width: 900px; margin: 0 auto; padding: 40px 32px; }
   .search-bar input { font-size: 20px; padding: 20px 16px; }
-  .subcat-bar { padding: 20px 32px; max-width: 1320px; margin: 0 auto; }
+  .subcat-bar { padding: 20px 32px; max-width: var(--wp--style--global--wide-size); margin: 0 auto; }
   .subcat-chip { padding: 8px 14px; font-size: 11px; }
-  .subcat-label { padding: 20px 32px 0; max-width: 1320px; margin: 0 auto; font-size: 11px; }
+  .subcat-label { padding: 20px 32px 0; max-width: var(--wp--style--global--wide-size); margin: 0 auto; font-size: 11px; }
   .tax-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .tax-card { padding: 24px; }
   .tax-card h3 { font-size: 24px; }

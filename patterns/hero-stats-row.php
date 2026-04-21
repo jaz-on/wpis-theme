@@ -8,11 +8,20 @@
  * @package WPIS
  */
 ?>
-<!-- wp:html -->
-<div class="hero-stats">
-	<div><strong>2,847</strong>quotes collected</div>
-	<div><strong>12</strong>platforms sourced</div>
-	<div><strong>6</strong>languages</div>
-	<div><strong>47</strong>pending moderation</div>
-</div>
-<!-- /wp:html -->
+<!-- wp:group {"className":"hero-stats","layout":{"type":"default"}} -->
+<!-- wp:paragraph -->
+<p><strong>2,847</strong>quotes collected</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>12</strong>platforms sourced</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>6</strong>languages</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>47</strong>pending moderation</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
