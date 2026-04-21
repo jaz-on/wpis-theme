@@ -1,9 +1,6 @@
 <?php
 /**
- * Demo content helpers: manifest pages, reading, primary menu.
- *
- * Does not run on theme switch (Twenty Twenty-style). Use WP-CLI `wp wpis-seed` or
- * `tools/seed-demo.php` with WP_LOAD_PATH.
+ * Demo content: manifest pages, reading, primary menu (WP-CLI / seed-demo.php only).
  *
  * @package WPIS
  */
