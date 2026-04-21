@@ -1,12 +1,12 @@
 /**
- * WPIS « chrome » — styles that are not (or not yet) expressed in theme.json.
+ * WPIS global supplemental stylesheet — rules not (or not yet) expressed in theme.json.
  *
  * In theme.json: palette, font families, global body/heading/mark, core/navigation typography,
  * group + paragraph style variations (wpis-*).
  *
- * Here only: semantic color aliases + dark mode (prefers-color-scheme, data-theme), skip-link,
- * demo shell (.nav-bar / .screen), header/footer flex + wide max-width (--wp--style--global--wide-size),
- * mockup HTML (forms, feed filters, quote-card, explore cards, search UI), :has() selectors,
+ * Here: semantic color aliases + dark mode (prefers-color-scheme, data-theme), skip-link,
+ * demo shell (.nav-bar / .screen), header/footer layout, wide max-width (--wp--style--global--wide-size),
+ * legacy mockup-oriented markup (forms, feed filters, quote-card, explore cards, search UI), :has() selectors,
  * .footer-trademark system font. theme-toggle.js pairs with :root[data-theme].
  */
 

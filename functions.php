@@ -38,7 +38,7 @@ function wpis_theme_skip_link() {
 add_action( 'wp_body_open', 'wpis_theme_skip_link', 5 );
 
 /**
- * Rewrite preset color CSS variables in rendered block HTML to semantic aliases from wpis-chrome.css.
+ * Rewrite preset color CSS variables in rendered block HTML to semantic aliases from wpis-global.css.
  *
  * Saved post content still references --wp--preset--color--* (light palette). --ink, --muted, etc.
  * follow prefers-color-scheme and data-theme so feeds and cards stay readable in dark mode.
@@ -74,7 +74,7 @@ function wpis_theme_setup() {
 			'primary' => __( 'WPIS Primary', 'wpis-theme' ),
 		)
 	);
-	add_editor_style( 'assets/css/wpis-chrome.css' );
+	add_editor_style( 'assets/css/wpis-global.css' );
 }
 add_action( 'after_setup_theme', 'wpis_theme_setup' );
 
@@ -208,11 +208,11 @@ function wpis_theme_enqueue_assets() {
 	$theme_dir = get_template_directory();
 	$theme_uri = get_template_directory_uri();
 
-	$css_path = $theme_dir . '/assets/css/wpis-chrome.css';
+	$css_path = $theme_dir . '/assets/css/wpis-global.css';
 	if ( is_readable( $css_path ) ) {
 		wp_enqueue_style(
-			'wpis-chrome',
-			$theme_uri . '/assets/css/wpis-chrome.css',
+			'wpis-global',
+			$theme_uri . '/assets/css/wpis-global.css',
 			array(),
 			(string) filemtime( $css_path )
 		);

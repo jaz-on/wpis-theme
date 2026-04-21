@@ -35,7 +35,7 @@ Bump the `**Version:`** field in `style.css` when you ship changes you want site
 
 ## Development
 
-No Node build step is required for the theme on the server. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-chrome.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
+No Node build step is required for the theme on the server. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-global.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
 
 **FSE migration checklist** (tokens, URLs): see [docs/wpis-fse-migration-baseline.md](../docs/wpis-fse-migration-baseline.md) in the mono-repo, or copy that doc beside this theme if you use a single-theme repo.
 
