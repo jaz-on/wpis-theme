@@ -17,7 +17,18 @@
 				{ "color": "#fdfbf5", "name": "Paper", "slug": "paper" },
 				{ "color": "#2d6a4f", "name": "Positive", "slug": "positive" },
 				{ "color": "#9b2226", "name": "Negative", "slug": "negative" },
-				{ "color": "#b8860b", "name": "Mixed", "slug": "mixed" }
+				{ "color": "#b8860b", "name": "Mixed", "slug": "mixed" },
+				{ "color": "#1a1816", "name": "Background night", "slug": "bg-night" },
+				{ "color": "#ede8de", "name": "Ink night", "slug": "ink-night" },
+				{ "color": "#8a8578", "name": "Muted night", "slug": "muted-night" },
+				{ "color": "#ede8de", "name": "Line night", "slug": "line-night" },
+				{ "color": "#f07878", "name": "Accent night", "slug": "accent-night" },
+				{ "color": "#3a1f1f", "name": "Accent soft night", "slug": "accent-soft-night" },
+				{ "color": "#7fb896", "name": "Positive night", "slug": "positive-night" },
+				{ "color": "#e07a7f", "name": "Negative night", "slug": "negative-night" },
+				{ "color": "#8a8578", "name": "Neutral night", "slug": "neutral-night" },
+				{ "color": "#d4a84d", "name": "Mixed night", "slug": "mixed-night" },
+				{ "color": "#221f1c", "name": "Paper night", "slug": "paper-night" }
 			]
 		},
 		"typography": {
@@ -78,7 +89,9 @@
 	},
 	"styles": {
 		"typography": {
-			"fontFamily": "var(--wp--preset--font-family--fraunces)"
+			"fontFamily": "var(--wp--preset--font-family--fraunces)",
+			"fontSize": "1rem",
+			"lineHeight": "1.5"
 		},
 		"color": {
 			"background": "var(--wp--preset--color--bg)",
@@ -87,6 +100,50 @@
 		"elements": {
 			"link": {
 				"color": { "text": "var(--wp--preset--color--ink)" }
+			},
+			"h1": {
+				"typography": {
+					"fontSize": "clamp(2.25rem, 9vw, 3.5rem)",
+					"fontWeight": "800",
+					"lineHeight": "1.05",
+					"letterSpacing": "-0.03em"
+				},
+				"spacing": {
+					"margin": { "top": "0", "bottom": "1rem" }
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "1.375rem",
+					"fontWeight": "600",
+					"lineHeight": "1.2",
+					"letterSpacing": "-0.01em"
+				},
+				"spacing": {
+					"margin": { "top": "2.5rem", "bottom": "0.75rem" }
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "1.125rem",
+					"fontWeight": "600",
+					"lineHeight": "1.25"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontWeight": "600"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontWeight": "600"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontWeight": "600"
+				}
 			}
 		}
 	},

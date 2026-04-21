@@ -9,14 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once get_template_directory() . '/inc/class-theme-setup.php';
+require_once get_template_directory() . '/inc/theme-setup.php';
 
 /**
- * Path to a single HTML seed under content/html/ (no duplicate copies elsewhere).
+ * Read a seed file from content/html/ (single source for patterns and optional tooling).
  *
  * @param string $filename Basename, e.g. home.html.
+ * @return string File contents or empty string.
  */
-function wpis_theme_get_content_html( string $filename ): string {
+function wpis_theme_get_content_html( $filename ) {
 	$path = get_template_directory() . '/content/html/' . ltrim( $filename, '/' );
 	if ( ! is_readable( $path ) ) {
 		return '';
@@ -26,27 +27,28 @@ function wpis_theme_get_content_html( string $filename ): string {
 }
 
 /**
- * Register navigation location and run idempotent setup when the theme is activated.
+ * Theme supports: menus, editor styles.
  */
-function wpis_theme_setup_theme() {
+function wpis_theme_setup() {
 	register_nav_menus(
 		array(
 			'primary' => __( 'WPIS Primary', 'wpis-theme' ),
 		)
 	);
+	add_editor_style( 'assets/css/wpis-chrome.css' );
 }
-add_action( 'after_setup_theme', 'wpis_theme_setup_theme' );
+add_action( 'after_setup_theme', 'wpis_theme_setup' );
 
 /**
- * Create seeded pages, reading options and primary menu once per site rules.
+ * Seed pages, reading options and menu when the theme is activated.
  */
 function wpis_theme_after_switch_theme() {
-	WPIS_Theme_Setup::run();
+	wpis_theme_setup_run();
 }
 add_action( 'after_switch_theme', 'wpis_theme_after_switch_theme' );
 
 /**
- * Enqueue front-end and editor styles; theme toggle script.
+ * Front-end assets.
  */
 function wpis_theme_enqueue_assets() {
 	$theme_dir = get_template_directory();
@@ -69,22 +71,14 @@ function wpis_theme_enqueue_assets() {
 			$theme_uri . '/assets/js/theme-toggle.js',
 			array(),
 			(string) filemtime( $js_path ),
-			false
+			true
 		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_assets' );
 
 /**
- * Load front-end chrome styles in the block editor.
- */
-function wpis_theme_editor_styles() {
-	add_editor_style( 'assets/css/wpis-chrome.css' );
-}
-add_action( 'after_setup_theme', 'wpis_theme_editor_styles' );
-
-/**
- * Register core block variations aligned with layout utility classes.
+ * Block variations for layout utility classes (WordPress 6.5+).
  */
 function wpis_theme_register_block_variations() {
 	if ( ! function_exists( 'register_block_variation' ) ) {
@@ -151,7 +145,7 @@ function wpis_theme_register_block_variations() {
 add_action( 'init', 'wpis_theme_register_block_variations', 20 );
 
 /**
- * Pattern category for full-page body patterns and utilities.
+ * Pattern category for bundled patterns (see patterns/*.php).
  */
 function wpis_theme_register_pattern_category() {
 	if ( class_exists( 'WP_Block_Pattern_Categories_Registry' ) && WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'wpis-screens' ) ) {

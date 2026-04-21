@@ -1,0 +1,20 @@
+{
+	"name": "jaz-on/wpis-theme",
+	"description": "WPIS block theme (development tools)",
+	"license": "GPL-2.0-or-later",
+	"require": {},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.13.4",
+		"wp-coding-standards/wpcs": "^3.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"phpcs": "phpcs",
+		"phpcbf": "phpcbf"
+	}
+}

@@ -21,7 +21,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
    wp-content/themes/wpis-theme/
   ```
 2. Activate **WPIS Theme** under **Appearance → Themes**.
-3. On first activation the theme creates **pages** from [`content/html/`](./content/html/) when missing, sets **Reading** to a static front page (`home`) once, and ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
+3. On first activation the theme creates **pages** from `[content/html/](./content/html/)` when missing, sets **Reading** to a static front page (`home`) once, and ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
 4. Operator notes and checklists: **[contribution/README.md](../contribution/README.md)**. Architecture contract: **[docs/wpis-fse-architecture.md](../docs/wpis-fse-architecture.md)**.
 
 ## Updates with Git Updater
@@ -35,7 +35,11 @@ Bump the `**Version:`** field in `style.css` when you ship changes you want site
 
 ## Development
 
-No Node build step is required. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-chrome.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
+No Node build step is required for the theme on the server. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-chrome.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
+
+**FSE migration checklist** (tokens, URLs): see [docs/wpis-fse-migration-baseline.md](../docs/wpis-fse-migration-baseline.md) in the mono-repo, or copy that doc beside this theme if you use a single-theme repo.
+
+**PHP:** `composer install` then `composer run phpcs` (WordPress rules in `phpcs.xml.dist`). CI on GitHub runs `php -l` on all PHP files and PHPCS on push / pull request to `main`.
 
 ## License
 

@@ -11,7 +11,4 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-?>
-<!-- wp:html -->
-<?php echo wpis_theme_get_content_html( 'submitted.html' ); ?>
-<!-- /wp:html -->
+echo wpis_theme_get_content_html( 'submitted.html' );
