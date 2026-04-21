@@ -592,8 +592,10 @@ function wpis_theme_explore_tax_cards_inner_html() {
 
 	$html = '';
 	foreach ( $cards as $c ) {
-		$href = esc_url( '/taxonomy/' . $c['slug'] . '/' );
-		$html .= '<a href="' . $href . '" class="tax-card">';
+		$href  = esc_url( '/taxonomy/' . $c['slug'] . '/' );
+		$label = $c['title'] . ', ' . $c['count'];
+		$html .= '<div class="tax-card">';
+		$html .= '<a href="' . $href . '" class="tax-card__link"><span class="wpis-sr-only">' . esc_html( $label ) . '</span></a>';
 		$html .= '<div class="tax-card-head"><h3>' . esc_html( $c['title'] ) . '</h3><span class="tax-count">' . esc_html( $c['count'] ) . '</span></div>';
 		$html .= '<p class="tax-desc">' . esc_html( $c['desc'] ) . '</p>';
 		$html .= '<div class="tax-bar">';
@@ -605,7 +607,7 @@ function wpis_theme_explore_tax_cards_inner_html() {
 		foreach ( $c['rows'] as $row ) {
 			$html .= '<span><span class="dot ' . esc_attr( $row[0] ) . '"></span>' . esc_html( $row[1] ) . '</span>';
 		}
-		$html .= '</div></a>';
+		$html .= '</div></div>';
 	}
 
 	return $html;
@@ -627,10 +629,12 @@ function wpis_theme_explore_platform_grid_inner_html() {
 		array( 'YouTube', '198' ),
 		array( 'HN', '87' ),
 	);
-	$html  = '';
-	$href  = esc_url( '/' );
+	$html = '';
+	$href = esc_url( '/' );
 	foreach ( $items as $it ) {
-		$html .= '<a href="' . $href . '" class="platform-card"><h4>' . esc_html( $it[0] ) . '</h4><span class="p-count">' . esc_html( $it[1] ) . '</span></a>';
+		$plat_label = $it[0] . ', ' . $it[1] . ' quotes';
+		$html .= '<div class="platform-card"><a href="' . $href . '" class="platform-card__link"><span class="wpis-sr-only">' . esc_html( $plat_label ) . '</span></a>';
+		$html .= '<h4>' . esc_html( $it[0] ) . '</h4><span class="p-count">' . esc_html( $it[1] ) . '</span></div>';
 	}
 	return $html;
 }

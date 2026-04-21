@@ -30,3 +30,16 @@ jobs:
         run: composer install --no-interaction --no-progress
       - name: PHPCS (WordPress)
         run: vendor/bin/phpcs
+
+  verify-markup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - name: Block theme markup (strict)
+        run: |
+          set -e
+          export WPIS_VERIFY_MARKUP_STRICT=1
+          php tools/verify-markup.php
