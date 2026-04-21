@@ -31,76 +31,76 @@ function wpis_theme_setup_run() {
 function wpis_theme_setup_get_manifest() {
 	return array(
 		array(
-			'slug'         => 'taxonomy',
-			'title'        => 'Taxonomy',
-			'parent_slug'  => '',
-			'file'         => 'taxonomy.html',
+			'slug'        => 'taxonomy',
+			'title'       => 'Taxonomy',
+			'parent_slug' => '',
+			'file'        => 'taxonomy.html',
 		),
 		array(
-			'slug'         => 'quote',
-			'title'        => 'Quote',
-			'parent_slug'  => '',
-			'file'         => 'quote.html',
+			'slug'        => 'quote',
+			'title'       => 'Quote',
+			'parent_slug' => '',
+			'file'        => 'quote.html',
 		),
 		array(
-			'slug'         => 'security',
-			'title'        => 'Security',
-			'parent_slug'  => 'taxonomy',
-			'file'         => 'security.html',
+			'slug'        => 'security',
+			'title'       => 'Security',
+			'parent_slug' => 'taxonomy',
+			'file'        => 'security.html',
 		),
 		array(
-			'slug'         => 'sample',
-			'title'        => 'Sample',
-			'parent_slug'  => 'quote',
-			'file'         => 'sample.html',
+			'slug'        => 'sample',
+			'title'       => 'Sample',
+			'parent_slug' => 'quote',
+			'file'        => 'sample.html',
 		),
 		array(
-			'slug'         => 'home',
-			'title'        => 'Home',
-			'parent_slug'  => '',
-			'file'         => 'home.html',
+			'slug'        => 'home',
+			'title'       => 'Home',
+			'parent_slug' => '',
+			'file'        => 'home.html',
 		),
 		array(
-			'slug'         => 'explore',
-			'title'        => 'Explore',
-			'parent_slug'  => '',
-			'file'         => 'explore.html',
+			'slug'        => 'explore',
+			'title'       => 'Explore',
+			'parent_slug' => '',
+			'file'        => 'explore.html',
 		),
 		array(
-			'slug'         => 'about',
-			'title'        => 'About',
-			'parent_slug'  => '',
-			'file'         => 'about.html',
+			'slug'        => 'about',
+			'title'       => 'About',
+			'parent_slug' => '',
+			'file'        => 'about.html',
 		),
 		array(
-			'slug'         => 'how-it-works',
-			'title'        => 'How it works',
-			'parent_slug'  => '',
-			'file'         => 'how-it-works.html',
+			'slug'        => 'how-it-works',
+			'title'       => 'How it works',
+			'parent_slug' => '',
+			'file'        => 'how-it-works.html',
 		),
 		array(
-			'slug'         => 'submit',
-			'title'        => 'Submit',
-			'parent_slug'  => '',
-			'file'         => 'submit.html',
+			'slug'        => 'submit',
+			'title'       => 'Submit',
+			'parent_slug' => '',
+			'file'        => 'submit.html',
 		),
 		array(
-			'slug'         => 'submitted',
-			'title'        => 'Submitted',
-			'parent_slug'  => '',
-			'file'         => 'submitted.html',
+			'slug'        => 'submitted',
+			'title'       => 'Submitted',
+			'parent_slug' => '',
+			'file'        => 'submitted.html',
 		),
 		array(
-			'slug'         => 'profile',
-			'title'        => 'My profile',
-			'parent_slug'  => '',
-			'file'         => 'profile.html',
+			'slug'        => 'profile',
+			'title'       => 'My profile',
+			'parent_slug' => '',
+			'file'        => 'profile.html',
 		),
 		array(
-			'slug'         => 'search-demo',
-			'title'        => 'Search demo',
-			'parent_slug'  => '',
-			'file'         => 'search-demo.html',
+			'slug'        => 'search-demo',
+			'title'       => 'Search demo',
+			'parent_slug' => '',
+			'file'        => 'search-demo.html',
 		),
 	);
 }
@@ -150,8 +150,8 @@ function wpis_theme_setup_html_block_content( $inner ) {
  * @return string
  */
 function wpis_theme_setup_seed_post_content( $raw ) {
-	$raw = is_string( $raw ) ? $raw : '';
-	$raw = str_replace( ']]>', ']]]]><![CDATA[>', $raw );
+	$raw  = is_string( $raw ) ? $raw : '';
+	$raw  = str_replace( ']]>', ']]]]><![CDATA[>', $raw );
 	$trim = trim( $raw );
 	if ( '' !== $trim && str_starts_with( $trim, '<!-- wp:' ) ) {
 		return $raw;
@@ -184,7 +184,7 @@ function wpis_theme_setup_ensure_pages() {
 
 		$seed_path = get_template_directory() . '/content/html/' . $row['file'];
 		$inner     = is_readable( $seed_path ) ? file_get_contents( $seed_path ) : '';
-		$inner = is_string( $inner ) ? $inner : '';
+		$inner     = is_string( $inner ) ? $inner : '';
 
 		$new_id = wp_insert_post(
 			array(
@@ -265,14 +265,32 @@ function wpis_theme_setup_ensure_menu( $ids_by_slug ) {
 	$items = wp_get_nav_menu_items( $menu_id );
 	if ( empty( $items ) ) {
 		$order = array(
-			array( 'slug' => 'home', 'label' => 'Feed' ),
-			array( 'slug' => 'explore', 'label' => 'Explore' ),
-			array( 'slug' => 'about', 'label' => 'About' ),
-			array( 'slug' => 'how-it-works', 'label' => 'How it works' ),
-			array( 'slug' => 'submit', 'label' => 'Submit' ),
-			array( 'slug' => 'profile', 'label' => 'My profile' ),
+			array(
+				'slug'  => 'home',
+				'label' => 'Feed',
+			),
+			array(
+				'slug'  => 'explore',
+				'label' => 'Explore',
+			),
+			array(
+				'slug'  => 'about',
+				'label' => 'About',
+			),
+			array(
+				'slug'  => 'how-it-works',
+				'label' => 'How it works',
+			),
+			array(
+				'slug'  => 'submit',
+				'label' => 'Submit',
+			),
+			array(
+				'slug'  => 'profile',
+				'label' => 'My profile',
+			),
 		);
-		$pos = 0;
+		$pos   = 0;
 		foreach ( $order as $item ) {
 			if ( empty( $ids_by_slug[ $item['slug'] ] ) ) {
 				continue;
@@ -281,12 +299,12 @@ function wpis_theme_setup_ensure_menu( $ids_by_slug ) {
 				$menu_id,
 				0,
 				array(
-					'menu-item-title'    => $item['label'],
-					'menu-item-object'   => 'page',
+					'menu-item-title'     => $item['label'],
+					'menu-item-object'    => 'page',
 					'menu-item-object-id' => (int) $ids_by_slug[ $item['slug'] ],
-					'menu-item-type'     => 'post_type',
-					'menu-item-status'   => 'publish',
-					'menu-item-position' => ++$pos,
+					'menu-item-type'      => 'post_type',
+					'menu-item-status'    => 'publish',
+					'menu-item-position'  => ++$pos,
 				)
 			);
 		}
