@@ -1,0 +1,183 @@
+  <section class="hero">
+    <div class="eyebrow">A database of claims</div>
+    <h1 class="hero-title">WordPress<br>is<span class="dots">…</span></h1>
+    <p class="hero-intro">A large slice of the web runs on it. It's one of the largest open-source projects in existence. Yet what people say about it ranges from <em>life-changing</em> to <em>worthless</em>. This is where those statements live: the good, the bad, the contradictory. Context always matters.</p>
+    <div class="hero-stats">
+      <div><strong>2,847</strong>quotes collected</div>
+      <div><strong>12</strong>platforms sourced</div>
+      <div><strong>6</strong>languages</div>
+      <div><strong>47</strong>pending moderation</div>
+    </div>
+  </section>
+  <section class="feed">
+    <div class="feed-header">
+      <div class="feed-title">The feed <button type="button" class="filter-show-toggle" id="filterShowToggle" aria-expanded="true">Hide filters</button></div>
+      <div class="feed-sort" id="feedSort">
+        <button type="button" class="active" data-sort="recent">Recent</button>
+        <button type="button" data-sort="repeated">Most repeated</button>
+        <button type="button" data-sort="random">Random</button>
+      </div>
+    </div>
+
+    <div class="filter-selects" id="filterSelects">
+      <div class="filter-select-wrap">
+        <select class="filter-select" id="filterSentiment">
+          <option value="">All sentiments</option>
+          <option value="negative">Negative (1247)</option>
+          <option value="positive">Positive (892)</option>
+          <option value="mixed">Mixed (512)</option>
+          <option value="neutral">Neutral (196)</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select" id="filterClaim">
+          <option value="">All claim types</option>
+          <option value="Performance">Performance (423)</option>
+          <option value="Security">Security (287)</option>
+          <option value="Ease of use">Ease of use (341)</option>
+          <option value="Community">Community (512)</option>
+          <option value="Ecosystem">Ecosystem (398)</option>
+          <option value="Business viability">Business viability (214)</option>
+          <option value="Accessibility">Accessibility (89)</option>
+          <option value="Modernity">Modernity (503)</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select" id="filterPlatform">
+          <option value="">All platforms</option>
+          <option value="Mastodon">Mastodon (841)</option>
+          <option value="LinkedIn">LinkedIn (623)</option>
+          <option value="Reddit">Reddit (412)</option>
+          <option value="Bluesky">Bluesky (287)</option>
+          <option value="X">X (284)</option>
+          <option value="Blog">Blog (202)</option>
+          <option value="YouTube">YouTube (198)</option>
+          <option value="HN">HN (87)</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="feedList">
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Performance" data-platforms="Mastodon,LinkedIn,Reddit" data-count="8" data-date="2026-04-20">
+        <p class="quote-text">WordPress <span class="is-word">is</span> bloated and slow on shared hosting.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Performance</span>
+        <span class="count-badge">×8</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-positive" data-sentiment="positive" data-claim="Community" data-platforms="Bluesky,LinkedIn" data-count="3" data-date="2026-04-19">
+        <p class="quote-text">WordPress <span class="is-word">is</span> the reason I still have a career in the web.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Community</span>
+        <span class="count-badge">×3</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Security" data-platforms="Reddit,YouTube,X,Mastodon" data-count="24" data-date="2026-04-18">
+        <p class="quote-text">WordPress <span class="is-word">is</span> not secure: too many plugins with backdoors.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Security</span>
+        <span class="count-badge">×24</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Modernity" data-platforms="X,YouTube,HN" data-count="17" data-date="2026-04-17">
+        <p class="quote-text">WordPress <span class="is-word">is</span> just for blogs, you can't build a real app with it.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Modernity</span>
+        <span class="count-badge">×17</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-positive" data-sentiment="positive" data-claim="Community" data-platforms="Mastodon,Blog" data-count="6" data-date="2026-04-16">
+        <p class="quote-text">WordPress <span class="is-word">is</span> more than software. It's two decades of people who believed in an open web.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Community</span>
+        <span class="count-badge">×6</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-mixed" data-sentiment="mixed" data-claim="Business viability" data-platforms="LinkedIn,HN,YouTube" data-count="11" data-date="2026-04-15">
+        <p class="quote-text">WordPress <span class="is-word">is</span> fine for small sites but don't scale it.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Business viability</span>
+        <span class="count-badge">×11</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Ecosystem" data-platforms="Reddit,X" data-count="14" data-date="2026-04-14">
+        <p class="quote-text">WordPress <span class="is-word">is</span> a plugin graveyard. Half of them are abandoned.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Ecosystem</span>
+        <span class="count-badge">×14</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-positive" data-sentiment="positive" data-claim="Ease of use" data-platforms="Blog,LinkedIn,Mastodon" data-count="9" data-date="2026-04-13">
+        <p class="quote-text">WordPress <span class="is-word">is</span> the only CMS my non-technical clients can actually maintain themselves.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Ease of use</span>
+        <span class="count-badge">×9</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-mixed" data-sentiment="mixed" data-claim="Modernity" data-platforms="HN,X,Reddit" data-count="21" data-date="2026-04-12">
+        <p class="quote-text">Gutenberg <span class="is-word">is</span> both the best and worst thing that happened to WordPress.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Modernity</span>
+        <span class="count-badge">×21</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Accessibility" data-platforms="Blog,Mastodon" data-count="5" data-date="2026-04-11">
+        <p class="quote-text">WordPress core <span class="is-word">is</span> still shipping accessibility bugs that were reported years ago.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Accessibility</span>
+        <span class="count-badge">×5</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-positive" data-sentiment="positive" data-claim="Community" data-platforms="Mastodon,Bluesky,LinkedIn" data-count="13" data-date="2026-04-10">
+        <p class="quote-text">Nothing beats the feeling of a WordCamp. The energy, the people, the openness.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Community</span>
+        <span class="count-badge">×13</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Performance" data-platforms="HN,X" data-count="7" data-date="2026-04-09">
+        <p class="quote-text">WordPress <span class="is-word">is</span> what you get when PHP from 2003 meets a marketing team.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Performance</span>
+        <span class="count-badge">×7</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-mixed" data-sentiment="mixed" data-claim="Business viability" data-platforms="LinkedIn,Blog" data-count="4" data-date="2026-04-08">
+        <p class="quote-text">WordPress <span class="is-word">is</span> a great starting point but you'll outgrow it faster than you think.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Business viability</span>
+        <span class="count-badge">×4</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-positive" data-sentiment="positive" data-claim="Ecosystem" data-platforms="Reddit,Mastodon" data-count="8" data-date="2026-04-07">
+        <p class="quote-text">The WordPress plugin ecosystem <span class="is-word">is</span> unmatched. Whatever you need, someone already built it.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Ecosystem</span>
+        <span class="count-badge">×8</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-negative" data-sentiment="negative" data-claim="Security" data-platforms="X,YouTube" data-count="6" data-date="2026-04-06">
+        <p class="quote-text">Every other week there's another WordPress plugin 0-day. At some point it's the platform's fault.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Security</span>
+        <span class="count-badge">×6</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-positive" data-sentiment="positive" data-claim="Modernity" data-platforms="Blog,Mastodon,LinkedIn" data-count="10" data-date="2026-04-05">
+        <p class="quote-text">Headless WordPress <span class="is-word">is</span> quietly powering more serious apps than people realize.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Modernity</span>
+        <span class="count-badge">×10</span>
+      </div>
+      </a>
+      <a href="/quote/sample/" class="quote-card sent-mixed" data-sentiment="mixed" data-claim="Ease of use" data-platforms="Reddit,HN" data-count="5" data-date="2026-04-04">
+        <p class="quote-text">WordPress <span class="is-word">is</span> easy until you need it to do something specific. Then it's a nightmare.</p>
+        <div class="quote-footer">
+          <span class="claim-tag">Ease of use</span>
+        <span class="count-badge">×5</span>
+      </div>
+      </a>
+    </div>
+    <div class="no-results-msg hidden" id="noResults" role="status" aria-live="polite">No quotes match these filters yet.</div>
+    <button type="button" class="load-more-btn" id="loadMoreBtn">Load more</button>
+  </section>

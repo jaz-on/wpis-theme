@@ -7,18 +7,22 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Block theme (FSE) for WordPress Is…, quote archives, submission flow, contributor profile and dynamic blocks.
+Block theme (FSE) for WordPress Is…, quote archives, submission flow, contributor profile and mockup-accurate layouts.
 
 == Description ==
 
-Pairs with the **WordPress Is… Core** plugin (`wpis-plugin`) for the `quote` post type, REST endpoints and submission handling.
+Ships static page shells that mirror `wordpress-is-mockup.html` using core blocks, local fonts and theme patterns.
+
+For the full data layer (custom post types, REST and submissions) pair with the **WordPress Is… Core** plugin (`wpis-plugin`).
 
 == Installation ==
 
 1. Upload or deploy the theme folder as `wp-content/themes/wpis-theme/`.
 2. Activate under **Appearance → Themes**.
+3. First activation seeds missing mockup pages from `content/html/`, sets static front page to `home` once, and creates the WPIS Primary menu on the `primary` location. Reactivation does not overwrite edited page content.
+4. See repo `contribution/README.md` and `docs/wpis-fse-architecture.md` for the full contract.
 
 == Changelog ==
 
 = 0.1.0 =
-* WPIS block theme: templates, dynamic blocks, Git Updater headers (`wpis-theme`, PHP 8.2+).
+* Initial release.
