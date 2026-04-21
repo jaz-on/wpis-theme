@@ -21,7 +21,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
    wp-content/themes/wpis-theme/
   ```
 2. Activate **WPIS Theme** under **Appearance → Themes**.
-3. On activation the theme creates **pages** when missing by reading each manifest seed from `[content/html/](./content/html/)` through `wpis_theme_get_content_html()` (the same helper used by `patterns/*-body.php`). It sets **Reading** to a static front page (`home`) on first activation, and fixes **Reading** again if a static front page is configured but the stored page ID is gone (for example after deleting pages). It ensures a **WPIS Primary** menu on the `primary` location. Existing page content is never overwritten on reactivation.
+3. **Demo pages are not created on activation** (same idea as Twenty Twenty). To import example pages from `[content/html/](./content/html/)`, run **`wp wpis-seed import`** (overwrites existing demo page bodies from files by default; use `--no-sync` to skip). To trash those pages: **`wp wpis-seed clean`** (`--force` to delete permanently). **`wp wpis-seed reset`** runs clean then import. Without WP-CLI: `WP_LOAD_PATH=/path/to/wp-load.php php tools/seed-demo.php import` (same subcommands and flags). This sets **Reading** to static **Home** and rebuilds the **WPIS Primary** menu unless you pass `--no-reading` or `--no-menu`.
 4. Operator notes and checklists: **[contribution/README.md](../contribution/README.md)**. Architecture contract: **[docs/wpis-fse-architecture.md](../docs/wpis-fse-architecture.md)**.
 
 ## Updates with Git Updater
@@ -40,6 +40,8 @@ No Node build step is required for the theme on the server. Front-end behaviour 
 **FSE migration checklist** (tokens, URLs): see [docs/wpis-fse-migration-baseline.md](../docs/wpis-fse-migration-baseline.md) in the mono-repo, or copy that doc beside this theme if you use a single-theme repo.
 
 **PHP:** `composer install` then `composer run phpcs` (WordPress rules in `phpcs.xml.dist`). CI on GitHub runs `php -l` on all PHP files and PHPCS on push / pull request to `main`.
+
+**Demo import:** `wp wpis-seed help` (requires [WP-CLI](https://wp-cli.org/) with this theme active).
 
 ## License
 

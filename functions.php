@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Read a seed file from content/html/ (single source for patterns and activation).
+ * Read a seed file from content/html/ (patterns and optional CLI/demo import).
  *
  * @param string $filename Basename, e.g. home.html.
  * @return string File contents or empty string.
@@ -193,13 +193,9 @@ function wpis_theme_register_block_styles() {
 }
 add_action( 'init', 'wpis_theme_register_block_styles', 19 );
 
-/**
- * Seed pages, reading options and menu when the theme is activated.
- */
-function wpis_theme_after_switch_theme() {
-	wpis_theme_setup_run();
+if ( defined( 'WP_CLI' ) && constant( 'WP_CLI' ) ) {
+	require_once get_template_directory() . '/inc/wpis-cli-seed.php';
 }
-add_action( 'after_switch_theme', 'wpis_theme_after_switch_theme' );
 
 /**
  * Front-end assets.

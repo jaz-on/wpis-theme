@@ -1,8 +1,9 @@
 <?php
 /**
- * Theme switch setup: pages, reading, primary menu.
+ * Demo content helpers: manifest pages, reading, primary menu.
  *
- * Uses core APIs: get_page_by_path(), wp_insert_post(), serialize_block(), nav menus.
+ * Does not run on theme switch (Twenty Twenty-style). Use WP-CLI `wp wpis-seed` or
+ * `tools/seed-demo.php` with WP_LOAD_PATH.
  *
  * @package WPIS
  */
@@ -12,14 +13,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Run all setup steps (called from after_switch_theme).
+ * Import or update manifest pages, then optionally reading + menu.
  *
- * @return array<string, int> Slug => page ID for manifest pages.
+ * @param array<string, bool> $args {
+ *     @type bool $sync_content Sync post_content from content/html for existing pages.
+ *     @type bool $set_reading  Set static front page to the seeded `home` page.
+ *     @type bool $ensure_menu  Rebuild WPIS Primary menu from manifest slugs.
+ * }
+ * @return array<string, int> Slug => page ID.
  */
-function wpis_theme_setup_run() {
-	$ids = wpis_theme_setup_ensure_pages();
-	wpis_theme_setup_ensure_reading( $ids );
-	wpis_theme_setup_ensure_menu( $ids );
+function wpis_theme_setup_run( array $args = array() ): array {
+	$args = wp_parse_args(
+		$args,
+		array(
+			'sync_content' => false,
+			'set_reading'  => true,
+			'ensure_menu'  => true,
+		)
+	);
+	$ids  = wpis_theme_setup_upsert_pages( (bool) $args['sync_content'] );
+	if ( $args['set_reading'] ) {
+		wpis_theme_setup_ensure_reading( $ids );
+	}
+	if ( $args['ensure_menu'] ) {
+		wpis_theme_setup_ensure_menu( $ids );
+	}
 	return $ids;
 }
 
@@ -160,19 +178,17 @@ function wpis_theme_setup_seed_post_content( $raw ) {
 }
 
 /**
- * @return array<string, int>
+ * Create missing manifest pages; optionally overwrite content from seed files.
+ *
+ * @param bool $sync_content When true, updates post_content (and parent) for pages that already exist.
+ * @return array<string, int> Slug => page ID.
  */
-function wpis_theme_setup_ensure_pages() {
+function wpis_theme_setup_upsert_pages( bool $sync_content = false ): array {
 	$ids_by_slug = array();
 
 	foreach ( wpis_theme_setup_get_manifest() as $row ) {
 		$path     = wpis_theme_setup_page_path( $row['slug'], $row['parent_slug'] );
 		$existing = get_page_by_path( $path, OBJECT, 'page' );
-
-		if ( $existing instanceof WP_Post ) {
-			$ids_by_slug[ $row['slug'] ] = (int) $existing->ID;
-			continue;
-		}
 
 		$parent_id = 0;
 		if ( '' !== $row['parent_slug'] ) {
@@ -182,7 +198,29 @@ function wpis_theme_setup_ensure_pages() {
 			}
 		}
 
-		$inner = wpis_theme_get_content_html( $row['file'] );
+		$inner   = wpis_theme_get_content_html( $row['file'] );
+		$content = wpis_theme_setup_seed_post_content( $inner );
+
+		if ( $existing instanceof WP_Post ) {
+			$ids_by_slug[ $row['slug'] ] = (int) $existing->ID;
+			if ( $sync_content ) {
+				wp_update_post(
+					array(
+						'ID'           => (int) $existing->ID,
+						'post_content' => $content,
+						'post_parent'  => $parent_id,
+					)
+				);
+			} elseif ( $parent_id !== (int) $existing->post_parent ) {
+				wp_update_post(
+					array(
+						'ID'          => (int) $existing->ID,
+						'post_parent' => $parent_id,
+					)
+				);
+			}
+			continue;
+		}
 
 		$new_id = wp_insert_post(
 			array(
@@ -191,7 +229,7 @@ function wpis_theme_setup_ensure_pages() {
 				'post_title'   => $row['title'],
 				'post_name'    => $row['slug'],
 				'post_parent'  => $parent_id,
-				'post_content' => wpis_theme_setup_seed_post_content( $inner ),
+				'post_content' => $content,
 			),
 			true
 		);
@@ -202,6 +240,61 @@ function wpis_theme_setup_ensure_pages() {
 	}
 
 	return $ids_by_slug;
+}
+
+/**
+ * Paths for all manifest pages, deepest first (safe order for delete/trash).
+ *
+ * @return list<string>
+ */
+function wpis_theme_setup_get_manifest_paths_deepest_first(): array {
+	$paths = array();
+	foreach ( wpis_theme_setup_get_manifest() as $row ) {
+		$paths[] = wpis_theme_setup_page_path( $row['slug'], $row['parent_slug'] );
+	}
+	usort(
+		$paths,
+		static function ( string $a, string $b ): int {
+			return substr_count( $b, '/' ) <=> substr_count( $a, '/' );
+		}
+	);
+	return $paths;
+}
+
+/**
+ * Trash or delete every page that matches the demo manifest (by path).
+ *
+ * @param bool $force When true, bypass trash (wp_delete_post second arg).
+ * @return int Number of posts removed.
+ */
+function wpis_theme_setup_clean_manifest_pages( bool $force = false ): int {
+	$removed = 0;
+	foreach ( wpis_theme_setup_get_manifest_paths_deepest_first() as $path ) {
+		$post = get_page_by_path( $path, OBJECT, 'page' );
+		if ( ! $post instanceof WP_Post ) {
+			continue;
+		}
+		wp_delete_post( (int) $post->ID, $force );
+		++$removed;
+	}
+	return $removed;
+}
+
+/**
+ * If the static front page points to a missing or trashed page, fall back to latest posts.
+ */
+function wpis_theme_setup_reset_reading_after_clean(): void {
+	$front_id = (int) get_option( 'page_on_front', 0 );
+	if ( $front_id <= 0 ) {
+		delete_option( 'wpis_theme_reading_seeded' );
+		return;
+	}
+	$post = get_post( $front_id );
+	if ( ! $post instanceof WP_Post || 'page' !== $post->post_type || in_array( $post->post_status, array( 'trash', 'draft', 'pending' ), true ) ) {
+		update_option( 'show_on_front', 'posts' );
+		update_option( 'page_on_front', 0 );
+	}
+	delete_option( 'wpis_theme_reading_seeded' );
 }
 
 /**
@@ -220,32 +313,21 @@ function wpis_theme_setup_is_published_page( $page_id ) {
 }
 
 /**
+ * Set static front page to the seeded Home page (run after import).
+ *
  * @param array<string, int> $ids_by_slug Slug => page ID.
  */
 function wpis_theme_setup_ensure_reading( $ids_by_slug ) {
 	if ( empty( $ids_by_slug['home'] ) ) {
 		return;
 	}
-	$home_id  = (int) $ids_by_slug['home'];
-	$seeded   = (bool) get_option( 'wpis_theme_reading_seeded', false );
-	$show     = get_option( 'show_on_front', 'posts' );
-	$front_id = (int) get_option( 'page_on_front', 0 );
-
-	$apply_home = false;
-	if ( ! $seeded ) {
-		$apply_home = true;
-	} elseif ( 'page' === $show && ! wpis_theme_setup_is_published_page( $front_id ) ) {
-		$apply_home = true;
+	$home_id = (int) $ids_by_slug['home'];
+	if ( ! wpis_theme_setup_is_published_page( $home_id ) ) {
+		return;
 	}
-
-	if ( $apply_home ) {
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $home_id );
-	}
-
-	if ( ! $seeded ) {
-		update_option( 'wpis_theme_reading_seeded', true );
-	}
+	update_option( 'show_on_front', 'page' );
+	update_option( 'page_on_front', $home_id );
+	update_option( 'wpis_theme_reading_seeded', true );
 }
 
 /**
@@ -289,52 +371,58 @@ function wpis_theme_setup_ensure_menu( $ids_by_slug ) {
 		$menu_id = (int) $created;
 	}
 
-	$items = wp_get_nav_menu_items( $menu_id );
-	if ( empty( $items ) ) {
-		$order = array(
-			array(
-				'slug'  => 'home',
-				'label' => 'Feed',
-			),
-			array(
-				'slug'  => 'explore',
-				'label' => 'Explore',
-			),
-			array(
-				'slug'  => 'about',
-				'label' => 'About',
-			),
-			array(
-				'slug'  => 'how-it-works',
-				'label' => 'How it works',
-			),
-			array(
-				'slug'  => 'submit',
-				'label' => 'Submit',
-			),
-			array(
-				'slug'  => 'profile',
-				'label' => 'My profile',
-			),
-		);
-		$pos   = 0;
-		foreach ( $order as $item ) {
-			if ( empty( $ids_by_slug[ $item['slug'] ] ) ) {
-				continue;
+	$items = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'any' ) );
+	if ( is_array( $items ) ) {
+		foreach ( $items as $item ) {
+			if ( isset( $item->ID ) ) {
+				wp_delete_post( (int) $item->ID, true );
 			}
-			wp_update_nav_menu_item(
-				$menu_id,
-				0,
-				array(
-					'menu-item-title'     => $item['label'],
-					'menu-item-object'    => 'page',
-					'menu-item-object-id' => (int) $ids_by_slug[ $item['slug'] ],
-					'menu-item-type'      => 'post_type',
-					'menu-item-status'    => 'publish',
-					'menu-item-position'  => ++$pos,
-				)
-			);
 		}
+	}
+
+	$order = array(
+		array(
+			'slug'  => 'home',
+			'label' => 'Feed',
+		),
+		array(
+			'slug'  => 'explore',
+			'label' => 'Explore',
+		),
+		array(
+			'slug'  => 'about',
+			'label' => 'About',
+		),
+		array(
+			'slug'  => 'how-it-works',
+			'label' => 'How it works',
+		),
+		array(
+			'slug'  => 'submit',
+			'label' => 'Submit',
+		),
+		array(
+			'slug'  => 'profile',
+			'label' => 'My profile',
+		),
+	);
+	$pos   = 0;
+	foreach ( $order as $item ) {
+		if ( empty( $ids_by_slug[ $item['slug'] ] ) ) {
+			continue;
+		}
+		wp_update_nav_menu_item(
+			$menu_id,
+			0,
+			array(
+				'menu-item-title'     => $item['label'],
+				'menu-item-object'    => 'page',
+				'menu-item-object-id' => (int) $ids_by_slug[ $item['slug'] ],
+				'menu-item-type'      => 'post_type',
+				'menu-item-status'    => 'publish',
+				'menu-item-position'  => ++$pos,
+			)
+		);
 	}
 
 	$locations = get_theme_mod( 'nav_menu_locations', array() );
