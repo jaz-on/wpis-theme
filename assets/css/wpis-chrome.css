@@ -90,16 +90,35 @@ body {
 .screen { display: none; min-height: calc(100vh - 45px); }
 .screen.active { display: block; }
 
-.site-title { font-family: var(--wp--preset--font-family--fraunces), Georgia, serif; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; font-variation-settings: "opsz" 144; text-decoration: none; color: var(--ink); flex-shrink: 0; display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.15em; }
-.site-title .dots { color: var(--accent); font-style: italic; font-weight: 400; }
-.site-title .is-word { font-style: italic; font-weight: 400; color: var(--accent); }
-.lang-switcher { display: inline-flex; gap: 4px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; }
+.site-title,
+.header-site-title a {
+	font-family: var(--wp--preset--font-family--fraunces), Georgia, serif;
+	font-weight: 800;
+	font-size: 20px;
+	letter-spacing: -0.02em;
+	font-variation-settings: "opsz" 144;
+	text-decoration: none;
+	color: var(--ink);
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 0 0.15em;
+}
+.site-title .dots,
+.header-site-title a .dots { color: var(--accent); font-style: italic; font-weight: 400; }
+.site-title .is-word,
+.header-site-title a .is-word { font-style: italic; font-weight: 400; color: var(--accent); }
+.lang-switcher { display: inline-flex; gap: 4px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; margin: 0; }
 .lang-switcher a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid var(--muted); }
 .lang-switcher a.active { color: var(--ink); border-color: var(--ink); }
 .site-theme-toggle { background: transparent; border: 1px solid var(--muted); color: var(--muted); padding: 2px 8px; font-size: 13px; line-height: 1.4; cursor: pointer; font-family: inherit; }
 .site-theme-toggle:hover { color: var(--ink); border-color: var(--ink); }
 
-.site-header-utils { display: inline-flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
+.site-header-utils { display: inline-flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; margin: 0; }
+.site-header-utils .wp-block-buttons { margin: 0; }
+.site-header-utils .wp-block-button.site-theme-toggle .wp-block-button__link { min-height: auto; padding: 2px 8px; font-size: 13px; line-height: 1.4; border: 1px solid var(--muted); background: transparent; color: var(--muted); text-decoration: none; }
+.site-header-utils .wp-block-button.site-theme-toggle .wp-block-button__link:hover { color: var(--ink); border-color: var(--ink); }
 
 /* Header: mockup column — utils on first row, main nav directly below, both right-aligned */
 .site-header.wp-block-group {
@@ -110,7 +129,8 @@ body {
 	margin-right: auto;
 	box-sizing: border-box;
 }
-.site-header .site-title { align-self: center; }
+.site-header .site-title,
+.site-header .header-site-title { align-self: center; margin: 0; }
 .site-header-right {
 	flex: 1 1 280px;
 	max-width: 100%;
@@ -164,6 +184,7 @@ body {
 	border-bottom: 1px solid var(--line);
 	color: var(--ink);
 }
+.footer-top .wp-block-paragraph { margin: 0; }
 .footer-top-left,
 .footer-top-right {
 	flex: 1 1 12rem;
@@ -612,7 +633,8 @@ a.quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4
   .nav-bar { padding: 12px 24px; gap: 8px; font-size: 12px; flex-wrap: wrap; overflow-x: visible; }
   .nav-bar .label { display: inline; }
   .nav-bar button { font-size: 11px; padding: 4px 12px; }
-  .site-title { font-size: 22px; }
+  .site-title,
+  .header-site-title a { font-size: 22px; }
   .hero-title { font-size: clamp(80px, 10vw, 120px); margin: 20px 0 32px; }
   .hero-intro { font-size: 20px; margin-bottom: 36px; max-width: 700px; }
   .hero-stats { display: flex; gap: 48px; font-size: 12px; padding-top: 28px; }

@@ -42,10 +42,20 @@
 			: 'light';
 	}
 
+	function toggleControl( el ) {
+		if ( ! el ) {
+			return null;
+		}
+		return el.matches( 'a, button' ) ? el : el.querySelector( 'a, button' );
+	}
+
 	function syncToggleIcons() {
 		const icon = effectiveTheme() === 'dark' ? '\u2600' : '\u263e';
-		document.querySelectorAll( '.site-theme-toggle' ).forEach( function ( btn ) {
-			btn.textContent = icon;
+		document.querySelectorAll( '.site-theme-toggle' ).forEach( function ( el ) {
+			const t = toggleControl( el );
+			if ( t ) {
+				t.textContent = icon;
+			}
 		} );
 	}
 
@@ -53,7 +63,11 @@
 	syncToggleIcons();
 
 	document.addEventListener( 'click', function ( e ) {
-		const btn = e.target.closest( '.site-theme-toggle' );
+		const wrap = e.target.closest( '.site-theme-toggle' );
+		if ( ! wrap ) {
+			return;
+		}
+		const btn = toggleControl( wrap );
 		if ( ! btn ) {
 			return;
 		}
