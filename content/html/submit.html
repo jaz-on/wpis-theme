@@ -1,7 +1,14 @@
-  <div class="submit-container">
-    <h1>Seen a "WordPress <span class="is-word">is</span>…" quote somewhere?</h1>
-    <p class="lede">Paste the text, drop a screenshot or share the link. We'll take care of the rest. No account required.</p>
-    <form>
+<!-- wp:group {"className":"is-style-wpis-submit","layout":{"type":"constrained","contentSize":"720px"}} -->
+<!-- wp:heading {"level":1,"style":{"typography":{"fontSize":"clamp(2rem, 9vw, 2.75rem)","fontWeight":"800","lineHeight":"1.05","letterSpacing":"-0.03em"},"spacing":{"margin":{"bottom":"0.75rem"}}}} -->
+<h1 class="wp-block-heading">Seen a "WordPress <span class="is-word">is</span>…" quote somewhere?</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"1rem","lineHeight":"1.5"},"color":{"text":"var(--wp--preset--color--muted)"},"spacing":{"margin":{"bottom":"1.75rem"}}}} -->
+<p>Paste the text, drop a screenshot or share the link. We'll take care of the rest. No account required.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<form>
       <div class="form-group">
         <label>The quote <span class="required">*</span></label>
         <textarea placeholder="Paste the text here: exactly as it was written, in its original language."></textarea>
@@ -24,4 +31,5 @@
       <button type="button" class="btn-primary" >Submit this quote</button>
       <span class="queue-indicator">47 submissions currently pending moderation</span>
     </form>
-  </div>
+<!-- /wp:html -->
+<!-- /wp:group -->

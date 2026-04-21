@@ -1,5 +1,5 @@
 /**
- * Light / dark theme: sets data-theme on documentElement (aligned with wpis-chrome.css).
+ * Light / dark theme: sets data-theme on documentElement (semantic tokens in wpis-chrome.css).
  */
 (function () {
 	'use strict';

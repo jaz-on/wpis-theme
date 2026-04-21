@@ -40,6 +40,121 @@ function wpis_theme_setup() {
 add_action( 'after_setup_theme', 'wpis_theme_setup' );
 
 /**
+ * Block styles backed by theme.json (layout shells).
+ */
+function wpis_theme_register_block_styles() {
+	if ( ! function_exists( 'register_block_style' ) ) {
+		return;
+	}
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-hero',
+			'label' => __( 'WPIS hero', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-feed',
+			'label' => __( 'WPIS feed', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-prose',
+			'label' => __( 'WPIS prose (narrow)', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-detail',
+			'label' => __( 'WPIS quote detail', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-submit',
+			'label' => __( 'WPIS submit shell', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-tax-hero',
+			'label' => __( 'WPIS taxonomy hero', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-explore-hero',
+			'label' => __( 'WPIS explore hero', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-explore-section',
+			'label' => __( 'WPIS explore section', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-search',
+			'label' => __( 'WPIS search shell', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-how',
+			'label' => __( 'WPIS how-it-works', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-profile',
+			'label' => __( 'WPIS profile', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-empty-state',
+			'label' => __( 'WPIS empty state', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-confirm',
+			'label' => __( 'WPIS confirmation', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-eyebrow',
+			'label' => __( 'WPIS eyebrow', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-pull-quote',
+			'label' => __( 'WPIS pull quote', 'wpis-theme' ),
+		)
+	);
+}
+add_action( 'init', 'wpis_theme_register_block_styles', 19 );
+
+/**
  * Seed pages, reading options and menu when the theme is activated.
  */
 function wpis_theme_after_switch_theme() {
@@ -88,27 +203,9 @@ function wpis_theme_register_block_variations() {
 	$variations = array(
 		array(
 			'block' => 'core/group',
-			'name'  => 'wpis-hero',
-			'title' => __( 'WPIS hero', 'wpis-theme' ),
-			'class' => 'hero',
-		),
-		array(
-			'block' => 'core/group',
-			'name'  => 'wpis-feed',
-			'title' => __( 'WPIS feed', 'wpis-theme' ),
-			'class' => 'feed',
-		),
-		array(
-			'block' => 'core/group',
 			'name'  => 'wpis-detail-container',
 			'title' => __( 'WPIS detail container', 'wpis-theme' ),
-			'class' => 'detail-container',
-		),
-		array(
-			'block' => 'core/paragraph',
-			'name'  => 'wpis-eyebrow',
-			'title' => __( 'WPIS eyebrow', 'wpis-theme' ),
-			'class' => 'eyebrow',
+			'class' => 'is-style-wpis-detail',
 		),
 		array(
 			'block' => 'core/heading',

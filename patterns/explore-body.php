@@ -11,7 +11,5 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-?>
-<!-- wp:html -->
-<?php echo wpis_theme_get_content_html( 'explore.html' ); ?>
-<!-- /wp:html -->
+require_once get_template_directory() . '/inc/seed-content.php';
+echo wpis_theme_build_explore_seed();
