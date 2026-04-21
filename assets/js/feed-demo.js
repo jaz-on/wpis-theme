@@ -30,7 +30,7 @@
 	}
 
 	function getCard(wrap) {
-		return wrap ? wrap.querySelector('a.quote-card') : null;
+		return wrap ? wrap.querySelector('a.wpis-quote-card') : null;
 	}
 
 	var sortWrap = document.getElementById('feedSort');
@@ -69,7 +69,7 @@
 		var countNum = String(count).replace(/\D/g, '') || '0';
 		var a = document.createElement('a');
 		a.href = '/quote/sample/';
-		a.className = 'quote-card sent-' + q.sent;
+		a.className = 'wpis-quote-card wpis-sent-' + q.sent;
 		a.setAttribute('data-sentiment', q.sent);
 		a.setAttribute('data-claim', claim);
 		a.setAttribute('data-platforms', q.platforms || '');
@@ -77,10 +77,10 @@
 		a.setAttribute('data-count', countNum);
 		a.setAttribute('aria-label', 'View quote');
 		a.innerHTML =
-			'<span class="quote-text">' + q.text + '</span>' +
-			'<span class="quote-footer">' +
-			'<span class="claim-tag">' + claim + '</span>' +
-			'<span class="count-badge">×' + countNum + '</span>' +
+			'<span class="wpis-quote-text">' + q.text + '</span>' +
+			'<span class="wpis-quote-footer">' +
+			'<span class="wpis-claim-tag">' + claim + '</span>' +
+			'<span class="wpis-count-badge">×' + countNum + '</span>' +
 			'</span>';
 		var wrap = document.createElement('div');
 		wrap.className = 'wp-block-html';

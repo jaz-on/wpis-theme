@@ -90,7 +90,7 @@ function wpis_verify_anchor_block_level_inside( string $html, bool $strict ): ar
 		$inner = $in[2];
 		if ( ! $strict ) {
 			// Default: targets the pattern that broke core/html validation (whole-card <a> + p/div).
-			$is_quote_card = (bool) preg_match( '/class\s*=\s*["\'][^"\']*quote-card/i', $attrs );
+			$is_quote_card = (bool) preg_match( '/class\s*=\s*["\'][^"\']*(?:wpis-quote-card|is-style-wpis-quote-card)/i', $attrs );
 			if ( ! $is_quote_card ) {
 				continue;
 			}
@@ -176,5 +176,5 @@ if ( array() !== $errors ) {
 	exit( 1 );
 }
 
-echo 'OK: verified ' . $scanned . ' files (Custom HTML pairs + link/phrasing rules' . ( $strict ? ', strict' : ', quote-card focus' ) . ").\n";
+echo 'OK: verified ' . $scanned . ' files (Custom HTML pairs + link/phrasing rules' . ( $strict ? ', strict' : ', quote card focus' ) . ").\n";
 exit( 0 );

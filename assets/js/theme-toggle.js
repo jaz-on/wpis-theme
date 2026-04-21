@@ -51,7 +51,7 @@
 
 	function syncToggleIcons() {
 		const icon = effectiveTheme() === 'dark' ? '\u2600' : '\u263e';
-		document.querySelectorAll( '.site-theme-toggle' ).forEach( function ( el ) {
+		document.querySelectorAll( '.wpis-theme-toggle' ).forEach( function ( el ) {
 			const t = toggleControl( el );
 			if ( t ) {
 				t.textContent = icon;
@@ -63,7 +63,7 @@
 	syncToggleIcons();
 
 	document.addEventListener( 'click', function ( e ) {
-		const wrap = e.target.closest( '.site-theme-toggle' );
+		const wrap = e.target.closest( '.wpis-theme-toggle' );
 		if ( ! wrap ) {
 			return;
 		}

@@ -8,7 +8,7 @@
  * @package WPIS
  */
 ?>
-<!-- wp:group {"className":"hero-stats","layout":{"type":"default"}} -->
+<!-- wp:group {"className":"is-style-wpis-hero-stats","layout":{"type":"default"}} -->
 <!-- wp:paragraph -->
 <p><strong>2,847</strong>quotes collected</p>
 <!-- /wp:paragraph -->

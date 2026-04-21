@@ -62,7 +62,7 @@ function wpis_theme_get_lang_switcher_html() {
 		return wpis_theme_get_lang_switcher_fallback_html();
 	}
 
-	return '<p class="lang-switcher">' . implode( '', $parts ) . '</p>';
+	return '<p class="is-style-wpis-lang-switcher">' . implode( '', $parts ) . '</p>';
 }
 
 /**
@@ -78,7 +78,7 @@ function wpis_theme_get_lang_switcher_fallback_html() {
 		$label = strtoupper( $m[0] );
 	}
 
-	return '<p class="lang-switcher"><a href="' . esc_url( $url ) . '" class="active" aria-current="true">' . esc_html( $label ) . '</a></p>';
+	return '<p class="is-style-wpis-lang-switcher"><a href="' . esc_url( $url ) . '" class="active" aria-current="true">' . esc_html( $label ) . '</a></p>';
 }
 
 /**

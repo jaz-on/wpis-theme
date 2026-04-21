@@ -259,6 +259,189 @@ function wpis_theme_register_block_styles() {
 			'label' => __( 'WPIS header theme button', 'wpis-theme' ),
 		)
 	);
+	/* Page content (feed, search, explore, how-it-works): is-style-wpis-* in block markup. */
+	register_block_style(
+		'core/heading',
+		array(
+			'name'  => 'wpis-hero-title',
+			'label' => __( 'WPIS hero title', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/heading',
+		array(
+			'name'  => 'wpis-detail-quote',
+			'label' => __( 'WPIS detail quote', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-hero-intro',
+			'label' => __( 'WPIS hero intro', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-lang-switcher',
+			'label' => __( 'WPIS language switcher (shortcode)', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-hero-stats',
+			'label' => __( 'WPIS hero stats row', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-feed-header',
+			'label' => __( 'WPIS feed header', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-feed-title',
+			'label' => __( 'WPIS feed title', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-no-results',
+			'label' => __( 'WPIS empty state message', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-search-container',
+			'label' => __( 'WPIS search body', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-search-summary',
+			'label' => __( 'WPIS search result summary', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-tax-grid',
+			'label' => __( 'WPIS claim-type grid', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-tax-card',
+			'label' => __( 'WPIS claim-type card', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-tax-card-head',
+			'label' => __( 'WPIS claim-type card head', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-tax-count',
+			'label' => __( 'WPIS tax card count', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-tax-desc',
+			'label' => __( 'WPIS tax card description', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-explore-section-title',
+			'label' => __( 'WPIS explore section title', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-platform-grid',
+			'label' => __( 'WPIS platform grid', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-platform-card',
+			'label' => __( 'WPIS platform card', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-platform-count',
+			'label' => __( 'WPIS platform count', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-how-step-list',
+			'label' => __( 'WPIS how-to step list', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-how-step',
+			'label' => __( 'WPIS how-to step', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-quote-card',
+			'label' => __( 'WPIS quote feed card (article shell)', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/group',
+		array(
+			'name'  => 'wpis-quote-footer',
+			'label' => __( 'WPIS quote card meta row', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'wpis-count-badge',
+			'label' => __( 'WPIS repeat count badge', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/post-title',
+		array(
+			'name'  => 'wpis-quote-excerpt',
+			'label' => __( 'WPIS quote excerpt title', 'wpis-theme' ),
+		)
+	);
+	register_block_style(
+		'core/post-terms',
+		array(
+			'name'  => 'wpis-claim-tag',
+			'label' => __( 'WPIS claim type chip', 'wpis-theme' ),
+		)
+	);
 	register_block_style(
 		'core/paragraph',
 		array(
@@ -338,20 +521,6 @@ function wpis_theme_register_block_variations() {
 			'title' => __( 'WPIS detail container', 'wpis-theme' ),
 			'class' => 'is-style-wpis-detail',
 		),
-		array(
-			'block' => 'core/heading',
-			'name'  => 'wpis-hero-title',
-			'title' => __( 'WPIS hero title', 'wpis-theme' ),
-			'class' => 'hero-title',
-			'level' => 1,
-		),
-		array(
-			'block' => 'core/heading',
-			'name'  => 'wpis-detail-quote',
-			'title' => __( 'WPIS detail quote', 'wpis-theme' ),
-			'class' => 'detail-quote',
-			'level' => 1,
-		),
 	);
 
 	foreach ( $variations as $def ) {
@@ -406,18 +575,22 @@ function wpis_theme_quote_feed_card_sentiment( $content, $block ) {
 	if ( ! in_the_loop() || 'quote' !== get_post_type() ) {
 		return $content;
 	}
-	$append = '';
-	$terms  = get_the_terms( get_the_ID(), 'sentiment' );
+	$terms = get_the_terms( get_the_ID(), 'sentiment' );
+	$slug  = '';
 	if ( is_array( $terms ) && ! is_wp_error( $terms ) && isset( $terms[0] ) && $terms[0] instanceof \WP_Term ) {
-		$slug = $terms[0]->slug;
-		if ( in_array( $slug, array( 'positive', 'negative', 'mixed' ), true ) ) {
-			$append = ' sent-' . $slug;
+		$s = (string) $terms[0]->slug;
+		if ( in_array( $s, array( 'positive', 'negative', 'mixed' ), true ) ) {
+			$slug = $s;
 		}
 	}
-	if ( '' === $append || ! is_string( $content ) || '' === $content ) {
+	if ( '' === $slug || ! is_string( $content ) || '' === $content ) {
 		return $content;
 	}
-	$replaced = preg_replace( '/\bquote-card\b/', 'quote-card' . $append, $content, 1 );
+	if ( ! str_contains( $content, 'is-style-wpis-quote-card' ) || preg_match( '/\bwpis-sent-(?:positive|negative|mixed)\b/', $content ) ) {
+		return $content;
+	}
+	$add      = 'wpis-sent-' . $slug;
+	$replaced = preg_replace( '/(class=")([^"]*?\bis-style-wpis-quote-card\b)([^"]*")/i', '$1$2 ' . $add . '$3', $content, 1 );
 	return is_string( $replaced ) ? $replaced : $content;
 }
 add_filter( 'render_block', 'wpis_theme_quote_feed_card_sentiment', 10, 2 );
@@ -434,7 +607,7 @@ function wpis_theme_quote_card_counter( $content, $block ) {
 		return $content;
 	}
 	$cname = (string) ( $block['attrs']['className'] ?? '' );
-	if ( ! str_contains( $cname, 'count-badge' ) ) {
+	if ( ! str_contains( $cname, 'is-style-wpis-count-badge' ) && ! str_contains( $cname, 'wpis-count-badge' ) ) {
 		return $content;
 	}
 	if ( ! in_the_loop() || 'quote' !== get_post_type() ) {

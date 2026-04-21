@@ -9,11 +9,11 @@
  */
 ?>
 <!-- wp:html -->
-<a href="/quote/sample/" class="quote-card sent-negative">
-	<span class="quote-text">WordPress <span class="is-word">is</span> bloated and slow on shared hosting.</span>
-	<span class="quote-footer">
-		<span class="claim-tag">Performance</span>
-		<span class="count-badge">×8</span>
+<a href="/quote/sample/" class="wpis-quote-card wpis-sent-negative">
+	<span class="wpis-quote-text">WordPress <span class="is-word">is</span> bloated and slow on shared hosting.</span>
+	<span class="wpis-quote-footer">
+		<span class="wpis-claim-tag">Performance</span>
+		<span class="wpis-count-badge">×8</span>
 	</span>
 </a>
 <!-- /wp:html -->
