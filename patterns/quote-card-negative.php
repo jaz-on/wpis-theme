@@ -10,10 +10,10 @@
 ?>
 <!-- wp:html -->
 <a href="/quote/sample/" class="quote-card sent-negative">
-	<p class="quote-text">WordPress <span class="is-word">is</span> bloated and slow on shared hosting.</p>
-	<div class="quote-footer">
+	<span class="quote-text">WordPress <span class="is-word">is</span> bloated and slow on shared hosting.</span>
+	<span class="quote-footer">
 		<span class="claim-tag">Performance</span>
 		<span class="count-badge">×8</span>
-	</div>
+	</span>
 </a>
 <!-- /wp:html -->

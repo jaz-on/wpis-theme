@@ -55,11 +55,11 @@ function wpis_theme_seed_quote_stack( array $q ) {
 	return '
 <!-- wp:html -->
 <a href="' . $url . '" class="quote-card ' . esc_attr( $class ) . '"' . $data_attr . ' aria-label="' . $aria . '">
-<p class="quote-text">' . $text . '</p>
-<div class="quote-footer">
+<span class="quote-text">' . $text . '</span>
+<span class="quote-footer">
 <span class="claim-tag">' . $claim . '</span>
 <span class="count-badge">' . $count . '</span>
-</div>
+</span>
 </a>
 <!-- /wp:html -->';
 }

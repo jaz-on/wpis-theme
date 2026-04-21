@@ -77,11 +77,11 @@
 		a.setAttribute('data-count', countNum);
 		a.setAttribute('aria-label', 'View quote');
 		a.innerHTML =
-			'<p class="quote-text">' + q.text + '</p>' +
-			'<div class="quote-footer">' +
+			'<span class="quote-text">' + q.text + '</span>' +
+			'<span class="quote-footer">' +
 			'<span class="claim-tag">' + claim + '</span>' +
 			'<span class="count-badge">×' + countNum + '</span>' +
-			'</div>';
+			'</span>';
 		var wrap = document.createElement('div');
 		wrap.className = 'wp-block-html';
 		wrap.appendChild(a);
