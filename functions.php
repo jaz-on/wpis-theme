@@ -510,6 +510,17 @@ function wpis_theme_enqueue_assets() {
 			);
 		}
 	}
+
+	$feed_js = $theme_dir . '/assets/js/wpis-feed.js';
+	if ( is_readable( $feed_js ) ) {
+		wp_enqueue_script(
+			'wpis-feed',
+			$theme_uri . '/assets/js/wpis-feed.js',
+			array(),
+			(string) filemtime( $feed_js ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_assets' );
 
@@ -582,23 +593,56 @@ function wpis_theme_quote_feed_card_sentiment( $content, $block ) {
 	if ( ! in_the_loop() || 'quote' !== get_post_type() ) {
 		return $content;
 	}
-	$terms = get_the_terms( get_the_ID(), 'sentiment' );
-	$slug  = '';
+	$post_id = (int) get_the_ID();
+	$terms   = get_the_terms( $post_id, 'sentiment' );
+	$slug    = '';
 	if ( is_array( $terms ) && ! is_wp_error( $terms ) && isset( $terms[0] ) && $terms[0] instanceof \WP_Term ) {
 		$s = (string) $terms[0]->slug;
-		if ( in_array( $s, array( 'positive', 'negative', 'mixed' ), true ) ) {
+		if ( in_array( $s, array( 'positive', 'negative', 'mixed', 'neutral' ), true ) ) {
 			$slug = $s;
 		}
 	}
-	if ( '' === $slug || ! is_string( $content ) || '' === $content ) {
+	if ( ! is_string( $content ) || '' === $content || ! str_contains( $content, 'is-style-wpis-quote-card' ) ) {
 		return $content;
 	}
-	if ( ! str_contains( $content, 'is-style-wpis-quote-card' ) || preg_match( '/\bwpis-sent-(?:positive|negative|mixed)\b/', $content ) ) {
-		return $content;
+
+	if ( '' !== $slug && ! preg_match( '/\bwpis-sent-(?:positive|negative|mixed|neutral)\b/', $content ) ) {
+		$add      = 'wpis-sent-' . $slug;
+		$replaced = preg_replace( '/(class=")([^"]*?\bis-style-wpis-quote-card\b)([^"]*")/i', '$1$2 ' . $add . '$3', $content, 1 );
+		if ( is_string( $replaced ) ) {
+			$content = $replaced;
+		}
 	}
-	$add      = 'wpis-sent-' . $slug;
-	$replaced = preg_replace( '/(class=")([^"]*?\bis-style-wpis-quote-card\b)([^"]*")/i', '$1$2 ' . $add . '$3', $content, 1 );
-	return is_string( $replaced ) ? $replaced : $content;
+
+	$claim_slugs = array();
+	$claim_terms = get_the_terms( $post_id, 'claim_type' );
+	if ( is_array( $claim_terms ) && ! is_wp_error( $claim_terms ) ) {
+		foreach ( $claim_terms as $t ) {
+			if ( $t instanceof \WP_Term ) {
+				$claim_slugs[] = $t->slug;
+			}
+		}
+	}
+
+	$platform_slug = (string) get_post_meta( $post_id, '_wpis_source_platform', true );
+	$count         = max( 0, (int) get_post_meta( $post_id, '_wpis_counter', true ) );
+	$data          = ' data-post-id="' . esc_attr( (string) $post_id ) . '"';
+	if ( '' !== $slug ) {
+		$data .= ' data-sentiment="' . esc_attr( $slug ) . '"';
+	}
+	if ( ! empty( $claim_slugs ) ) {
+		$data .= ' data-claim-type="' . esc_attr( implode( ' ', $claim_slugs ) ) . '"';
+	}
+	if ( '' !== $platform_slug ) {
+		$data .= ' data-platform="' . esc_attr( $platform_slug ) . '"';
+	}
+	$data .= ' data-repeat-count="' . esc_attr( (string) $count ) . '"';
+
+	if ( false === strpos( $content, 'data-sentiment=' ) && false === strpos( $content, 'data-post-id=' ) ) {
+		$content = preg_replace( '/(<article\b[^>]*?)(\s*>)/i', '$1' . $data . '$2', $content, 1 ) ?? $content;
+	}
+
+	return $content;
 }
 add_filter( 'render_block', 'wpis_theme_quote_feed_card_sentiment', 10, 2 );
 

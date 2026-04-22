@@ -884,6 +884,8 @@ p.is-style-wpis-count-badge { display: inline-block; margin: 0; }
 .wpis-load-more-btn:hover .wpis-load-more-count { color: var(--bg); opacity: 0.7; }
 .wpis-no-results-msg { padding: 32px 0; color: var(--muted); font-style: italic; font-size: 16px; text-align: center; border-bottom: 1px solid var(--line); }
 .wpis-no-results-msg[hidden] { display: none; }
+article.is-style-wpis-quote-card.hidden, article.is-style-wpis-quote-card.hidden-batch,
+article.wpis-quote-card.hidden, article.wpis-quote-card.hidden-batch { display: none; }
 
 /* Prefixed quote-card footer (superset of the legacy unprefixed aliases) */
 .wpis-quote-footer-left { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }

@@ -1,6 +1,6 @@
 <!-- wp:group {"className":"is-style-wpis-hero","layout":{"type":"constrained","contentSize":"1320px"}} -->
 <!-- wp:paragraph {"className":"is-style-wpis-eyebrow"} -->
-<p>A database of claims</p>
+<p class="is-style-wpis-eyebrow">A database of claims</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":1,"className":"is-style-wpis-hero-title"} -->
@@ -8,7 +8,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"is-style-wpis-hero-intro"} -->
-<p class="is-style-wpis-hero-intro">A large slice of the web runs on it. It's one of the largest open-source projects in existence. Yet what people say about it ranges from <em>life-changing</em> to <em>worthless</em>. This is where those statements live: the good, the bad, the contradictory. Context always matters.</p>
+<p class="is-style-wpis-hero-intro">A large slice of the web runs on it. Yet what people say about it ranges from <em>life-changing</em> to <em>worthless</em>. This is where those statements live: the good, the bad, the contradictory.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"className":"is-style-wpis-hero-stats","layout":{"type":"default"}} -->
@@ -17,26 +17,24 @@
 <!-- /wp:shortcode -->
 <!-- /wp:group -->
 <!-- /wp:group -->
-<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1320px"}} -->
-<!-- wp:group {"className":"is-style-wpis-feed-header","layout":{"type":"default"}} -->
-<!-- wp:paragraph {"className":"is-style-wpis-feed-title","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-<p class="is-style-wpis-feed-title">The feed</p>
-<!-- /wp:paragraph -->
-<!-- /wp:group -->
 
-<!-- wp:query {"queryId":3,"query":{"perPage":10,"pages":0,"offset":0,"postType":"quote","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} -->
+<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1320px"}} -->
+<!-- wp:shortcode -->
+[wpis_feed_controls]
+<!-- /wp:shortcode -->
+
+<!-- wp:query {"queryId":3,"query":{"perPage":40,"pages":0,"offset":0,"postType":"quote","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} -->
 <!-- wp:post-template {"layout":{"type":"default"}} -->
 <!-- wp:template-part {"slug":"quote-feed-card","tagName":"article"} /-->
 <!-- /wp:post-template -->
 <!-- wp:query-no-results -->
-<!-- wp:paragraph {"className":"is-style-wpis-no-results","style":{"spacing":{"padding":{"top":"32px","bottom":"32px"}}}} -->
-<p class="is-style-wpis-no-results">No quotes yet. Add published quotes or run <code>wp wpis seed_starter</code> (or <code>wp wpis seed_demo</code> for flagged demo data).</p>
+<!-- wp:paragraph {"className":"is-style-wpis-no-results"} -->
+<p class="is-style-wpis-no-results">No quotes yet. Add published quotes or run <code>wp wpis seed_starter</code>.</p>
 <!-- /wp:paragraph -->
 <!-- /wp:query-no-results -->
-<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center","flexWrap":"wrap"}} -->
-<!-- wp:query-pagination-previous /-->
-
-<!-- wp:query-pagination-next /-->
-<!-- /wp:query-pagination -->
 <!-- /wp:query -->
+
+<!-- wp:shortcode -->
+[wpis_load_more]
+<!-- /wp:shortcode -->
 <!-- /wp:group -->
