@@ -4,7 +4,7 @@
  *
  * Block themes often ship patterns as `patterns/*.php` **or** register them in PHP: both are
  * « native ». Here we load the pattern *content* from `content/html/*.html` so screen bodies
- * stay a single source of truth for the inserter and for `wp wpis-seed` / Import demo.
+ * stay a single source of truth for the inserter and for `wp wpis-seed` / WPIS import.
  *
  * @package WPIS
  */

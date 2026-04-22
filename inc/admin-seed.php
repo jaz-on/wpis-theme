@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin screen: import or remove demo pages (same flow as `wp wpis-seed`).
+ * Admin screen: import or remove manifest pages (same flow as `wp wpis-seed`).
  *
  * @package WPIS
  */
@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function wpis_theme_register_seed_admin_page() {
 	add_theme_page(
-		__( 'Import demo', 'wpis-theme' ),
-		__( 'Import demo', 'wpis-theme' ),
+		__( 'WPIS import', 'wpis-theme' ),
+		__( 'WPIS import', 'wpis-theme' ),
 		'manage_options',
 		'wpis-theme-seed',
 		'wpis_theme_render_seed_admin_page'
@@ -127,13 +127,13 @@ function wpis_theme_admin_seed_notices() {
 	if ( 'imported' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of pages touched */
-			_n( 'Demo import finished (%d page in the manifest).', 'Demo import finished (%d pages in the manifest).', $count, 'wpis-theme' ),
+			_n( 'WPIS import finished (%d page in the manifest).', 'WPIS import finished (%d pages in the manifest).', $count, 'wpis-theme' ),
 			$count
 		);
 	} elseif ( 'cleaned' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of pages removed */
-			_n( 'Removed %d demo page from the manifest.', 'Removed %d demo pages from the manifest.', $count, 'wpis-theme' ),
+			_n( 'Removed %d manifest page.', 'Removed %d manifest pages.', $count, 'wpis-theme' ),
 			$count
 		);
 	} elseif ( 'reset' === $msg ) {
@@ -169,7 +169,13 @@ function wpis_theme_render_seed_admin_page() {
 	<div class="wrap">
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<p>
-			<?php esc_html_e( 'Create or update the demo pages from the theme files in content/html/. Same operation as: wp wpis-seed import (see README).', 'wpis-theme' ); ?>
+			<?php esc_html_e( 'Create or update manifest pages from the theme under content/html/. This matches WP-CLI: wp wpis-seed import, clean, or reset (see the theme README).', 'wpis-theme' ); ?>
+		</p>
+		<p class="description">
+			<?php esc_html_e( 'CLI flags: import uses --no-sync and --no-reading when you turn off the matching checkboxes. clean --force is “Delete permanently”.', 'wpis-theme' ); ?>
+		</p>
+		<p class="description">
+			<?php esc_html_e( 'Quote posts are not part of this screen. With WP-CLI: wp wpis seed_starter (or wp wpis seed_demo for flagged demo data).', 'wpis-theme' ); ?>
 		</p>
 		<p class="description">
 			<?php esc_html_e( 'The site menu is the Navigation block in the Header template part (Appearance → Editor). This theme does not use classic Appearance → Menus.', 'wpis-theme' ); ?>
@@ -180,6 +186,9 @@ function wpis_theme_render_seed_admin_page() {
 		</p>
 
 		<h2 class="title"><?php esc_html_e( 'Import', 'wpis-theme' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'Default options match: wp wpis-seed import (sync on, reading on).', 'wpis-theme' ); ?>
+		</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>">
 			<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
 			<input type="hidden" name="wpis_seed_action" value="import" />
@@ -187,24 +196,24 @@ function wpis_theme_render_seed_admin_page() {
 				<p>
 					<label>
 						<input type="checkbox" name="wpis_sync" value="1" checked />
-						<?php esc_html_e( 'Overwrite page content from theme files (sync) for existing pages', 'wpis-theme' ); ?>
+						<?php esc_html_e( 'Sync: overwrite page content from theme files for existing manifest pages (off = wpis-seed import --no-sync)', 'wpis-theme' ); ?>
 					</label>
 				</p>
 				<p>
 					<label>
 						<input type="checkbox" name="wpis_reading" value="1" checked />
-						<?php esc_html_e( 'Set static front page to the Home page', 'wpis-theme' ); ?>
+						<?php esc_html_e( 'Set static front page to Home (off = wpis-seed import --no-reading)', 'wpis-theme' ); ?>
 					</label>
 				</p>
 			</fieldset>
 			<?php
-			submit_button( __( 'Import demo pages', 'wpis-theme' ) );
+			submit_button( __( 'Import pages', 'wpis-theme' ) );
 			?>
 		</form>
 
-		<h2 class="title"><?php esc_html_e( 'Remove demo pages', 'wpis-theme' ); ?></h2>
+		<h2 class="title"><?php esc_html_e( 'Remove manifest pages', 'wpis-theme' ); ?></h2>
 		<p class="description">
-			<?php esc_html_e( 'Puts pages in the trash (or deletes them permanently if you check the box).', 'wpis-theme' ); ?>
+			<?php esc_html_e( 'Same as: wp wpis-seed clean. Trash by default, or delete permanently to match --force.', 'wpis-theme' ); ?>
 		</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'Move manifest pages to the trash (or delete permanently if checked)?', 'wpis-theme' ) ); ?>' );">
 			<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
@@ -212,19 +221,19 @@ function wpis_theme_render_seed_admin_page() {
 			<p>
 				<label>
 					<input type="checkbox" name="wpis_force" value="1" />
-					<?php esc_html_e( 'Delete permanently (skip trash)', 'wpis-theme' ); ?>
+					<?php esc_html_e( 'Delete permanently: wpis-seed clean --force', 'wpis-theme' ); ?>
 				</label>
 			</p>
 			<?php
-			submit_button( __( 'Remove demo pages', 'wpis-theme' ), 'delete' );
+			submit_button( __( 'Remove pages', 'wpis-theme' ), 'delete' );
 			?>
 		</form>
 
 		<h2 class="title"><?php esc_html_e( 'Reset (remove then import again)', 'wpis-theme' ); ?></h2>
 		<p class="description">
-			<?php esc_html_e( 'Removes all manifest pages, then runs the import below. Use when you want a full refresh.', 'wpis-theme' ); ?>
+			<?php esc_html_e( 'Same as: wp wpis-seed reset. Removes all manifest pages, then imports again with the checkboxes below.', 'wpis-theme' ); ?>
 		</p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'This will remove demo pages and import again. Continue?', 'wpis-theme' ) ); ?>' );">
+		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'This will remove manifest pages and import again. Continue?', 'wpis-theme' ) ); ?>' );">
 			<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
 			<input type="hidden" name="wpis_seed_action" value="reset" />
 			<fieldset>
@@ -237,18 +246,18 @@ function wpis_theme_render_seed_admin_page() {
 				<p>
 					<label>
 						<input type="checkbox" name="wpis_reset_sync" value="1" checked />
-						<?php esc_html_e( 'Overwrite page content on import', 'wpis-theme' ); ?>
+						<?php esc_html_e( 'Sync on re-import (off = --no-sync after clean)', 'wpis-theme' ); ?>
 					</label>
 				</p>
 				<p>
 					<label>
 						<input type="checkbox" name="wpis_reset_reading" value="1" checked />
-						<?php esc_html_e( 'Set static front page to Home', 'wpis-theme' ); ?>
+						<?php esc_html_e( 'Set static front page to Home (off = --no-reading after import)', 'wpis-theme' ); ?>
 					</label>
 				</p>
 			</fieldset>
 			<?php
-			submit_button( __( 'Reset demo', 'wpis-theme' ), 'primary' );
+			submit_button( __( 'Run reset', 'wpis-theme' ), 'primary' );
 			?>
 		</form>
 	</div>

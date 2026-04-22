@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-CLI commands for WPIS demo content (content/html/).
+ * WP-CLI commands for WPIS manifest pages (content/html/).
  *
  * @package WPIS
  */
@@ -23,7 +23,7 @@ WP_CLI::add_command(
 				$n     = wpis_theme_setup_clean_manifest_pages( $force );
 				wpis_theme_setup_reset_reading_after_clean();
 				$verb = $force ? 'Deleted' : 'Trashed';
-				WP_CLI::success( sprintf( '%s %d demo page(s).', $verb, $n ) );
+				WP_CLI::success( sprintf( '%s %d manifest page(s).', $verb, $n ) );
 				break;
 
 			case 'import':
@@ -35,14 +35,14 @@ WP_CLI::add_command(
 						'set_reading'  => ! $no_reading,
 					)
 				);
-				WP_CLI::success( sprintf( 'Demo import finished (%d slugs).', count( $ids ) ) );
+				WP_CLI::success( sprintf( 'WPIS import finished (%d slugs).', count( $ids ) ) );
 				break;
 
 			case 'reset':
 				$force = \WP_CLI\Utils\get_flag_value( $assoc_args, 'force', false );
 				$n     = wpis_theme_setup_clean_manifest_pages( $force );
 				wpis_theme_setup_reset_reading_after_clean();
-				WP_CLI::log( sprintf( 'Removed %d demo page(s).', $n ) );
+				WP_CLI::log( sprintf( 'Removed %d manifest page(s).', $n ) );
 
 				$no_sync    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-sync', false );
 				$no_reading = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-reading', false );
@@ -60,7 +60,7 @@ WP_CLI::add_command(
 		}
 	},
 	array(
-		'shortdesc' => 'Import or remove WPIS demo pages from content/html/.',
+		'shortdesc' => 'Import or remove manifest pages from content/html/ (same as Appearance → WPIS import).',
 		'synopsis'  => array(
 			array(
 				'type'        => 'positional',

@@ -12,21 +12,9 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"className":"is-style-wpis-hero-stats","layout":{"type":"default"}} -->
-<!-- wp:paragraph -->
-<p><strong>2,847</strong>quotes collected</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p><strong>12</strong>platforms sourced</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p><strong>6</strong>languages</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p><strong>47</strong>pending moderation</p>
-<!-- /wp:paragraph -->
+<!-- wp:shortcode -->
+[wpis_site_stats]
+<!-- /wp:shortcode -->
 <!-- /wp:group -->
 <!-- /wp:group -->
 <!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1320px"}} -->
@@ -42,7 +30,7 @@
 <!-- /wp:post-template -->
 <!-- wp:query-no-results -->
 <!-- wp:paragraph {"className":"is-style-wpis-no-results","style":{"spacing":{"padding":{"top":"32px","bottom":"32px"}}}} -->
-<p class="is-style-wpis-no-results">No quotes yet. Add published quotes or run <code>wp wpis-seed import</code>.</p>
+<p class="is-style-wpis-no-results">No quotes yet. Add published quotes or run <code>wp wpis seed_starter</code> (or <code>wp wpis seed_demo</code> for flagged demo data).</p>
 <!-- /wp:paragraph -->
 <!-- /wp:query-no-results -->
 <!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center","flexWrap":"wrap"}} -->

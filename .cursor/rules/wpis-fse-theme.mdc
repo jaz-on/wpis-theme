@@ -6,7 +6,7 @@ globs: packages/wpis-theme/**
 # WPIS FSE theme rules
 
 - **Single source for seeded page HTML**: `content/html/*.html` only (paths relative to this theme). Register screen patterns from those files in `inc/register-patterns.php` (or load via `wpis_theme_get_content_html()` in pattern PHP), not a second full copy. Small insertable patterns may live in `patterns/*.php`.
-- **No seed on `after_switch_theme`**: Demo pages and reading settings apply only when the operator runs **`wp wpis-seed import`** or uses **Appearance → Import demo** (see `README.md`, `inc/wpis-cli-seed.php`, `inc/admin-seed.php`). Default import **overwrites** manifest page bodies from `content/html/` unless `--no-sync`. **Navigation** is FSE-only (`core/navigation` + `navigation-link` in `parts/header.html`); do not add `register_nav_menus` unless the product asks.
+- **No seed on `after_switch_theme`**: Manifest pages and reading settings apply only when the operator runs **`wp wpis-seed import`** or uses **Appearance → WPIS import** (see `README.md`, `inc/wpis-cli-seed.php`, `inc/admin-seed.php`). Default import **overwrites** manifest page bodies from `content/html/` unless `--no-sync`. **Navigation** is FSE-only (`core/navigation` + `navigation-link` in `parts/header.html`); do not add `register_nav_menus` unless the product asks.
 - **Theme vs plugin**: Quote data, submissions, REST, and CPT logic belong in **wpis-plugin**, not the theme.
 - **Site CSS**: `assets/css/wpis-global.css` plus `theme.json`; `assets/js/theme-toggle.js` for `data-theme`.
 - **English UI copy**: follow workspace `.cursor/rules/no-oxford-comma-english.mdc`.

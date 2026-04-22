@@ -1,6 +1,6 @@
 <?php
 /**
- * Demo content: manifest pages and reading (WP-CLI `wp wpis-seed` or Appearance → Import demo only).
+ * Manifest pages and reading (WP-CLI `wp wpis-seed` or Appearance → WPIS import only).
  *
  * @package WPIS
  */

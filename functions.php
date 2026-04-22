@@ -484,6 +484,14 @@ function wpis_theme_enqueue_assets() {
 			(string) filemtime( $js_path ),
 			true
 		);
+		$wpis_api = function_exists( 'rest_url' ) ? rest_url( 'wpis/v1/' ) : '';
+		if ( is_string( $wpis_api ) && '' !== $wpis_api ) {
+			wp_localize_script(
+				'wpis-theme-toggle',
+				'wpisTheme',
+				array( 'restUrl' => $wpis_api )
+			);
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', 'wpis_theme_enqueue_assets' );

@@ -270,7 +270,14 @@ body {
 	color: var(--muted);
 	margin-bottom: 16px;
 }
-.is-style-wpis-tax-grid.wp-block-group > .wp-block-group__inner-container {
+.is-style-wpis-tax-grid.wp-block-group > .wp-block-group__inner-container,
+.is-style-wpis-tax-grid.wp-block-group:has(> .is-style-wpis-tax-card) {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 12px;
+}
+/* Shortcode output lives inside .wp-block-shortcode; card groups are not direct children of the shell group */
+.is-style-wpis-tax-grid .wp-block-shortcode {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 12px;
@@ -353,7 +360,13 @@ body {
 .is-style-wpis-tax-card .wpis-tax-breakdown .wpis-dot.mix { background: var(--mixed); }
 .is-style-wpis-tax-card .wpis-tax-breakdown .wpis-dot.neu { background: var(--muted); }
 
-.is-style-wpis-platform-grid.wp-block-group > .wp-block-group__inner-container {
+.is-style-wpis-platform-grid.wp-block-group > .wp-block-group__inner-container,
+.is-style-wpis-platform-grid.wp-block-group:has(> .is-style-wpis-platform-card) {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+}
+.is-style-wpis-platform-grid .wp-block-shortcode {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 10px;
@@ -631,7 +644,8 @@ body {
 	padding-top: 20px;
 	border-top: 1px dashed var(--muted);
 }
-.is-style-wpis-hero-stats.wp-block-group > .wp-block-group__inner-container {
+.is-style-wpis-hero-stats.wp-block-group > .wp-block-group__inner-container,
+.is-style-wpis-hero-stats .wpis-hero-stats-inner {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 20px;
@@ -790,7 +804,8 @@ p.is-style-wpis-count-badge { display: inline-block; margin: 0; }
   .is-style-wpis-hero-stats.wp-block-group {
     padding-top: 28px;
   }
-  .is-style-wpis-hero-stats.wp-block-group > .wp-block-group__inner-container {
+  .is-style-wpis-hero-stats.wp-block-group > .wp-block-group__inner-container,
+  .is-style-wpis-hero-stats .wpis-hero-stats-inner {
     display: flex;
     gap: 48px;
     font-size: 12px;
@@ -807,10 +822,14 @@ p.is-style-wpis-count-badge { display: inline-block; margin: 0; }
   .wpis-subcat-nav { padding: 20px 32px; max-width: var(--wp--style--global--wide-size); margin: 0 auto; }
   .wpis-subcat-chip { padding: 8px 14px; font-size: 11px; }
   .wpis-subcat-label { padding: 20px 32px 0; max-width: var(--wp--style--global--wide-size); margin: 0 auto; font-size: 11px; }
-  .is-style-wpis-tax-grid.wp-block-group > .wp-block-group__inner-container { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .is-style-wpis-tax-grid.wp-block-group > .wp-block-group__inner-container,
+  .is-style-wpis-tax-grid.wp-block-group:has(> .is-style-wpis-tax-card),
+  .is-style-wpis-tax-grid .wp-block-shortcode { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .is-style-wpis-tax-card { padding: 24px; }
   .is-style-wpis-tax-card h3 { font-size: 24px; }
-  .is-style-wpis-platform-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .is-style-wpis-platform-grid.wp-block-group > .wp-block-group__inner-container,
+  .is-style-wpis-platform-grid.wp-block-group:has(> .is-style-wpis-platform-card),
+  .is-style-wpis-platform-grid .wp-block-shortcode { grid-template-columns: repeat(4, 1fr); gap: 12px; }
 }
 
 @media (hover: hover) {
