@@ -7,23 +7,25 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
 - WordPress **6.9+**
 - PHP **8.2+**
 - The **WordPress Is… Core** plugin (`wpis-plugin`) when you wire dynamic quotes, submissions and REST. The theme runs standalone for static screen content until the plugin is connected.
-- **Relevanssi** (optional) replaces default site search; see the plugin’s [RELEVANSSI.md](https://github.com/jaz-on/wpis-plugin/blob/main/docs/RELEVANSSI.md) for indexing **quote** and how it interacts with `search.html`.
+- **Relevanssi** (optional) for enhanced site search; see the [Relevanssi plugin page](https://wordpress.org/plugins/relevanssi/) if you use it.
 
 ## WordPress metadata
 
 - `**style.css`** headers are what the theme installer uses (including `**Requires PHP`**). Keep them in sync with your host.
 - `**readme.txt`** follows the WordPress theme readme format (documentation; some tools read `**Requires PHP`** here too).
-- **Fonts** live under `assets/fonts/` (Fraunces + JetBrains Mono, OFL). Declared in `theme.json` (`fontFace`). No Google Fonts CDN. See `assets/fonts/README.txt` to refresh files via npm/fontsource on a dev machine.
+- **Fonts** live under `assets/fonts/` (Fraunces + JetBrains Mono, OFL). Declared in `theme.json` (`fontFace`). No Google Fonts CDN.
 
 ## Installation
 
 1. Clone or copy this repository into:
-  ```text
+
+   ```text
    wp-content/themes/wpis-theme/
-  ```
+   ```
+
 2. Activate **WPIS Theme** under **Appearance → Themes**.
+
 3. **Demo pages are not created on activation** (same idea as Twenty Twenty). **In the admin:** go to **Appearance → Import demo** and use **Import demo pages** (or **Remove demo pages** / **Reset demo**). With **WP-CLI**: **`wp wpis-seed import`** (overwrites existing demo page bodies from files by default; use `--no-sync` to skip), **`wp wpis-seed clean`** (`--force` to delete permanently), or **`wp wpis-seed reset`** (clean then import). This sets **Reading** to static **Home** unless you uncheck the box in the admin or pass **`--no-reading`** in the CLI. **Navigation** is edited in **Appearance → Editor** (Header template part); there is no classic menu location.
-4. Operator notes and checklists: **[contribution/README.md](../contribution/README.md)**. Architecture contract: **[docs/wpis-fse-architecture.md](../docs/wpis-fse-architecture.md)**.
 
 ## Updates with Git Updater
 
@@ -36,11 +38,11 @@ Bump the `**Version:`** field in `style.css` when you ship changes you want site
 
 ## Development
 
-No Node build step is required for the theme on the server. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-global.css`. Optional: use npm only to refresh font files (see `assets/fonts/README.txt`).
-
-**FSE migration checklist** (tokens, URLs): see [docs/wpis-fse-migration-baseline.md](../docs/wpis-fse-migration-baseline.md) in the mono-repo, or copy that doc beside this theme if you use a single-theme repo.
+No Node build step is required for the theme on the server. Front-end behaviour uses `assets/js/theme-toggle.js` and `assets/css/wpis-global.css`.
 
 **Demo import:** `wp wpis-seed help` (requires [WP-CLI](https://wp-cli.org/) with this theme active).
+
+Internal architecture notes and Cursor rules are kept **outside** this repository (for example a local `.doc/` or `.cursor/` folder on your machine).
 
 ## License
 

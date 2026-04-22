@@ -20,7 +20,6 @@ For the full data layer (custom post types, REST and submissions) pair with the 
 1. Upload or deploy the theme folder as `wp-content/themes/wpis-theme/`.
 2. Activate under **Appearance → Themes**.
 3. Demo content is optional: use **Appearance → Import demo** in the admin, or run `wp wpis-seed import` to create or refresh pages from `content/html/` and set static front page to Home. Use `wp wpis-seed clean` or `reset` to remove or replace demo pages. The theme does not write pages on activation. Edit the header Navigation under **Appearance → Editor** (FSE); classic **Appearance → Menus** is not used.
-4. See repo `contribution/README.md` and `docs/wpis-fse-architecture.md` for the full contract.
 
 == Changelog ==
 

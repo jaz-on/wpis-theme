@@ -6,3 +6,7 @@ vendor/
 *.log
 npm-debug.log*
 yarn-error.log*
+
+# Local maintainer / AI notes (not part of the deployable tree)
+.doc/
+.cursor/
