@@ -1077,11 +1077,14 @@ article.wpis-quote-card.hidden, article.wpis-quote-card.hidden-batch { display: 
 .wpis-spread-item .big-num { font-family: var(--wp--preset--font-family--fraunces); font-size: 28px; font-weight: 600; line-height: 1; font-variation-settings: "opsz" 144; display: block; margin-bottom: 4px; }
 .wpis-spread-item .small-label { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .wpis-variants-compact { margin-top: 32px; }
-.wpis-variant-line { padding: 12px 0; border-bottom: 1px dashed var(--muted); display: flex; flex-direction: column; gap: 4px; }
+.wpis-variant-line { padding: 12px 0; border-bottom: 1px dashed var(--muted); display: flex; flex-direction: column; gap: 4px; color: var(--ink); text-decoration: none; }
 .wpis-variant-line:last-child { border-bottom: none; }
+.wpis-variant-line:hover { color: var(--accent); }
+.wpis-variant-line:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .wpis-variant-line .v-text { font-family: var(--wp--preset--font-family--fraunces); font-size: 15px; line-height: 1.4; margin: 0; }
 .wpis-variant-line .v-text em { font-style: italic; color: var(--accent); }
 .wpis-variant-line .v-meta { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0; }
+.wpis-variant-line:hover .v-meta { color: var(--accent); }
 .wpis-editorial-note { margin-top: 40px; padding: 24px 20px; background: var(--accent-soft); border-left: 3px solid var(--accent); }
 .wpis-editorial-note .note-label { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin: 0 0 12px; }
 .wpis-editorial-note p { font-size: 15px; line-height: 1.55; margin: 0; }
