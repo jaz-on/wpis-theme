@@ -66,6 +66,11 @@ function wpis_theme_get_screen_pattern_definitions(): array {
 			'file'  => 'about.html',
 		),
 		array(
+			'slug'  => 'privacy-body',
+			'title' => __( 'Privacy (page body)', 'wpis-theme' ),
+			'file'  => 'privacy.html',
+		),
+		array(
 			'slug'  => 'confirm-body',
 			'title' => __( 'Submitted (page body)', 'wpis-theme' ),
 			'file'  => 'submitted.html',

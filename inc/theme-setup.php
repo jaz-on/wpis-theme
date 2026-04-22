@@ -65,6 +65,12 @@ function wpis_theme_setup_get_manifest() {
 			'file'        => 'how-it-works.html',
 		),
 		array(
+			'slug'        => 'privacy',
+			'title'       => 'Privacy',
+			'parent_slug' => '',
+			'file'        => 'privacy.html',
+		),
+		array(
 			'slug'        => 'submit',
 			'title'       => 'Submit',
 			'parent_slug' => '',

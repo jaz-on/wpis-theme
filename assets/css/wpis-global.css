@@ -8,12 +8,12 @@
  * header/footer layout, wide max-width (--wp--style--global--wide-size),
  * Demo / seed HTML: wpis-*, is-style-wpis-*, :has() selectors,
  * is-style-wpis-footer-trademark: system font. theme-toggle.js pairs with :root[data-theme] and .wpis-theme-toggle.
- * Submit form markup comes from WordPress Is… Core (wpis-core) shortcode [wpis_submit_form] (styled under .form-group / .btn-primary).
+ * Submit form and profile list markup from wpis-core shortcodes (for example [wpis_submit_form], [wpis_profile]).
  *
  * Why a long file: many small concerns in one place until more moves into theme.json — semantic
  * aliases + dark mode, skip-link, header/footer layout, demo/seed class hooks, :has() layouts,
  * block style helpers (is-style-wpis-*), shortcode form styling. Trim by migrating tokens and
- * block styles to theme.json and deleting unused legacy rules (for example .nav-bar / .screen).
+ * block styles to theme.json and dropping rules that no longer match shipped patterns.
  */
 
 html {
