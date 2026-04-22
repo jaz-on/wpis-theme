@@ -377,6 +377,7 @@ body {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 12px;
+	align-items: stretch;
 }
 /* Shortcode output lives inside .wp-block-shortcode; card groups are not direct children of the shell group */
 .is-style-wpis-tax-grid .wp-block-shortcode {
@@ -388,7 +389,10 @@ body {
 	border: 1px solid var(--line);
 	background: var(--paper);
 	color: var(--ink);
-	display: block;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	box-sizing: border-box;
 	transition: border-color 0.15s;
 }
 .is-style-wpis-tax-card:hover { border-color: var(--accent); }
@@ -423,6 +427,7 @@ body {
 .is-style-wpis-tax-card .is-style-wpis-tax-desc { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 0 0 14px; }
 /* Sentiment strip: core/columns + empty groups (explore cards) */
 .is-style-wpis-tax-card .wpis-tax-bar-columns.wp-block-columns {
+	margin-top: auto;
 	margin-bottom: 8px;
 	border: 1px solid var(--line);
 	overflow: hidden;
@@ -467,6 +472,7 @@ body {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: 10px;
+	align-items: stretch;
 }
 .is-style-wpis-platform-grid .wp-block-shortcode {
 	display: contents;
@@ -480,6 +486,8 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
+	height: 100%;
+	box-sizing: border-box;
 	transition: border-color 0.15s;
 }
 .is-style-wpis-platform-card:hover { border-color: var(--accent); }
