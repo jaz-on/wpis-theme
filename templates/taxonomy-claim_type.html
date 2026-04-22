@@ -2,21 +2,36 @@
 
 <!-- wp:group {"tagName":"main","metadata":{"name":"Main"},"anchor":"wpis-main","layout":{"type":"constrained"}} -->
 <!-- wp:group {"className":"is-style-wpis-tax-hero","layout":{"type":"constrained","contentSize":"900px"}} -->
+<!-- wp:paragraph {"className":"is-style-wpis-eyebrow"} -->
+<p class="is-style-wpis-eyebrow">Claim type</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:query-title /-->
 
 <!-- wp:term-description /-->
 <!-- /wp:group -->
 
-<!-- wp:query {"queryId":1,"query":{"perPage":10,"pages":0,"offset":0,"postType":"quote","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
+<!-- wp:shortcode -->
+[wpis_subcat_nav taxonomy="claim_type"]
+<!-- /wp:shortcode -->
+
+<!-- wp:group {"className":"is-style-wpis-feed","layout":{"type":"constrained","contentSize":"1320px"}} -->
+<!-- wp:query {"queryId":1,"query":{"perPage":40,"pages":0,"offset":0,"postType":"quote","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
 <!-- wp:post-template -->
 <!-- wp:template-part {"slug":"quote-feed-card","tagName":"article"} /-->
 <!-- /wp:post-template -->
+<!-- wp:query-no-results -->
+<!-- wp:paragraph {"className":"is-style-wpis-no-results"} -->
+<p class="is-style-wpis-no-results">No quotes yet for this claim type.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results -->
 <!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
 <!-- wp:query-pagination-previous /-->
 
 <!-- wp:query-pagination-next /-->
 <!-- /wp:query-pagination -->
 <!-- /wp:query -->
+<!-- /wp:group -->
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
