@@ -443,7 +443,7 @@ function wpis_theme_render_manifest_import_block( $action_url, $enabled ) {
 					<?php esc_html_e( 'Set static front page to Home (off = wpis-seed import --no-reading)', 'wpis-theme' ); ?>
 				</label>
 			</p>
-			<?php submit_button( __( 'Import pages', 'wpis-theme' ), 'secondary', 'submit', false, array( 'disabled' => ! $enabled ) ); ?>
+			<?php submit_button( __( 'Import pages', 'wpis-theme' ), 'secondary', 'submit', false, $enabled ? array() : array( 'disabled' => 'disabled' ) ); ?>
 		</fieldset>
 	</form>
 	<?php
@@ -472,7 +472,7 @@ function wpis_theme_render_manifest_remove_block( $action_url, $enabled ) {
 					<?php esc_html_e( 'Delete permanently: wpis-seed clean --force', 'wpis-theme' ); ?>
 				</label>
 			</p>
-			<?php submit_button( __( 'Remove pages', 'wpis-theme' ), 'delete', 'submit', false, array( 'disabled' => ! $enabled ) ); ?>
+			<?php submit_button( __( 'Remove pages', 'wpis-theme' ), 'delete', 'submit', false, $enabled ? array() : array( 'disabled' => 'disabled' ) ); ?>
 		</fieldset>
 	</form>
 	<?php
@@ -513,7 +513,7 @@ function wpis_theme_render_manifest_reset_block( $action_url, $enabled ) {
 					<?php esc_html_e( 'Set static front page to Home (off = --no-reading after import)', 'wpis-theme' ); ?>
 				</label>
 			</p>
-			<?php submit_button( __( 'Run reset', 'wpis-theme' ), 'primary', 'submit', false, array( 'disabled' => ! $enabled ) ); ?>
+			<?php submit_button( __( 'Run reset', 'wpis-theme' ), 'primary', 'submit', false, $enabled ? array() : array( 'disabled' => 'disabled' ) ); ?>
 		</fieldset>
 	</form>
 	<?php
@@ -607,15 +607,16 @@ function wpis_theme_render_quotes_block( $action_url, $enabled, $section ) {
 					<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
 					<input type="hidden" name="wpis_seed_action" value="<?php echo esc_attr( $btn['action'] ); ?>" />
 					<?php
+					$btn_attrs = array( 'style' => 'vertical-align: middle;' );
+					if ( ! $enabled ) {
+						$btn_attrs['disabled'] = 'disabled';
+					}
 					submit_button(
 						$btn['label'],
 						$btn['style'],
 						'submit',
 						false,
-						array(
-							'disabled' => ! $enabled,
-							'style'    => 'vertical-align: middle;',
-						)
+						$btn_attrs
 					);
 					?>
 				</form>
