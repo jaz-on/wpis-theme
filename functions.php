@@ -185,15 +185,8 @@ function wpis_theme_register_block_styles() {
 	register_block_style(
 		'core/group',
 		array(
-			'name'  => 'wpis-header-band',
-			'label' => __( 'WPIS header band', 'wpis-theme' ),
-		)
-	);
-	register_block_style(
-		'core/group',
-		array(
 			'name'  => 'wpis-header',
-			'label' => __( 'WPIS site header row', 'wpis-theme' ),
+			'label' => __( 'WPIS site header', 'wpis-theme' ),
 		)
 	);
 	register_block_style(

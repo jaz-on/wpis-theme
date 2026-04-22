@@ -115,20 +115,16 @@ body {
 .is-style-wpis-header-utils .wp-block-button.is-style-wpis-header-theme-toggle .wp-block-button__link { min-height: auto; padding: 2px 8px; font-size: 13px; line-height: 1.4; border: 1px solid var(--muted); background: transparent; color: var(--muted); text-decoration: none; }
 .is-style-wpis-header-utils .wp-block-button.is-style-wpis-header-theme-toggle .wp-block-button__link:hover { color: var(--ink); border-color: var(--ink); }
 
-/* Header: full-bleed band + constrained inner row (wide width from theme.json layout.wideSize) */
-.is-style-wpis-header-band.wp-block-group {
-	width: 100%;
-	box-sizing: border-box;
-}
-.is-style-wpis-header-band .is-style-wpis-header.wp-block-group {
-	align-items: flex-start;
+/* Header: one centered shell (wide width) matching mockup .site-header */
+.is-style-wpis-header.wp-block-group {
 	width: 100%;
 	max-width: var(--wp--style--global--wide-size);
 	margin-left: auto;
 	margin-right: auto;
-	padding-left: clamp(1.25rem, 4vw, 2rem);
-	padding-right: clamp(1.25rem, 4vw, 2rem);
 	box-sizing: border-box;
+}
+.is-style-wpis-header.wp-block-group.is-layout-flex {
+	align-items: stretch;
 }
 .is-style-wpis-header .site-title,
 .is-style-wpis-header .is-style-wpis-header-site-title { align-self: center; margin: 0; }
@@ -145,22 +141,28 @@ body {
 .is-style-wpis-header-right .wp-block-navigation { width: 100%; }
 .is-style-wpis-header-right .wp-block-navigation__responsive-container-content { justify-content: flex-end; }
 .is-style-wpis-header-right .wp-block-navigation__container,
-.is-style-wpis-header-right .wp-block-page-list { justify-content: flex-end; flex-wrap: wrap; }
+.is-style-wpis-header-right .wp-block-page-list {
+	gap: 0.875rem;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+}
 
+/* Footer: block shell mirrors mockup .site-footer (max width, centered) */
 .is-style-wpis-site-footer.wp-block-group {
 	width: 100%;
 	max-width: var(--wp--style--global--wide-size);
 	margin-left: auto;
 	margin-right: auto;
-	padding-left: clamp(1.25rem, 4vw, 2rem);
-	padding-right: clamp(1.25rem, 4vw, 2rem);
 	box-sizing: border-box;
-	align-items: stretch;
 }
-.is-style-wpis-site-footer > .wp-block-group {
-	width: 100%;
-	align-self: stretch;
-	box-sizing: border-box;
+.is-style-wpis-site-footer a {
+	color: var(--muted);
+	text-decoration: none;
+	border-bottom: 1px dotted var(--muted);
+}
+.is-style-wpis-site-footer a:hover {
+	color: var(--ink);
+	border-bottom-color: var(--ink);
 }
 
 .wp-block-navigation .wp-block-navigation-item__content { color: var(--ink); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; white-space: nowrap; }
@@ -172,10 +174,9 @@ body {
 
 .is-style-wpis-footer-top {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: flex-start;
-	gap: 1rem 2rem;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0.5rem 2rem;
 	flex-wrap: wrap;
 	width: 100%;
 	box-sizing: border-box;
@@ -183,7 +184,7 @@ body {
 	font-family: var(--wp--preset--font-family--jetbrains-mono);
 	font-size: 0.625rem;
 	letter-spacing: 0.08em;
-	padding-bottom: 1.25rem;
+	padding-bottom: 0;
 	margin-bottom: 0;
 	border-bottom: 1px solid var(--line);
 	color: var(--ink);
@@ -196,24 +197,26 @@ body {
 }
 .is-style-wpis-footer-top-right {
 	flex: 0 0 auto;
-	text-align: right;
+	text-align: left;
 }
 .is-style-wpis-footer-top a {
-	color: inherit;
-	text-decoration: underline;
-	text-decoration-thickness: 1px;
-	text-underline-offset: 0.18em;
+	color: var(--muted);
+	text-decoration: none;
+	border-bottom: 1px dotted var(--muted);
 }
 .is-style-wpis-footer-top a:hover {
 	color: var(--accent);
+	border-bottom-color: var(--accent);
 }
-@media (max-width: 559px) {
+@media (min-width: 760px) {
 	.is-style-wpis-footer-top {
-		flex-direction: column;
-		align-items: stretch;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1rem 2rem;
 	}
 	.is-style-wpis-footer-top-right {
-		text-align: left;
+		text-align: right;
 	}
 }
 .is-style-wpis-footer-trademark {
@@ -223,9 +226,9 @@ body {
   text-transform: none;
   letter-spacing: 0.01em;
   font-weight: 400;
-  padding-top: 1.25rem;
+  padding-top: 0.5rem;
   margin-top: 0;
-  border-top: none;
+  border-top: 1px dotted var(--line);
   color: var(--muted);
   width: 100%;
   max-width: none;
@@ -734,9 +737,11 @@ a.is-style-wpis-quote-card, a.wpis-quote-card:focus-visible { outline: 2px solid
 @media (min-width: 760px) {
   .site-title,
   .is-style-wpis-header-site-title a { font-size: 22px; }
-  .is-style-wpis-header-band .is-style-wpis-header.wp-block-group {
+  .is-style-wpis-header.wp-block-group {
     padding-top: 1.125rem;
     padding-bottom: 1.125rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
   .is-style-wpis-header-right .wp-block-navigation__container,
   .is-style-wpis-header-right .wp-block-page-list {
