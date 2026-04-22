@@ -116,12 +116,9 @@ function wpis_theme_handle_seed_admin_post() {
 				admin_url( 'themes.php' )
 			);
 			break;
-		case 'quote_seed_starter':
-		case 'quote_erase_starter':
-		case 'quote_reset_starter':
-		case 'quote_seed_demo':
-		case 'quote_erase_demo':
-		case 'quote_reset_demo':
+		case 'quote_seed_sample':
+		case 'quote_erase_sample':
+		case 'quote_reset_sample':
 			$redirect = wpis_theme_handle_quote_seed_action( $action );
 			break;
 		default:
@@ -134,21 +131,20 @@ function wpis_theme_handle_seed_admin_post() {
 add_action( 'load-appearance_page_' . WPIS_THEME_IMPORT_PAGE, 'wpis_theme_handle_seed_admin_post' );
 
 /**
- * Dispatch starter/demo sample quote actions to the wpis-core seeder classes.
+ * Dispatch sample quote actions to wpis-core SampleQuoteSeeder.
  *
  * Returns the URL to redirect to with the appropriate notice flag. Falls back
- * to a plugin_inactive notice when the seeders are not loaded.
+ * to a plugin_inactive notice when the seeder is not loaded.
  *
- * @param string $action One of quote_seed_starter, quote_erase_starter, quote_seed_demo, quote_erase_demo.
+ * @param string $action One of quote_seed_sample, quote_erase_sample, quote_reset_sample.
  * @return string Admin URL with query args.
  */
 function wpis_theme_handle_quote_seed_action( $action ) {
 	$base = admin_url( 'themes.php' );
 	$args = array( 'page' => WPIS_THEME_IMPORT_PAGE );
 
-	$starter = '\WPIS\Core\CLI\StarterSeeder';
-	$demo    = '\WPIS\Core\CLI\DemoSeeder';
-	if ( ! class_exists( $starter ) || ! class_exists( $demo ) ) {
+	$seeder = '\WPIS\Core\CLI\SampleQuoteSeeder';
+	if ( ! class_exists( $seeder ) ) {
 		$args['wpismsg'] = 'plugin_inactive';
 		return add_query_arg( $args, $base );
 	}
@@ -156,31 +152,18 @@ function wpis_theme_handle_quote_seed_action( $action ) {
 	$count = 0;
 	$msg   = '';
 	switch ( $action ) {
-		case 'quote_seed_starter':
-			$count = (int) call_user_func( array( $starter, 'seed' ) );
-			$msg   = 'starter_seeded';
+		case 'quote_seed_sample':
+			$count = (int) call_user_func( array( $seeder, 'seed' ) );
+			$msg   = 'sample_seeded';
 			break;
-		case 'quote_erase_starter':
-			$count = (int) call_user_func( array( $starter, 'erase' ) );
-			$msg   = 'starter_erased';
+		case 'quote_erase_sample':
+			$count = (int) call_user_func( array( $seeder, 'erase' ) );
+			$msg   = 'sample_erased';
 			break;
-		case 'quote_reset_starter':
-			call_user_func( array( $starter, 'erase' ) );
-			$count = (int) call_user_func( array( $starter, 'seed' ) );
-			$msg   = 'starter_reset';
-			break;
-		case 'quote_seed_demo':
-			$count = (int) call_user_func( array( $demo, 'seed' ) );
-			$msg   = 'demo_seeded';
-			break;
-		case 'quote_erase_demo':
-			$count = (int) call_user_func( array( $demo, 'erase' ) );
-			$msg   = 'demo_erased';
-			break;
-		case 'quote_reset_demo':
-			call_user_func( array( $demo, 'erase' ) );
-			$count = (int) call_user_func( array( $demo, 'seed' ) );
-			$msg   = 'demo_reset';
+		case 'quote_reset_sample':
+			call_user_func( array( $seeder, 'erase' ) );
+			$count = (int) call_user_func( array( $seeder, 'seed' ) );
+			$msg   = 'sample_reset';
 			break;
 	}
 
@@ -214,40 +197,22 @@ function wpis_theme_admin_seed_notices() {
 	$text = '';
 	if ( 'plugin_inactive' === $msg ) {
 		$text = __( 'The WordPress Is… Core plugin (wpis-core) must be active to manage sample quotes.', 'wpis-theme' );
-	} elseif ( 'starter_seeded' === $msg ) {
+	} elseif ( 'sample_seeded' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of quotes */
-			_n( 'Imported %d starter quote (unflagged sample set).', 'Imported %d starter quotes (unflagged sample set).', $count, 'wpis-theme' ),
+			_n( 'Imported %d sample quote.', 'Imported %d sample quotes.', $count, 'wpis-theme' ),
 			$count
 		);
-	} elseif ( 'demo_seeded' === $msg ) {
-		$text = sprintf(
-			/* translators: %d: number of quotes */
-			_n( 'Imported %d demo quote (flagged for removal with wp wpis seed_demo --erase or the button below).', 'Imported %d demo quotes (flagged for removal with wp wpis seed_demo --erase or the button below).', $count, 'wpis-theme' ),
-			$count
-		);
-	} elseif ( 'starter_erased' === $msg ) {
+	} elseif ( 'sample_erased' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of quotes removed */
-			_n( 'Removed %d starter quote.', 'Removed %d starter quotes.', $count, 'wpis-theme' ),
+			_n( 'Removed %d sample quote.', 'Removed %d sample quotes.', $count, 'wpis-theme' ),
 			$count
 		);
-	} elseif ( 'demo_erased' === $msg ) {
-		$text = sprintf(
-			/* translators: %d: number of quotes removed */
-			_n( 'Removed %d demo quote.', 'Removed %d demo quotes.', $count, 'wpis-theme' ),
-			$count
-		);
-	} elseif ( 'starter_reset' === $msg ) {
+	} elseif ( 'sample_reset' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of quotes re-imported */
-			_n( 'Reset starter quotes: re-imported %d quote.', 'Reset starter quotes: re-imported %d quotes.', $count, 'wpis-theme' ),
-			$count
-		);
-	} elseif ( 'demo_reset' === $msg ) {
-		$text = sprintf(
-			/* translators: %d: number of quotes re-imported */
-			_n( 'Reset demo quotes: re-imported %d quote.', 'Reset demo quotes: re-imported %d quotes.', $count, 'wpis-theme' ),
+			_n( 'Reset sample quotes: re-imported %d quote.', 'Reset sample quotes: re-imported %d quotes.', $count, 'wpis-theme' ),
 			$count
 		);
 	} elseif ( 'imported' === $msg ) {
@@ -296,7 +261,7 @@ function wpis_theme_render_seed_admin_page() {
 
 	$theme_active     = function_exists( 'wpis_theme_setup_run' );
 	$core_installed   = wpis_theme_is_core_plugin_installed();
-	$core_active      = class_exists( '\WPIS\Core\CLI\StarterSeeder' ) && class_exists( '\WPIS\Core\CLI\DemoSeeder' );
+	$core_active      = class_exists( '\WPIS\Core\CLI\SampleQuoteSeeder' );
 	$core_status_note = wpis_theme_core_plugin_status_note( $core_installed, $core_active );
 	$action_url       = wpis_theme_import_admin_url();
 	?>
@@ -306,7 +271,7 @@ function wpis_theme_render_seed_admin_page() {
 			<?php esc_html_e( 'Manage WPIS content from one place. Each section below groups actions that work the same way (import, remove, reset) whether they come from the theme (manifest pages under content/html/) or the Core plugin (sample quotes). Blocks are greyed out when the matching package is not active.', 'wpis-theme' ); ?>
 		</p>
 		<p class="description">
-			<?php esc_html_e( 'CLI parity: wp wpis-seed import|clean|reset for manifest pages; wp wpis seed_starter [--erase], wp wpis seed_demo [--erase] for sample quotes.', 'wpis-theme' ); ?>
+			<?php esc_html_e( 'CLI parity: wp wpis-seed import|clean|reset for manifest pages; wp wpis seed_quotes [--erase] for sample quotes (seed_demo and seed_starter are aliases).', 'wpis-theme' ); ?>
 		</p>
 		<p class="description">
 			<?php esc_html_e( 'The site menu is the Navigation block in the Header template part (Appearance → Editor). This theme does not use classic Appearance → Menus.', 'wpis-theme' ); ?>
@@ -530,53 +495,35 @@ function wpis_theme_render_manifest_reset_block( $action_url, $enabled ) {
 function wpis_theme_render_quotes_block( $action_url, $enabled, $section ) {
 	$definitions = array(
 		'import' => array(
-			'description' => __( 'Same code as: wp wpis seed_starter, wp wpis seed_demo. Starter set is not flagged; demo set uses meta for bulk removal.', 'wpis-theme' ),
+			'description' => __( 'Same as: wp wpis seed_quotes (seed_demo and seed_starter are aliases).', 'wpis-theme' ),
 			'buttons'     => array(
 				array(
-					'action'  => 'quote_seed_starter',
-					'label'   => __( 'Import starter quotes', 'wpis-theme' ),
-					'style'   => 'secondary',
-					'confirm' => '',
-				),
-				array(
-					'action'  => 'quote_seed_demo',
-					'label'   => __( 'Import demo quotes', 'wpis-theme' ),
+					'action'  => 'quote_seed_sample',
+					'label'   => __( 'Import sample quotes', 'wpis-theme' ),
 					'style'   => 'secondary',
 					'confirm' => '',
 				),
 			),
 		),
 		'remove' => array(
-			'description' => __( 'Same code as: wp wpis seed_starter --erase, wp wpis seed_demo --erase.', 'wpis-theme' ),
+			'description' => __( 'Same as: wp wpis seed_quotes --erase. Removes demo-tagged and legacy starter-tagged sample quotes.', 'wpis-theme' ),
 			'buttons'     => array(
 				array(
-					'action'  => 'quote_erase_starter',
-					'label'   => __( 'Remove starter quotes', 'wpis-theme' ),
+					'action'  => 'quote_erase_sample',
+					'label'   => __( 'Remove sample quotes', 'wpis-theme' ),
 					'style'   => 'delete',
-					'confirm' => __( 'Remove all starter-tagged sample quotes? This cannot be undone.', 'wpis-theme' ),
-				),
-				array(
-					'action'  => 'quote_erase_demo',
-					'label'   => __( 'Remove demo quotes', 'wpis-theme' ),
-					'style'   => 'delete',
-					'confirm' => __( 'Remove all demo-tagged sample quotes? This cannot be undone.', 'wpis-theme' ),
+					'confirm' => __( 'Remove all sample quotes created by WPIS import or seed commands? This cannot be undone.', 'wpis-theme' ),
 				),
 			),
 		),
 		'reset'  => array(
-			'description' => __( 'Erase the matching set, then re-import it (equivalent to running --erase followed by the seed command).', 'wpis-theme' ),
+			'description' => __( 'Erase sample quotes, then re-import (same as --erase then seed_quotes).', 'wpis-theme' ),
 			'buttons'     => array(
 				array(
-					'action'  => 'quote_reset_starter',
-					'label'   => __( 'Reset starter quotes', 'wpis-theme' ),
+					'action'  => 'quote_reset_sample',
+					'label'   => __( 'Reset sample quotes', 'wpis-theme' ),
 					'style'   => 'primary',
-					'confirm' => __( 'Erase then re-import starter sample quotes. Continue?', 'wpis-theme' ),
-				),
-				array(
-					'action'  => 'quote_reset_demo',
-					'label'   => __( 'Reset demo quotes', 'wpis-theme' ),
-					'style'   => 'primary',
-					'confirm' => __( 'Erase then re-import demo sample quotes. Continue?', 'wpis-theme' ),
+					'confirm' => __( 'Erase then re-import sample quotes. Continue?', 'wpis-theme' ),
 				),
 			),
 		),
