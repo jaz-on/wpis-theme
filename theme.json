@@ -273,13 +273,6 @@
 								"left": "1.25rem",
 								"right": "1.25rem"
 							}
-						},
-						"border": {
-							"bottom": {
-								"color": "var(--line)",
-								"width": "1px",
-								"style": "solid"
-							}
 						}
 					},
 					"wpis-search": {

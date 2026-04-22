@@ -376,6 +376,7 @@ body {
 .is-style-wpis-tax-grid.wp-block-group:has(> .is-style-wpis-tax-card) {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-auto-rows: 1fr;
 	gap: 12px;
 	align-items: stretch;
 }
@@ -471,6 +472,7 @@ body {
 .is-style-wpis-platform-grid.wp-block-group:has(> .is-style-wpis-platform-card) {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-auto-rows: 1fr;
 	gap: 10px;
 	align-items: stretch;
 }
