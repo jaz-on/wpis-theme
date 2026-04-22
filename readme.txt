@@ -15,6 +15,10 @@ Ships static page shells using core blocks, local fonts and theme patterns.
 
 For the full data layer (custom post types, REST and submissions) pair with the **WordPress Is… Core** plugin (`wpis-core`).
 
+== Screenshots ==
+
+1. Logged-out front page: hero, feed controls and quote list (preview image `screenshot.png`, 1200×900).
+
 == Installation ==
 
 1. Upload or deploy the theme folder as `wp-content/themes/wpis-theme/`.

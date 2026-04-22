@@ -13,6 +13,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
 
 - `**style.css`** headers are what the theme installer uses (including `**Requires PHP`**). Keep them in sync with your host.
 - `**readme.txt`** follows the WordPress theme readme format (documentation; some tools read `**Requires PHP`** here too).
+- `**screenshot.png`** in the theme root is the preview shown under **Appearance → Themes**. WordPress.org recommends **1200×900** pixels (this repo ships that size). The current image is the logged-out home view (nav ends with **Log in**), generated from the workspace mockup in `workspace/meta/wordpress-is-mockup.html` so it matches the product layout without needing a running site. Replace it with a capture from a real WordPress install whenever you want pixel-perfect theme typography (local fonts) and live blocks.
 - **Fonts** live under `assets/fonts/` (Fraunces + JetBrains Mono, OFL). Declared in `theme.json` (`fontFace`). No Google Fonts CDN.
 
 ## Installation
