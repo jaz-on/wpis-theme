@@ -1,6 +1,6 @@
 <?php
 /**
- * Demo content: manifest pages, reading, primary menu (WP-CLI / seed-demo.php only).
+ * Demo content: manifest pages, reading, primary menu (WP-CLI `wp wpis-seed` or Appearance → Import demo only).
  *
  * @package WPIS
  */
@@ -46,30 +46,6 @@ function wpis_theme_setup_run( array $args = array() ): array {
 function wpis_theme_setup_get_manifest() {
 	return array(
 		array(
-			'slug'        => 'taxonomy',
-			'title'       => 'Taxonomy',
-			'parent_slug' => '',
-			'file'        => 'taxonomy.html',
-		),
-		array(
-			'slug'        => 'quote',
-			'title'       => 'Quote',
-			'parent_slug' => '',
-			'file'        => 'quote.html',
-		),
-		array(
-			'slug'        => 'security',
-			'title'       => 'Security',
-			'parent_slug' => 'taxonomy',
-			'file'        => 'security.html',
-		),
-		array(
-			'slug'        => 'sample',
-			'title'       => 'Sample',
-			'parent_slug' => 'quote',
-			'file'        => 'sample.html',
-		),
-		array(
 			'slug'        => 'home',
 			'title'       => 'Home',
 			'parent_slug' => '',
@@ -111,12 +87,6 @@ function wpis_theme_setup_get_manifest() {
 			'parent_slug' => '',
 			'file'        => 'profile.html',
 		),
-		array(
-			'slug'        => 'search-demo',
-			'title'       => 'Search demo',
-			'parent_slug' => '',
-			'file'        => 'search-demo.html',
-		),
 	);
 }
 
@@ -125,7 +95,7 @@ function wpis_theme_setup_get_manifest() {
  *
  * @param string $slug        Page slug.
  * @param string $parent_slug Parent slug or empty.
- * @return string Path like "quote/sample" or "home".
+ * @return string Path like "parent/child" or "home".
  */
 function wpis_theme_setup_page_path( $slug, $parent_slug ) {
 	if ( '' === $parent_slug ) {
@@ -160,6 +130,8 @@ function wpis_theme_setup_html_block_content( $inner ) {
 
 /**
  * Build post_content from a seed file: block markup if the file starts with a block comment, else core/html.
+ *
+ * Manifest files under content/html/ should always be block-first; the core/html branch is a legacy fallback.
  *
  * @param string $raw File contents.
  * @return string

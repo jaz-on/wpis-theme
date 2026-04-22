@@ -1,6 +1,10 @@
 <?php
 /**
- * Register WPIS block patterns that mirror content/html (avoids duplicate pattern PHP files).
+ * Register WPIS block patterns via the native WordPress API (`register_block_pattern`).
+ *
+ * Block themes often ship patterns as `patterns/*.php` **or** register them in PHP: both are
+ * « native ». Here we load the pattern *content* from `content/html/*.html` so screen bodies
+ * stay a single source of truth for the inserter and for `wp wpis-seed` / Import demo.
  *
  * @package WPIS
  */
@@ -23,7 +27,7 @@ function wpis_theme_get_screen_pattern_definitions(): array {
 		),
 		array(
 			'slug'  => 'taxonomy-body',
-			'title' => __( 'Taxonomy (page body)', 'wpis-theme' ),
+			'title' => __( 'Taxonomy archive body (layout demo)', 'wpis-theme' ),
 			'file'  => 'security.html',
 		),
 		array(
@@ -38,7 +42,7 @@ function wpis_theme_get_screen_pattern_definitions(): array {
 		),
 		array(
 			'slug'  => 'search-body',
-			'title' => __( 'Search (page body)', 'wpis-theme' ),
+			'title' => __( 'Search results body (layout demo)', 'wpis-theme' ),
 			'file'  => 'search-demo.html',
 		),
 		array(
@@ -53,7 +57,7 @@ function wpis_theme_get_screen_pattern_definitions(): array {
 		),
 		array(
 			'slug'  => 'detail-body',
-			'title' => __( 'Quote detail (page body)', 'wpis-theme' ),
+			'title' => __( 'Single quote body (layout demo)', 'wpis-theme' ),
 			'file'  => 'sample.html',
 		),
 		array(

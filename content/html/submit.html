@@ -7,29 +7,7 @@
 <p>Paste the text, drop a screenshot or share the link. We'll take care of the rest. No account required.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:html -->
-<form>
-      <div class="form-group">
-        <label>The quote <span class="required">*</span></label>
-        <textarea placeholder="Paste the text here: exactly as it was written, in its original language."></textarea>
-        <div class="hint">→ At least the text OR a screenshot is required.</div>
-      </div>
-      <div class="form-group">
-        <label>Or upload a screenshot</label>
-        <div class="upload-zone">↓ Drag &amp; drop here, or tap to upload</div>
-        <div class="hint">→ We'll extract the text automatically. The image is deleted after validation.</div>
-      </div>
-      <div class="form-group">
-        <label>Source URL (if possible)</label>
-        <input type="url" placeholder="https://…">
-        <div class="hint">→ Helps us detect the platform. Only the domain is stored, never the full URL.</div>
-      </div>
-      <div class="rgpd-notice">
-        <strong>Privacy &amp; data</strong>
-        Screenshots are deleted after text extraction. We never store personal identifiers (names, profile URLs or photos). Only the claim itself, the platform domain and the language are kept. Submissions are moderated before appearing on the site.
-      </div>
-      <button type="button" class="btn-primary" >Submit this quote</button>
-      <span class="queue-indicator">47 submissions currently pending moderation</span>
-    </form>
-<!-- /wp:html -->
+<!-- wp:shortcode -->
+[wpis_submit_form]
+<!-- /wp:shortcode -->
 <!-- /wp:group -->

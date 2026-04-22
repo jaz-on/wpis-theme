@@ -4,12 +4,14 @@
 
 Dans le thème, les occurrences ciblent surtout le **contenu** et quelques en-têtes :
 
-| Zone | Fichiers |
-| ---- | -------- |
-| Filtre central | [functions.php](../functions.php) (`wpis_theme_semantic_colors_in_content` : la map des remplacements) |
-| `content/html` | [submitted.html](../content/html/submitted.html), [empty.html](../content/html/empty.html), [sample.html](../content/html/sample.html) |
-| `parts` | [footer.html](../parts/footer.html) (réduit) |
-| Aucun usage dans d’autres `content/html` au scan courant | about, home (beaucoup de HTML brut sans preset dans les `core/html` statiques) |
+
+| Zone                                                     | Fichiers                                                                                                                               |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Filtre central                                           | [functions.php](../functions.php) (`wpis_theme_semantic_colors_in_content` : la map des remplacements)                                 |
+| `content/html`                                           | [submitted.html](../content/html/submitted.html), [empty.html](../content/html/empty.html), [sample.html](../content/html/sample.html) |
+| `parts`                                                  | [footer.html](../parts/footer.html) (réduit)                                                                                           |
+| Aucun usage dans d’autres `content/html` au scan courant | about, home (beaucoup de HTML brut sans preset dans les `core/html` statiques)                                                         |
+
 
 **Note** : le filtre s’applique au flux filtrant `the_content` (et donc au bloc contenu d’une page, pas à tout le HTML du site). Les feuillettes `theme.json` et `wpis-global.css` utilisent en priorité les **alias** `--ink`, `--bg`, etc. pour le chrome.
 

@@ -1,12 +1,22 @@
 <!-- wp:group {"className":"is-style-wpis-detail","layout":{"type":"constrained","contentSize":"900px"}} -->
 <!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em","lineHeight":"1.6"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
-<p><a href="/">Feed</a> <span style="margin:0 6px">/</span> <a href="/claim/security/">Security</a> <span style="margin:0 6px">/</span> This quote</p>
+<p><a href="/">Feed</a> / <a href="/claim/security/">Security</a> / This quote</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.625rem","margin":{"bottom":"1.25rem"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em"}}} -->
-<p><span style="border:1px solid var(--ink);padding:3px 8px;font-weight:500">Security</span> <span style="color:var(--muted)">·</span> <span style="color:var(--muted)">Submitted 24 times since March 2026</span></p>
+<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.5rem"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em","fontWeight":"500"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"3px","bottom":"3px","left":"8px","right":"8px"},"margin":{"top":"0","bottom":"0"}}}} -->
+<p>Security</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p>·</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p>Submitted 24 times since March 2026</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
 <!-- /wp:group -->
 
 <!-- wp:heading {"level":1,"style":{"typography":{"fontSize":"clamp(1.875rem, 9vw, 3.25rem)","fontWeight":"400","lineHeight":"1.12","letterSpacing":"-0.02em"},"spacing":{"margin":{"bottom":"1.25rem"}}}} -->
@@ -23,8 +33,22 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.625rem","margin":{"top":"0.875rem"}}}} -->
-<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"}}} -->
-<p><span style="border:1px solid var(--ink);padding:3px 8px;font-size:10px">Security</span> <span style="background:var(--ink);color:var(--bg);padding:3px 8px">×12</span> Seen on Blog, Mastodon <a href="/claim/security/" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);margin-left:auto">See 3 more opposing views →</a></p>
+<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"0.5rem"}}} -->
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"10px","textTransform":"uppercase","letterSpacing":"0.05em"},"border":{"color":"var(--ink)","width":"1px","style":"solid"},"spacing":{"padding":{"top":"3px","bottom":"3px","left":"8px","right":"8px"},"margin":{"top":"0","bottom":"0"}}}} -->
+<p>Security</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"10px","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"background":"var(--ink)","text":"var(--bg)"},"spacing":{"padding":{"top":"3px","bottom":"3px","left":"8px","right":"8px"},"margin":{"top":"0","bottom":"0"}}}} -->
+<p>×12</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--muted)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p>Seen on Blog, Mastodon</p>
+<!-- /wp:paragraph -->
+<!-- /wp:group -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","fontSize":"0.625rem","textTransform":"uppercase","letterSpacing":"0.05em"},"color":{"text":"var(--accent)"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<p><a href="/claim/security/">See 3 more opposing views →</a></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:group -->
@@ -129,7 +153,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.9375rem","lineHeight":"1.55"}}} -->
-<p>This claim surfaces often and has real basis: the WordPress plugin ecosystem does produce security incidents because anyone can publish plugins with varying code quality. But WordPress core itself is actively audited and security-patched. The distinction matters: criticizing "WordPress" for plugin vulnerabilities is like criticizing a browser for extension malware. <em style="font-style:italic;font-weight:500;color:var(--ink)">Both the criticism and the counter-argument hold: it depends on how you use it.</em></p>
+<p>This claim surfaces often and has real basis: the WordPress plugin ecosystem does produce security incidents because anyone can publish plugins with varying code quality. But WordPress core itself is actively audited and security-patched. The distinction matters: criticizing "WordPress" for plugin vulnerabilities is like criticizing a browser for extension malware. <em>Both the criticism and the counter-argument hold: it depends on how you use it.</em></p>
 <!-- /wp:paragraph -->
 <!-- /wp:group -->
 <!-- /wp:group -->

@@ -2,11 +2,51 @@
 /**
  * Polylang language switcher (header chrome).
  *
- * @package wpis-theme
+ * Compatible with Polylang (free): uses `pll_the_languages()` on the real frontend. That API often
+ * returns an empty list in the Site Editor and other REST contexts; we then fall back to
+ * `pll_languages_list()` + `pll_home_url()` so the control still shows language links in the editor
+ * (home URL per language only in that case — correct translation URLs on the live site).
+ *
+ * @package WPIS
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+/**
+ * Build language rows when `pll_the_languages( raw )` is empty (admin, REST, Site Editor preview).
+ *
+ * @return list<array{slug:string,url:string,current_lang?:bool}>
+ */
+function wpis_theme_polylang_switcher_raw_fallback() {
+	if ( ! function_exists( 'pll_languages_list' ) || ! function_exists( 'pll_home_url' ) ) {
+		return array();
+	}
+
+	$slugs = pll_languages_list( array( 'hide_empty' => 0 ) );
+	if ( ! is_array( $slugs ) || array() === $slugs ) {
+		return array();
+	}
+
+	$current = function_exists( 'pll_current_language' ) ? pll_current_language( 'slug' ) : '';
+	$rows    = array();
+
+	foreach ( $slugs as $slug ) {
+		if ( is_array( $slug ) && isset( $slug['slug'] ) ) {
+			$slug = (string) $slug['slug'];
+		}
+		if ( ! is_string( $slug ) || '' === $slug ) {
+			continue;
+		}
+		$rows[] = array(
+			'slug'         => $slug,
+			'url'          => pll_home_url( $slug ),
+			'current_lang' => ( $slug === $current ),
+		);
+	}
+
+	return $rows;
 }
 
 /**
@@ -24,8 +64,12 @@ function wpis_theme_get_lang_switcher_html() {
 			'raw'                    => 1,
 			'hide_if_no_translation' => 0,
 			'hide_if_empty'          => 0,
+			'echo'                   => 0,
 		)
 	);
+	if ( ! is_array( $raw ) || array() === $raw ) {
+		$raw = wpis_theme_polylang_switcher_raw_fallback();
+	}
 	if ( ! is_array( $raw ) || array() === $raw ) {
 		return wpis_theme_get_lang_switcher_fallback_html();
 	}
@@ -47,7 +91,10 @@ function wpis_theme_get_lang_switcher_html() {
 			$label = strtoupper( mb_substr( $slug, 0, 2 ) );
 		}
 
-		$is_current = ( $current === $slug ) || ( ! empty( $lang['current_lang'] ) );
+		$is_current = ( $current === $slug )
+			|| ( ! empty( $lang['current_lang'] ) )
+			|| ( ! empty( $lang['active'] ) )
+			|| ( ! empty( $lang['current'] ) );
 		$attrs      = $is_current ? ' class="active" aria-current="true"' : '';
 
 		$parts[] = sprintf(

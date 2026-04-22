@@ -8,6 +8,12 @@
  * header/footer layout, wide max-width (--wp--style--global--wide-size),
  * Demo / seed HTML: wpis-*, is-style-wpis-*, :has() selectors,
  * is-style-wpis-footer-trademark: system font. theme-toggle.js pairs with :root[data-theme] and .wpis-theme-toggle.
+ * Submit form markup comes from wpis-plugin shortcode [wpis_submit_form] (styled under .form-group / .btn-primary).
+ *
+ * Why a long file: many small concerns in one place until more moves into theme.json — semantic
+ * aliases + dark mode, skip-link, header/footer layout, demo/seed class hooks, :has() layouts,
+ * block style helpers (is-style-wpis-*), shortcode form styling. Trim by migrating tokens and
+ * block styles to theme.json and deleting unused legacy rules (for example .nav-bar / .screen).
  */
 
 html {
@@ -308,23 +314,39 @@ body {
 	letter-spacing: 0.05em;
 }
 .is-style-wpis-tax-card .is-style-wpis-tax-desc { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 0 0 14px; }
-.is-style-wpis-tax-card .wpis-tax-bar { display: flex; height: 6px; background: var(--bg); overflow: hidden; margin-bottom: 8px; border: 1px solid var(--line); }
-.is-style-wpis-tax-card .wpis-tax-bar-seg { height: 100%; }
-.is-style-wpis-tax-card .wpis-tax-bar-seg.neg { background: var(--negative); }
-.is-style-wpis-tax-card .wpis-tax-bar-seg.pos { background: var(--positive); }
-.is-style-wpis-tax-card .wpis-tax-bar-seg.mix { background: var(--mixed); }
-.is-style-wpis-tax-card .wpis-tax-bar-seg.neu { background: var(--muted); }
+/* Sentiment strip: core/columns + empty groups (explore cards) */
+.is-style-wpis-tax-card .wpis-tax-bar-columns.wp-block-columns {
+	margin-bottom: 8px;
+	border: 1px solid var(--line);
+	overflow: hidden;
+}
+.is-style-wpis-tax-card .wpis-tax-bar-columns .wp-block-column {
+	padding: 0;
+	min-width: 0;
+}
+.is-style-wpis-tax-card .wpis-tax-bar-columns .wp-block-group.wpis-tax-bar-seg {
+	min-height: 6px;
+	height: 100%;
+	box-sizing: border-box;
+}
 .is-style-wpis-tax-card .wpis-tax-breakdown {
 	font-family: var(--wp--preset--font-family--jetbrains-mono);
 	font-size: 10px;
 	color: var(--muted);
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
+}
+.is-style-wpis-tax-card .wpis-tax-breakdown.is-layout-flex {
 	display: flex;
 	gap: 12px;
 	flex-wrap: wrap;
 }
-.is-style-wpis-tax-card .wpis-tax-breakdown span { display: flex; align-items: center; gap: 4px; }
+.is-style-wpis-tax-card .wpis-tax-breakdown.is-layout-flex .wp-block-paragraph {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
 .is-style-wpis-tax-card .wpis-tax-breakdown .wpis-dot { width: 6px; height: 6px; display: inline-block; flex-shrink: 0; }
 .is-style-wpis-tax-card .wpis-tax-breakdown .wpis-dot.neg { background: var(--negative); }
 .is-style-wpis-tax-card .wpis-tax-breakdown .wpis-dot.pos { background: var(--positive); }
@@ -630,33 +652,36 @@ body {
 	margin-bottom: 2px;
 }
 
-/*
- * C4: wpis-feed-*, cartes citation, wpis-filter-*, load-more (démo home/security)
- * use the feed-demo script and/or the static home pattern. After C3b (Query Loop on quote)
- * and C4.1, shrink or remove this block; see docs/wpis-global-css-inventory.md.
- */
-.wpis-feed-header { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-.wpis-feed-title { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.wpis-feed-sort { display: flex; gap: 6px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.wpis-feed-sort::-webkit-scrollbar { display: none; }
-.wpis-feed-sort button { background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 6px 10px; font-family: inherit; font-size: inherit; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
-.wpis-feed-sort button.active { background: var(--ink); color: var(--bg); }
+/* Quote feed cards: core/group (article) + post title + footer (Query Loop or patterns) */
+.is-style-wpis-quote-card:hover .is-style-wpis-quote-excerpt a { color: var(--accent); }
+.is-style-wpis-quote-card:focus-within { outline: 2px solid var(--accent); outline-offset: 4px; }
 
-a.is-style-wpis-quote-card, a.wpis-quote-card { text-decoration: none; color: var(--ink); }
-.is-style-wpis-quote-card:hover .is-style-wpis-quote-excerpt a,
-a.wpis-quote-card:hover .wpis-quote-text { color: var(--accent); }
-a.is-style-wpis-quote-card, a.wpis-quote-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-
-.is-style-wpis-quote-card, .wpis-quote-card { border-bottom: 1px solid var(--line); padding: 24px 0 24px 14px; margin-left: -14px; border-left: 3px solid transparent; display: flex; flex-direction: column; gap: 16px; }
-.is-style-wpis-quote-card:first-child, .wpis-quote-card:first-child { padding-top: 4px; }
-.is-style-wpis-quote-card.wpis-sent-negative, .wpis-quote-card.wpis-sent-negative { border-left-color: var(--negative); }
-.is-style-wpis-quote-card.wpis-sent-positive, .wpis-quote-card.wpis-sent-positive { border-left-color: var(--positive); }
-.is-style-wpis-quote-card.wpis-sent-mixed, .wpis-quote-card.wpis-sent-mixed { border-left-color: var(--mixed); }
+.is-style-wpis-quote-card,
+.wpis-quote-card {
+	border-bottom: 1px solid var(--line);
+	padding: 24px 0 24px 14px;
+	margin-left: -14px;
+	border-left: 3px solid transparent;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.is-style-wpis-quote-card:first-child,
+.wpis-quote-card:first-child { padding-top: 4px; }
+.is-style-wpis-quote-card.wpis-sent-negative,
+.wpis-quote-card.wpis-sent-negative { border-left-color: var(--negative); }
+.is-style-wpis-quote-card.wpis-sent-positive,
+.wpis-quote-card.wpis-sent-positive { border-left-color: var(--positive); }
+.is-style-wpis-quote-card.wpis-sent-mixed,
+.wpis-quote-card.wpis-sent-mixed { border-left-color: var(--mixed); }
 .is-style-wpis-quote-excerpt,
 .wp-block-post-title.is-style-wpis-quote-excerpt a,
+.wp-block-heading.is-style-wpis-quote-excerpt a,
 .wpis-quote-text { display: block; font-family: var(--wp--preset--font-family--fraunces); font-size: 22px; font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; font-variation-settings: "opsz" 144; transition: color 0.15s; margin: 0; }
+.wp-block-heading.is-style-wpis-quote-excerpt { margin: 0; font-size: inherit; font-weight: inherit; line-height: inherit; }
 .is-style-wpis-quote-excerpt .is-word,
 .wp-block-post-title.is-style-wpis-quote-excerpt a .is-word,
+.wp-block-heading.is-style-wpis-quote-excerpt a .is-word,
 .wpis-quote-text .is-word { font-style: italic; color: var(--accent); }
 .wpis-quote-footer, .is-style-wpis-quote-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; width: 100%; box-sizing: border-box; }
 .quote-footer-left { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
@@ -664,38 +689,39 @@ a.is-style-wpis-quote-card, a.wpis-quote-card:focus-visible { outline: 2px solid
 .quote-platforms { color: var(--muted); }
 .quote-langs { display: inline-flex; gap: 3px; padding-left: 8px; border-left: 1px dotted var(--muted); }
 .wpis-claim-tag, .is-style-wpis-claim-tag { color: var(--ink); font-weight: 500; padding: 3px 8px; border: 1px solid var(--ink); }
+.wpis-claim-tag.is-layout-flow, p.wpis-claim-tag { display: inline-block; }
 .wpis-count-badge, .is-style-wpis-count-badge { background: var(--ink); color: var(--bg); padding: 3px 8px; font-weight: 500; }
+p.is-style-wpis-count-badge { display: inline-block; margin: 0; }
 .lang-tag { display: inline-block; border: 1px solid var(--ink); padding: 1px 5px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 2px; }
 
-.wpis-filter-selects { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
-.wpis-filter-select-wrap { position: relative; flex: 1; min-width: 140px; }
-.wpis-filter-select-wrap::after { content: "▼"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--muted); pointer-events: none; font-family: var(--wp--preset--font-family--jetbrains-mono); }
-.wpis-filter-select { appearance: none; -webkit-appearance: none; -moz-appearance: none; background: var(--paper); border: 1px solid var(--line); color: var(--ink); padding: 10px 28px 10px 12px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; width: 100%; border-radius: 0; }
-.wpis-filter-select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-.wpis-filter-select.has-value { background: var(--ink); color: var(--bg); }
-.wpis-filter-select.has-value + ::after { color: var(--bg); }
-.wpis-filter-reset { background: transparent; border: 1px dashed var(--muted); color: var(--muted); padding: 10px 12px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; white-space: nowrap; }
-.wpis-filter-reset:hover { border-color: var(--ink); color: var(--ink); }
+/* Security sub-topic row: Button blocks styled as chips */
+.wp-block-buttons .wp-block-button.wpis-subcat-chip .wp-block-button__link {
+	background: transparent;
+	border: 1px solid var(--line);
+	color: var(--ink);
+	padding: 10px 14px;
+	min-height: 36px;
+	font-family: var(--wp--preset--font-family--jetbrains-mono);
+	font-size: 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border-radius: 0;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+.wp-block-buttons .wp-block-button.wpis-subcat-chip .wp-block-button__link:hover {
+	color: var(--ink);
+	border-color: var(--ink);
+}
 
-.wpis-filter-show-toggle { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: none; color: var(--muted); padding: 4px 0; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; border-bottom: 1px dotted var(--muted); }
-.wpis-filter-show-toggle:hover { color: var(--ink); border-bottom-color: var(--ink); }
-.wpis-filter-selects.hidden { display: none; }
-.is-style-wpis-quote-card.hidden, .wpis-quote-card.hidden { display: none; }
 .is-style-wpis-no-results { padding: 32px 0; color: var(--muted); font-style: italic; font-size: 16px; text-align: center; border-bottom: 1px solid var(--line); }
-.is-style-wpis-no-results.hidden { display: none; }
-
-.is-style-wpis-quote-card.hidden-batch, .wpis-quote-card.hidden-batch { display: none; }
-.wpis-load-more-btn { display: block; width: 100%; margin: 32px 0 8px; background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 18px 20px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; }
-.wpis-load-more-btn:hover { background: var(--ink); color: var(--bg); }
-.wpis-load-more-btn.hidden { display: none; }
-.wpis-load-more-count { color: var(--muted); margin-left: 6px; font-size: 10px; }
-.wpis-load-more-btn:hover .wpis-load-more-count { color: var(--bg); opacity: 0.7; }
 
 .form-group { margin-bottom: 24px; }
 .form-group label { display: block; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; color: var(--muted); }
 .form-group label .required { color: var(--accent); }
 .form-group .hint { font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; color: var(--muted); margin-top: 6px; font-style: italic; line-height: 1.4; }
-.form-group textarea, .form-group input[type="text"], .form-group input[type="url"] { width: 100%; background: var(--paper); border: 1px solid var(--line); padding: 14px; font-family: var(--wp--preset--font-family--fraunces); font-size: 16px; resize: vertical; -webkit-appearance: none; border-radius: 0; color: var(--ink); }
+.form-group textarea, .form-group input[type="text"], .form-group input[type="url"], .form-group input[type="file"] { width: 100%; background: var(--paper); border: 1px solid var(--line); padding: 14px; font-family: var(--wp--preset--font-family--fraunces); font-size: 16px; resize: vertical; -webkit-appearance: none; border-radius: 0; color: var(--ink); }
+.form-group input[type="file"] { padding: 10px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; }
 .form-group textarea { min-height: 120px; }
 .form-group textarea:focus, .form-group input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
 .upload-zone { border: 2px dashed var(--muted); padding: 24px 16px; text-align: center; background: var(--paper); cursor: pointer; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.5; }
@@ -770,14 +796,10 @@ a.is-style-wpis-quote-card, a.wpis-quote-card:focus-visible { outline: 2px solid
     font-size: 12px;
   }
   .is-style-wpis-hero-stats strong { font-size: 32px; }
-  .wpis-feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 16px; }
-  .wpis-feed-title { font-size: 12px; margin-bottom: 0; }
-  .wpis-feed-sort { font-size: 11px; gap: 12px; overflow: visible; }
   .is-style-wpis-quote-card, .wpis-quote-card { padding: 32px 0 32px 18px; margin-left: -18px; }
   .is-style-wpis-quote-excerpt,
   .wp-block-post-title.is-style-wpis-quote-excerpt a,
-  .is-style-wpis-quote-excerpt,
-  .wp-block-post-title.is-style-wpis-quote-excerpt a,
+  .wp-block-heading.is-style-wpis-quote-excerpt a,
   .wpis-quote-text { font-size: 28px; }
   .btn-primary { width: auto; padding: 18px 32px; font-size: 12px; }
   .is-style-wpis-search-container { max-width: 900px; margin: 0 auto; padding: 40px 32px; }
@@ -785,7 +807,7 @@ a.is-style-wpis-quote-card, a.wpis-quote-card:focus-visible { outline: 2px solid
   .wpis-subcat-nav { padding: 20px 32px; max-width: var(--wp--style--global--wide-size); margin: 0 auto; }
   .wpis-subcat-chip { padding: 8px 14px; font-size: 11px; }
   .wpis-subcat-label { padding: 20px 32px 0; max-width: var(--wp--style--global--wide-size); margin: 0 auto; font-size: 11px; }
-  .is-style-wpis-tax-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .is-style-wpis-tax-grid.wp-block-group > .wp-block-group__inner-container { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .is-style-wpis-tax-card { padding: 24px; }
   .is-style-wpis-tax-card h3 { font-size: 24px; }
   .is-style-wpis-platform-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }

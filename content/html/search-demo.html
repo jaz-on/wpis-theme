@@ -1,42 +1,25 @@
 <!-- wp:group {"className":"is-style-wpis-search","layout":{"type":"constrained","contentSize":"900px"}} -->
 <!-- wp:group {"className":"is-style-wpis-search-container","layout":{"type":"constrained","contentSize":"100%"}} -->
-<!-- wp:html -->
-  <div class="wpis-search-bar">
-    <span class="wpis-search-icon">⌕</span>
-    <input type="search" name="s" value="bloated" placeholder="Search the database…" readonly aria-label="Search the database (static demo)">
-  </div>
-  <p class="wpis-search-summary"><strong>18 quotes</strong> match "bloated"</p>
-<!-- /wp:html -->
-<!-- /wp:group -->
+<!-- wp:search {"label":"Search the database","showLabel":false,"placeholder":"Search the database…","buttonText":"Search","buttonPosition":"button-inside","buttonUseIcon":true} /-->
 
-<!-- wp:html -->
-<a href="/quote/sample/" class="wpis-quote-card wpis-sent-negative" data-sentiment="negative" data-claim="Performance" data-platforms="Mastodon,Reddit" data-date="2026-04-20" data-count="8" aria-label="View quote: WordPress is bloated and slow on shared hosting.">
-<span class="wpis-quote-text">WordPress <span class="is-word">is</span> <mark>bloated</mark> and slow on shared hosting.</span>
-<span class="wpis-quote-footer">
-<span class="wpis-claim-tag">Performance</span>
-<span class="wpis-count-badge">×8</span>
-</span>
-</a>
-<a href="/quote/sample/" class="wpis-quote-card wpis-sent-negative" data-sentiment="negative" data-claim="Performance" data-platforms="LinkedIn,X" data-date="2026-04-19" data-count="5" aria-label="View quote: Every bloated WordPress site I&#039;ve inherited had 40+ plugins. That&#039;s the real problem.">
-<span class="wpis-quote-text">Every <mark>bloated</mark> WordPress site I've inherited had 40+ plugins. That's the real problem.</span>
-<span class="wpis-quote-footer">
-<span class="wpis-claim-tag">Performance</span>
-<span class="wpis-count-badge">×5</span>
-</span>
-</a>
-<a href="/quote/sample/" class="wpis-quote-card wpis-sent-mixed" data-sentiment="mixed" data-claim="Performance" data-platforms="HN,Blog" data-date="2026-04-18" data-count="4" aria-label="View quote: WordPress is bloated only if you treat it like an app framework.">
-<span class="wpis-quote-text">WordPress <span class="is-word">is</span> <mark>bloated</mark> only if you treat it like an app framework.</span>
-<span class="wpis-quote-footer">
-<span class="wpis-claim-tag">Performance</span>
-<span class="wpis-count-badge">×4</span>
-</span>
-</a>
-<a href="/quote/sample/" class="wpis-quote-card wpis-sent-negative" data-sentiment="negative" data-claim="Modernity" data-platforms="YouTube,Reddit" data-date="2026-04-17" data-count="11" aria-label="View quote: Gutenberg made WordPress even more bloated than before.">
-<span class="wpis-quote-text">Gutenberg made WordPress even more <mark>bloated</mark> than before.</span>
-<span class="wpis-quote-footer">
-<span class="wpis-claim-tag">Modernity</span>
-<span class="wpis-count-badge">×11</span>
-</span>
-</a>
-<!-- /wp:html -->
+<!-- wp:paragraph {"className":"wpis-search-summary","style":{"spacing":{"margin":{"top":"20px","bottom":"20px"}}}} -->
+<p class="wpis-search-summary">Use the form above on a live search URL, or browse results below (demo listing).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:query {"queryId":5,"query":{"perPage":10,"pages":0,"offset":0,"postType":"quote","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} -->
+<!-- wp:post-template {"layout":{"type":"default"}} -->
+<!-- wp:template-part {"slug":"quote-feed-card","tagName":"article"} /-->
+<!-- /wp:post-template -->
+<!-- wp:query-no-results -->
+<!-- wp:paragraph {"className":"is-style-wpis-no-results"} -->
+<p class="is-style-wpis-no-results">No quotes match yet. Add quotes or run the demo import.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results -->
+<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+<!-- wp:query-pagination-previous /-->
+
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+<!-- /wp:query -->
+<!-- /wp:group -->
 <!-- /wp:group -->
