@@ -380,6 +380,12 @@ body {
 	gap: 12px;
 	align-items: stretch;
 }
+/* Neutralise WP core is-layout-flow auto-margins on grid children so columns align */
+.is-style-wpis-tax-grid > *,
+.is-style-wpis-platform-grid > * {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
 /* Shortcode output lives inside .wp-block-shortcode; card groups are not direct children of the shell group */
 .is-style-wpis-tax-grid .wp-block-shortcode {
 	display: contents;
