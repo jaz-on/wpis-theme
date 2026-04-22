@@ -1,15 +1,40 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
 <!-- wp:group {"tagName":"main","metadata":{"name":"Main"},"anchor":"wpis-main","layout":{"type":"constrained"}} -->
-<!-- wp:group {"className":"is-style-wpis-prose","layout":{"type":"constrained","contentSize":"720px"}} -->
-<!-- wp:post-terms {"taxonomy":"claim_type","prefix":""} /-->
+<main id="wpis-main" class="wp-block-group">
+<!-- wp:group {"className":"is-style-wpis-detail","layout":{"type":"constrained","contentSize":"720px"}} -->
+<div class="wp-block-group is-style-wpis-detail">
 
-<!-- wp:post-terms {"taxonomy":"sentiment","prefix":""} /-->
+<!-- wp:shortcode -->
+[wpis_quote_detail_meta]
+<!-- /wp:shortcode -->
 
-<!-- wp:post-title {"level":1} /-->
+<!-- wp:post-title {"level":1,"className":"is-style-wpis-detail-quote"} /-->
 
 <!-- wp:post-content /-->
+
+<!-- wp:shortcode -->
+[wpis_quote_spread_stats]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[wpis_quote_opposing]
+<!-- /wp:shortcode -->
+
+<!-- wp:group {"className":"is-style-wpis-detail-related"} -->
+<div class="wp-block-group is-style-wpis-detail-related">
+<!-- wp:paragraph {"className":"is-style-wpis-eyebrow"} -->
+<p class="is-style-wpis-eyebrow">More on this claim</p>
+<!-- /wp:paragraph -->
+<!-- wp:shortcode -->
+[wpis_subcat_chips_for_post]
+<!-- /wp:shortcode -->
+</div>
 <!-- /wp:group -->
+
+</div>
+<!-- /wp:group -->
+</main>
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
