@@ -602,13 +602,21 @@ function wpis_theme_quote_feed_card_sentiment( $content, $block ) {
 			$slug = $s;
 		}
 	}
-	if ( ! is_string( $content ) || '' === $content || ! str_contains( $content, 'is-style-wpis-quote-card' ) ) {
+	if ( ! is_string( $content ) || '' === $content ) {
 		return $content;
 	}
 
 	if ( '' !== $slug && ! preg_match( '/\bwpis-sent-(?:positive|negative|mixed|neutral)\b/', $content ) ) {
-		$add      = 'wpis-sent-' . $slug;
-		$replaced = preg_replace( '/(class=")([^"]*?\bis-style-wpis-quote-card\b)([^"]*")/i', '$1$2 ' . $add . '$3', $content, 1 );
+		$add = 'wpis-sent-' . $slug;
+		if ( str_contains( $content, 'is-style-wpis-quote-card' ) ) {
+			$replaced = preg_replace( '/(class=")([^"]*?\bis-style-wpis-quote-card\b)([^"]*")/i', '$1$2 ' . $add . '$3', $content, 1 );
+		} else {
+			// Stale Site Editor markup: article only has wp-block-template-part.
+			$replaced = preg_replace( '/(<article\b[^>]*\bclass=")([^"]*)(")/i', '$1$2 is-style-wpis-quote-card ' . $add . '$3', $content, 1 );
+			if ( null === $replaced || $replaced === $content ) {
+				$replaced = preg_replace( '/(<article\b)([^>]*?)(\s*>)/i', '$1$2 class="is-style-wpis-quote-card ' . $add . '"$3', $content, 1 );
+			}
+		}
 		if ( is_string( $replaced ) ) {
 			$content = $replaced;
 		}
