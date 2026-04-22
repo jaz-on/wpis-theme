@@ -543,6 +543,12 @@ body {
 	border-bottom: 1px solid var(--line);
 }
 .is-style-wpis-hero-title { font-size: clamp(52px, 18vw, 96px); font-weight: 800; letter-spacing: -0.04em; line-height: 0.92; margin: 16px 0 24px; font-variation-settings: "opsz" 144; }
+/* Hero title: stack "WordPress" / "is" on small viewports only; one line from tablet up */
+@media (min-width: 760px) {
+	.is-style-wpis-hero-title .wpis-hero-title-br {
+		display: none;
+	}
+}
 .is-style-wpis-hero-title .dots { color: var(--accent); font-style: italic; font-weight: 400; }
 .is-style-wpis-hero-title .is-word { font-style: italic; font-weight: 400; color: var(--accent); }
 .is-style-wpis-hero-intro { font-size: 17px; line-height: 1.5; margin-bottom: 28px; max-width: 640px; }
