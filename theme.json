@@ -11,8 +11,8 @@
 			"palette": [
 				{ "color": "#f5f2ea", "name": "Background", "slug": "bg" },
 				{ "color": "#1a1a1a", "name": "Ink", "slug": "ink" },
-				{ "color": "#6b6b6b", "name": "Muted", "slug": "muted" },
-				{ "color": "#d64545", "name": "Accent", "slug": "accent" },
+				{ "color": "#5e5e5e", "name": "Muted", "slug": "muted" },
+				{ "color": "#c43a3a", "name": "Accent", "slug": "accent" },
 				{ "color": "#fbe8e8", "name": "Accent soft", "slug": "accent-soft" },
 				{ "color": "#fdfbf5", "name": "Paper", "slug": "paper" },
 				{ "color": "#2d6a4f", "name": "Positive", "slug": "positive" },
