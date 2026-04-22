@@ -48,7 +48,6 @@ function wpis_theme_handle_seed_admin_post() {
 				array(
 					'sync_content' => ! empty( $_POST['wpis_sync'] ),
 					'set_reading'  => ! empty( $_POST['wpis_reading'] ),
-					'ensure_menu'  => ! empty( $_POST['wpis_menu'] ),
 				)
 			);
 			$count    = is_array( $ids ) ? count( $ids ) : 0;
@@ -83,7 +82,6 @@ function wpis_theme_handle_seed_admin_post() {
 				array(
 					'sync_content' => ! empty( $_POST['wpis_reset_sync'] ),
 					'set_reading'  => ! empty( $_POST['wpis_reset_reading'] ),
-					'ensure_menu'  => ! empty( $_POST['wpis_reset_menu'] ),
 				)
 			);
 			$count    = is_array( $ids ) ? count( $ids ) : 0;
@@ -173,6 +171,9 @@ function wpis_theme_render_seed_admin_page() {
 		<p>
 			<?php esc_html_e( 'Create or update the demo pages from the theme files in content/html/. Same operation as: wp wpis-seed import (see README).', 'wpis-theme' ); ?>
 		</p>
+		<p class="description">
+			<?php esc_html_e( 'The site menu is the Navigation block in the Header template part (Appearance → Editor). This theme does not use classic Appearance → Menus.', 'wpis-theme' ); ?>
+		</p>
 		<p>
 			<strong><?php esc_html_e( 'Slugs in this manifest', 'wpis-theme' ); ?>:</strong>
 			<?php echo esc_html( implode( ', ', array_filter( $slugs ) ) ); ?>
@@ -193,12 +194,6 @@ function wpis_theme_render_seed_admin_page() {
 					<label>
 						<input type="checkbox" name="wpis_reading" value="1" checked />
 						<?php esc_html_e( 'Set static front page to the Home page', 'wpis-theme' ); ?>
-					</label>
-				</p>
-				<p>
-					<label>
-						<input type="checkbox" name="wpis_menu" value="1" checked />
-						<?php esc_html_e( 'Rebuild the WPIS Primary menu', 'wpis-theme' ); ?>
 					</label>
 				</p>
 			</fieldset>
@@ -249,12 +244,6 @@ function wpis_theme_render_seed_admin_page() {
 					<label>
 						<input type="checkbox" name="wpis_reset_reading" value="1" checked />
 						<?php esc_html_e( 'Set static front page to Home', 'wpis-theme' ); ?>
-					</label>
-				</p>
-				<p>
-					<label>
-						<input type="checkbox" name="wpis_reset_menu" value="1" checked />
-						<?php esc_html_e( 'Rebuild the WPIS Primary menu', 'wpis-theme' ); ?>
 					</label>
 				</p>
 			</fieldset>

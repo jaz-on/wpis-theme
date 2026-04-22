@@ -22,7 +22,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
    wp-content/themes/wpis-theme/
   ```
 2. Activate **WPIS Theme** under **Appearance → Themes**.
-3. **Demo pages are not created on activation** (same idea as Twenty Twenty). **In the admin:** go to **Appearance → Import demo** and use **Import demo pages** (or **Remove demo pages** / **Reset demo**). With **WP-CLI**: **`wp wpis-seed import`** (overwrites existing demo page bodies from files by default; use `--no-sync` to skip), **`wp wpis-seed clean`** (`--force` to delete permanently), or **`wp wpis-seed reset`** (clean then import). This sets **Reading** to static **Home** and rebuilds the **WPIS Primary** menu unless you uncheck the boxes in the admin or pass `--no-reading` or `--no-menu` in the CLI.
+3. **Demo pages are not created on activation** (same idea as Twenty Twenty). **In the admin:** go to **Appearance → Import demo** and use **Import demo pages** (or **Remove demo pages** / **Reset demo**). With **WP-CLI**: **`wp wpis-seed import`** (overwrites existing demo page bodies from files by default; use `--no-sync` to skip), **`wp wpis-seed clean`** (`--force` to delete permanently), or **`wp wpis-seed reset`** (clean then import). This sets **Reading** to static **Home** unless you uncheck the box in the admin or pass **`--no-reading`** in the CLI. **Navigation** is edited in **Appearance → Editor** (Header template part); there is no classic menu location.
 4. Operator notes and checklists: **[contribution/README.md](../contribution/README.md)**. Architecture contract: **[docs/wpis-fse-architecture.md](../docs/wpis-fse-architecture.md)**.
 
 ## Updates with Git Updater

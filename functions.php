@@ -71,14 +71,9 @@ function wpis_theme_semantic_colors_in_content( $content ) {
 add_filter( 'the_content', 'wpis_theme_semantic_colors_in_content', 5 );
 
 /**
- * Theme supports: menus, editor styles.
+ * Theme supports: editor styles. Main nav is FSE-only (links in parts/header.html); no classic menu locations.
  */
 function wpis_theme_register_theme_support() {
-	register_nav_menus(
-		array(
-			'primary' => __( 'WPIS Primary', 'wpis-theme' ),
-		)
-	);
 	add_editor_style( 'assets/css/wpis-global.css' );
 }
 add_action( 'after_setup_theme', 'wpis_theme_register_theme_support' );

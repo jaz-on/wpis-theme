@@ -1,6 +1,6 @@
 <?php
 /**
- * Demo content: manifest pages, reading, primary menu (WP-CLI `wp wpis-seed` or Appearance → Import demo only).
+ * Demo content: manifest pages and reading (WP-CLI `wp wpis-seed` or Appearance → Import demo only).
  *
  * @package WPIS
  */
@@ -10,12 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Import or update manifest pages, then optionally reading + menu.
+ * Import or update manifest pages, then optionally reading settings.
  *
  * @param array<string, bool> $args {
  *     @type bool $sync_content Sync post_content from content/html for existing pages.
  *     @type bool $set_reading  Set static front page to the seeded `home` page.
- *     @type bool $ensure_menu  Rebuild WPIS Primary menu from manifest slugs.
  * }
  * @return array<string, int> Slug => page ID.
  */
@@ -25,15 +24,11 @@ function wpis_theme_setup_run( array $args = array() ): array {
 		array(
 			'sync_content' => false,
 			'set_reading'  => true,
-			'ensure_menu'  => true,
 		)
 	);
-	$ids  = wpis_theme_setup_upsert_pages( (bool) $args['sync_content'] );
+	$ids = wpis_theme_setup_upsert_pages( (bool) $args['sync_content'] );
 	if ( $args['set_reading'] ) {
 		wpis_theme_setup_ensure_reading( $ids );
-	}
-	if ( $args['ensure_menu'] ) {
-		wpis_theme_setup_ensure_menu( $ids );
 	}
 	return $ids;
 }
@@ -294,109 +289,4 @@ function wpis_theme_setup_ensure_reading( $ids_by_slug ) {
 	}
 	update_option( 'show_on_front', 'page' );
 	update_option( 'page_on_front', $home_id );
-}
-
-/**
- * Nav menu helpers are not loaded on every request; theme switch can run before they load.
- */
-function wpis_theme_setup_load_nav_menu_api_if_needed() {
-	if ( function_exists( 'wp_update_nav_menu_item' ) ) {
-		return;
-	}
-	if ( ! is_string( ABSPATH ) || '' === ABSPATH ) {
-		return;
-	}
-	$file = ABSPATH . 'wp-admin/includes/nav-menu.php';
-	if ( is_readable( $file ) ) {
-		require_once $file;
-	}
-}
-
-/**
- * @param array<string, int> $ids_by_slug Slug => page ID.
- */
-function wpis_theme_setup_ensure_menu( $ids_by_slug ) {
-	wpis_theme_setup_load_nav_menu_api_if_needed();
-	if ( ! function_exists( 'wp_get_nav_menus' ) || ! function_exists( 'wp_create_nav_menu' ) || ! function_exists( 'wp_update_nav_menu_item' ) ) {
-		return;
-	}
-
-	$menu_name = 'WPIS Primary';
-	$menu_id   = 0;
-	foreach ( wp_get_nav_menus() as $menu ) {
-		if ( $menu->name === $menu_name ) {
-			$menu_id = (int) $menu->term_id;
-			break;
-		}
-	}
-	if ( ! $menu_id ) {
-		$created = wp_create_nav_menu( $menu_name );
-		if ( is_wp_error( $created ) ) {
-			return;
-		}
-		$menu_id = (int) $created;
-	}
-
-	$items = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'any' ) );
-	if ( is_array( $items ) ) {
-		foreach ( $items as $item ) {
-			if ( isset( $item->ID ) ) {
-				wp_delete_post( (int) $item->ID, true );
-			}
-		}
-	}
-
-	$order = array(
-		array(
-			'slug'  => 'home',
-			'label' => 'Feed',
-		),
-		array(
-			'slug'  => 'explore',
-			'label' => 'Explore',
-		),
-		array(
-			'slug'  => 'about',
-			'label' => 'About',
-		),
-		array(
-			'slug'  => 'how-it-works',
-			'label' => 'How it works',
-		),
-		array(
-			'slug'  => 'submit',
-			'label' => 'Submit',
-		),
-		array(
-			'slug'  => 'profile',
-			'label' => 'My profile',
-		),
-	);
-	$pos   = 0;
-	foreach ( $order as $item ) {
-		if ( empty( $ids_by_slug[ $item['slug'] ] ) ) {
-			continue;
-		}
-		wp_update_nav_menu_item(
-			$menu_id,
-			0,
-			array(
-				'menu-item-title'     => $item['label'],
-				'menu-item-object'    => 'page',
-				'menu-item-object-id' => (int) $ids_by_slug[ $item['slug'] ],
-				'menu-item-type'      => 'post_type',
-				'menu-item-status'    => 'publish',
-				'menu-item-position'  => ++$pos,
-			)
-		);
-	}
-
-	$locations = get_theme_mod( 'nav_menu_locations', array() );
-	if ( ! is_array( $locations ) ) {
-		$locations = array();
-	}
-	if ( empty( $locations['primary'] ) ) {
-		$locations['primary'] = $menu_id;
-		set_theme_mod( 'nav_menu_locations', $locations );
-	}
 }

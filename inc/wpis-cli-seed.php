@@ -29,12 +29,10 @@ WP_CLI::add_command(
 			case 'import':
 				$no_sync    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-sync', false );
 				$no_reading = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-reading', false );
-				$no_menu    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-menu', false );
 				$ids        = wpis_theme_setup_run(
 					array(
 						'sync_content' => ! $no_sync,
 						'set_reading'  => ! $no_reading,
-						'ensure_menu'  => ! $no_menu,
 					)
 				);
 				WP_CLI::success( sprintf( 'Demo import finished (%d slugs).', count( $ids ) ) );
@@ -48,19 +46,17 @@ WP_CLI::add_command(
 
 				$no_sync    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-sync', false );
 				$no_reading = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-reading', false );
-				$no_menu    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'no-menu', false );
 				$ids        = wpis_theme_setup_run(
 					array(
 						'sync_content' => ! $no_sync,
 						'set_reading'  => ! $no_reading,
-						'ensure_menu'  => ! $no_menu,
 					)
 				);
 				WP_CLI::success( sprintf( 'Reset finished (%d slugs).', count( $ids ) ) );
 				break;
 
 			default:
-				WP_CLI::error( 'Usage: wp wpis-seed clean|import|reset [--force] [--no-sync] [--no-reading] [--no-menu]' );
+				WP_CLI::error( 'Usage: wp wpis-seed clean|import|reset [--force] [--no-sync] [--no-reading]' );
 		}
 	},
 	array(
@@ -86,11 +82,6 @@ WP_CLI::add_command(
 				'type'        => 'flag',
 				'name'        => 'no-reading',
 				'description' => 'Do not set static front page to Home.',
-			),
-			array(
-				'type'        => 'flag',
-				'name'        => 'no-menu',
-				'description' => 'Do not rebuild WPIS Primary menu.',
 			),
 		),
 	)
