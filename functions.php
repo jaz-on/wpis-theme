@@ -43,6 +43,23 @@ function wpis_theme_skip_link() {
 add_action( 'wp_body_open', 'wpis_theme_skip_link', 5 );
 
 /**
+ * Keep internal component showcase page out of search engines.
+ *
+ * Pairs with the `design` manifest slug (content/html/design.html) — a noindex
+ * reference page for design-system iteration, not user-facing content.
+ *
+ * @param array<string, mixed> $robots Robots directives.
+ * @return array<string, mixed>
+ */
+function wpis_theme_design_page_noindex( $robots ) {
+	if ( is_page( 'design' ) ) {
+		return wp_robots_no_robots( (array) $robots );
+	}
+	return $robots;
+}
+add_filter( 'wp_robots', 'wpis_theme_design_page_noindex' );
+
+/**
  * Rewrite preset color CSS variables in rendered block HTML to semantic aliases from wpis-global.css.
  *
  * Saved post content still references --wp--preset--color--* (light palette). --ink, --muted, etc.

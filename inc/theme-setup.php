@@ -88,6 +88,12 @@ function wpis_theme_setup_get_manifest() {
 			'parent_slug' => '',
 			'file'        => 'profile.html',
 		),
+		array(
+			'slug'        => 'design',
+			'title'       => 'Design system',
+			'parent_slug' => '',
+			'file'        => 'design.html',
+		),
 	);
 }
 
