@@ -590,10 +590,10 @@ function wpis_theme_quote_feed_card_sentiment( $content, $block ) {
 	if ( ( $block['attrs']['metadata']['name'] ?? '' ) !== 'Quote feed card' ) {
 		return $content;
 	}
-	if ( ! in_the_loop() || 'quote' !== get_post_type() ) {
+	$post_id = (int) get_the_ID();
+	if ( $post_id <= 0 || 'quote' !== get_post_type( $post_id ) ) {
 		return $content;
 	}
-	$post_id = (int) get_the_ID();
 	$terms   = get_the_terms( $post_id, 'sentiment' );
 	$slug    = '';
 	if ( is_array( $terms ) && ! is_wp_error( $terms ) && isset( $terms[0] ) && $terms[0] instanceof \WP_Term ) {
