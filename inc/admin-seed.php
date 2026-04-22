@@ -197,6 +197,8 @@ function wpis_theme_admin_seed_notices() {
 		return;
 	}
 	global $pagenow;
+
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Flash query args from our own redirects; user is gated by manage_options and import screen slug below.
 	$pg = isset( $_GET['page'] ) ? sanitize_key( (string) wp_unslash( $_GET['page'] ) ) : '';
 	if ( 'themes.php' !== $pagenow || WPIS_THEME_IMPORT_PAGE !== $pg ) {
 		return;
@@ -207,7 +209,9 @@ function wpis_theme_admin_seed_notices() {
 	}
 	$count = isset( $_GET['wpiscount'] ) ? (int) $_GET['wpiscount'] : 0;
 	$cle   = isset( $_GET['wpiscleaned'] ) ? (int) $_GET['wpiscleaned'] : 0;
-	$text  = '';
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+	$text = '';
 	if ( 'plugin_inactive' === $msg ) {
 		$text = __( 'The WordPress Is… Core plugin (wpis-core) must be active to manage sample quotes.', 'wpis-theme' );
 	} elseif ( 'starter_seeded' === $msg ) {
