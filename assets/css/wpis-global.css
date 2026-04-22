@@ -112,8 +112,19 @@ body {
 .is-style-wpis-lang-switcher { display: inline-flex; gap: 4px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; margin: 0; }
 .is-style-wpis-lang-switcher a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid var(--muted); }
 .is-style-wpis-lang-switcher a.active { color: var(--ink); border-color: var(--ink); }
-.wpis-theme-toggle { background: transparent; border: 1px solid var(--muted); color: var(--muted); padding: 2px 8px; font-size: 13px; line-height: 1.4; cursor: pointer; font-family: inherit; }
-.wpis-theme-toggle:hover { color: var(--ink); border-color: var(--ink); }
+.wpis-theme-toggle,
+.site-theme-toggle { background: transparent; border: 1px solid var(--muted); color: var(--muted); padding: 2px 8px; font-size: 13px; line-height: 1.4; cursor: pointer; font-family: inherit; }
+.wpis-theme-toggle:hover,
+.site-theme-toggle:hover { color: var(--ink); border-color: var(--ink); }
+
+/* Stale Site Editor header markup fallback (rendered when the DB still holds
+   a customized header template part). The canonical styles live on
+   .is-style-wpis-* classes above; these mirrors let the live site work until
+   the template parts are reset from theme files. */
+.site-header-utils { display: inline-flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; }
+.lang-switcher { display: inline-flex; gap: 8px; font-family: var(--wp--preset--font-family--jetbrains-mono); font-size: 10px; margin: 0; }
+.lang-switcher a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid var(--muted); }
+.lang-switcher a.active { color: var(--ink); border-color: var(--ink); }
 
 .is-style-wpis-header-utils { display: inline-flex; align-items: center; gap: 0.625rem; flex-wrap: wrap; margin: 0; }
 .is-style-wpis-header-utils .wp-block-shortcode { margin: 0; }

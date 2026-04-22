@@ -31,8 +31,17 @@
   }
 
   function getCards(container) {
+    // Support the theme-file markup (article.is-style-wpis-quote-card) and the
+    // stale Site Editor markup where WordPress renders the template-part as
+    // <article class="wp-block-template-part"> with no custom class.
+    var direct = container.querySelectorAll(
+      'article.is-style-wpis-quote-card, article.wpis-quote-card'
+    );
+    if (direct.length) {
+      return Array.prototype.slice.call(direct);
+    }
     return Array.prototype.slice.call(
-      container.querySelectorAll('article.is-style-wpis-quote-card, article.wpis-quote-card')
+      container.querySelectorAll('article.wp-block-template-part')
     );
   }
 

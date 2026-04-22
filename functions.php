@@ -584,10 +584,10 @@ add_action( 'init', 'wpis_theme_register_screen_patterns', 15 );
  * @return string
  */
 function wpis_theme_quote_feed_card_sentiment( $content, $block ) {
-	if ( ( $block['blockName'] ?? '' ) !== 'core/group' ) {
-		return $content;
-	}
-	if ( ( $block['attrs']['metadata']['name'] ?? '' ) !== 'Quote feed card' ) {
+	$name             = $block['blockName'] ?? '';
+	$is_template_part = 'core/template-part' === $name && ( ( $block['attrs']['slug'] ?? '' ) === 'quote-feed-card' );
+	$is_group_card    = 'core/group' === $name && ( ( $block['attrs']['metadata']['name'] ?? '' ) === 'Quote feed card' );
+	if ( ! $is_template_part && ! $is_group_card ) {
 		return $content;
 	}
 	$post_id = (int) get_the_ID();

@@ -121,6 +121,17 @@ function wpis_theme_handle_seed_admin_post() {
 		case 'quote_reset_sample':
 			$redirect = wpis_theme_handle_quote_seed_action( $action );
 			break;
+		case 'reset_fse_customizations':
+			$removed  = wpis_theme_reset_fse_customizations();
+			$redirect = add_query_arg(
+				array(
+					'page'      => WPIS_THEME_IMPORT_PAGE,
+					'wpismsg'   => 'fse_reset',
+					'wpiscount' => (string) (int) $removed,
+				),
+				admin_url( 'themes.php' )
+			);
+			break;
 		default:
 			return;
 	}
@@ -234,6 +245,12 @@ function wpis_theme_admin_seed_notices() {
 			$cle,
 			$count
 		);
+	} elseif ( 'fse_reset' === $msg ) {
+		$text = sprintf(
+			/* translators: %d: number of template posts removed */
+			_n( 'Reset Site Editor customizations: removed %d template post.', 'Reset Site Editor customizations: removed %d template posts.', $count, 'wpis-theme' ),
+			$count
+		);
 	}
 	if ( '' !== $text ) {
 		$notice_class = 'plugin_inactive' === $msg ? 'notice-warning' : 'notice-success';
@@ -340,6 +357,14 @@ function wpis_theme_render_seed_admin_page() {
 
 		<?php wpis_theme_render_manifest_reset_block( $action_url, $theme_active ); ?>
 		<?php wpis_theme_render_quotes_block( $action_url, $core_active, 'reset' ); ?>
+
+		<hr />
+
+		<h2 class="title"><?php esc_html_e( 'Site Editor customizations', 'wpis-theme' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'WordPress stores any Site Editor edit (templates and template parts like the header, footer or quote card) in the database, which then overrides the theme files in content/ and parts/. Reset to drop those overrides and fall back to the theme-shipped versions.', 'wpis-theme' ); ?>
+		</p>
+		<?php wpis_theme_render_fse_reset_block( $action_url, $theme_active ); ?>
 	</div>
 	<?php
 }
@@ -571,4 +596,97 @@ function wpis_theme_render_quotes_block( $action_url, $enabled, $section ) {
 		</p>
 	</fieldset>
 	<?php
+}
+
+/**
+ * Render the Reset Site Editor customizations block.
+ *
+ * @param string $action_url Form action URL.
+ * @param bool   $enabled    Whether the block is interactive.
+ * @return void
+ */
+function wpis_theme_render_fse_reset_block( $action_url, $enabled ) {
+	$parts_count    = wpis_theme_count_fse_customizations( 'wp_template_part' );
+	$templates_count = wpis_theme_count_fse_customizations( 'wp_template' );
+	?>
+	<h3><?php esc_html_e( 'Templates and template parts', 'wpis-theme' ); ?></h3>
+	<p class="description">
+		<?php
+		printf(
+			/* translators: 1: template parts count, 2: templates count */
+			esc_html__( 'Currently in database: %1$d customized template part(s) and %2$d customized template(s). Deleting them restores the theme-shipped versions (parts/header.html, parts/quote-feed-card.html, etc.) so recent theme updates show up on the site.', 'wpis-theme' ),
+			(int) $parts_count,
+			(int) $templates_count
+		);
+		?>
+	</p>
+	<form method="post" action="<?php echo esc_url( $action_url ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'Remove all Site Editor edits for templates and template parts? The theme files will be used again. Any manual edits made in the Site Editor will be lost.', 'wpis-theme' ) ); ?>' );">
+		<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
+		<input type="hidden" name="wpis_seed_action" value="reset_fse_customizations" />
+		<fieldset <?php disabled( ! $enabled ); ?>>
+			<?php submit_button( __( 'Reset Site Editor customizations', 'wpis-theme' ), 'delete', 'submit', false, $enabled ? array() : array( 'disabled' => 'disabled' ) ); ?>
+		</fieldset>
+	</form>
+	<?php
+}
+
+/**
+ * Count Site Editor customizations (wp_template or wp_template_part posts) stored in the database.
+ *
+ * @param string $post_type Either 'wp_template' or 'wp_template_part'.
+ * @return int
+ */
+function wpis_theme_count_fse_customizations( $post_type ) {
+	if ( ! in_array( $post_type, array( 'wp_template', 'wp_template_part' ), true ) ) {
+		return 0;
+	}
+	$query = new \WP_Query(
+		array(
+			'post_type'              => $post_type,
+			'post_status'            => array( 'publish', 'draft', 'auto-draft', 'trash' ),
+			'posts_per_page'         => -1,
+			'fields'                 => 'ids',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+		)
+	);
+	return count( $query->posts );
+}
+
+/**
+ * Delete every wp_template and wp_template_part post so the Site Editor
+ * falls back to the theme-shipped files.
+ *
+ * @return int Number of posts deleted.
+ */
+function wpis_theme_reset_fse_customizations() {
+	$removed = 0;
+	foreach ( array( 'wp_template_part', 'wp_template' ) as $post_type ) {
+		$query = new \WP_Query(
+			array(
+				'post_type'              => $post_type,
+				'post_status'            => array( 'publish', 'draft', 'auto-draft', 'trash' ),
+				'posts_per_page'         => -1,
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			)
+		);
+		foreach ( $query->posts as $post_id ) {
+			if ( wp_delete_post( (int) $post_id, true ) ) {
+				++$removed;
+			}
+		}
+	}
+	// Drop caches so the next request re-reads theme files.
+	if ( function_exists( 'wp_cache_flush_group' ) ) {
+		wp_cache_flush_group( 'theme_json' );
+		wp_cache_flush_group( 'theme_files' );
+	}
+	if ( class_exists( '\WP_Theme_JSON_Resolver' ) && method_exists( '\WP_Theme_JSON_Resolver', 'clean_cached_data' ) ) {
+		\WP_Theme_JSON_Resolver::clean_cached_data();
+	}
+	return $removed;
 }

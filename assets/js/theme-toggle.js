@@ -42,6 +42,8 @@
 			: 'light';
 	}
 
+	const TOGGLE_SELECTOR = '.wpis-theme-toggle, .site-theme-toggle';
+
 	function toggleControl( el ) {
 		if ( ! el ) {
 			return null;
@@ -51,7 +53,7 @@
 
 	function syncToggleIcons() {
 		const icon = effectiveTheme() === 'dark' ? '\u2600' : '\u263e';
-		document.querySelectorAll( '.wpis-theme-toggle' ).forEach( function ( el ) {
+		document.querySelectorAll( TOGGLE_SELECTOR ).forEach( function ( el ) {
 			const t = toggleControl( el );
 			if ( t ) {
 				t.textContent = icon;
@@ -63,7 +65,7 @@
 	syncToggleIcons();
 
 	document.addEventListener( 'click', function ( e ) {
-		const wrap = e.target.closest( '.wpis-theme-toggle' );
+		const wrap = e.target.closest( TOGGLE_SELECTOR );
 		if ( ! wrap ) {
 			return;
 		}
