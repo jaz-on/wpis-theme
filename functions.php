@@ -26,6 +26,7 @@ function wpis_theme_get_content_html( $filename ) {
 
 require_once get_template_directory() . '/inc/theme-setup.php';
 require_once get_template_directory() . '/inc/languages.php';
+require_once get_template_directory() . '/inc/wpis-block-template-utils.php';
 require_once get_template_directory() . '/inc/register-patterns.php';
 if ( is_admin() ) {
 	require_once get_template_directory() . '/inc/admin-seed.php';
@@ -533,6 +534,53 @@ function wpis_theme_register_block_variations() {
 	}
 }
 add_action( 'init', 'wpis_theme_register_block_variations', 20 );
+
+/**
+ * Register WPIS site header and site footer as core/group block variations (native blocks, not HTML).
+ * Uses {@see get_block_type_variations} so the structure comes from the same part files as the theme.
+ *
+ * @param array<int, array<string, mixed>> $variations  Registered variations.
+ * @param \WP_Block_Type                    $block_type Block type.
+ * @return array<int, array<string, mixed>>
+ */
+function wpis_theme_add_group_shell_variations( $variations, $block_type ) {
+	if ( 'core/group' !== ( $block_type->name ?? '' ) ) {
+		return $variations;
+	}
+	if ( ! is_array( $variations ) ) {
+		$variations = array();
+	}
+	$dir = get_template_directory() . '/parts/';
+
+	$header = wpis_get_group_variation_data_from_part_file( $dir . 'header.html' );
+	if ( is_array( $header ) && isset( $header['attrs'], $header['inner'] ) ) {
+		$variations[] = array(
+			'name'        => 'wpis-site-header',
+			'title'       => __( 'WPIS site header', 'wpis-theme' ),
+			'description' => __( 'Site header: title, language switcher, theme toggle and primary navigation. Same blocks as the header template part.', 'wpis-theme' ),
+			'attributes'  => $header['attrs'],
+			'innerBlocks' => $header['inner'],
+			'scope'       => array( 'inserter', 'block', 'transform' ),
+			'isActive'    => array( 'className' ),
+		);
+	}
+
+	$footer = wpis_get_group_variation_data_from_part_file( $dir . 'footer.html' );
+	if ( is_array( $footer ) && isset( $footer['attrs'], $footer['inner'] ) ) {
+		$variations[] = array(
+			'name'        => 'wpis-site-footer',
+			'title'       => __( 'WPIS site footer', 'wpis-theme' ),
+			'description' => __( 'Site footer: two rows and a trademark line. Same blocks as the footer template part.', 'wpis-theme' ),
+			'attributes'  => $footer['attrs'],
+			'innerBlocks' => $footer['inner'],
+			'scope'       => array( 'inserter', 'block', 'transform' ),
+			'isActive'    => array( 'className' ),
+		);
+	}
+
+	return $variations;
+}
+add_filter( 'get_block_type_variations', 'wpis_theme_add_group_shell_variations', 20, 2 );
 
 /**
  * Pattern category for bundled patterns (PHP-registered bodies + patterns/*.php fragments).
