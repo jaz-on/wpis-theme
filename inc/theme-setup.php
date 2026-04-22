@@ -198,6 +198,11 @@ function wpis_theme_setup_upsert_pages( bool $sync_content = false ): array {
 			continue;
 		}
 
+		$page_author = function_exists( 'wpis_default_quote_owner_user_id' ) ? (int) wpis_default_quote_owner_user_id() : 0;
+		if ( $page_author < 1 && get_userdata( 1 ) ) {
+			$page_author = 1;
+		}
+
 		$new_id = wp_insert_post(
 			array(
 				'post_type'    => 'page',
@@ -206,6 +211,7 @@ function wpis_theme_setup_upsert_pages( bool $sync_content = false ): array {
 				'post_name'    => $row['slug'],
 				'post_parent'  => $parent_id,
 				'post_content' => $content,
+				'post_author'  => $page_author,
 			),
 			true
 		);
