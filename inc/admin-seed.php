@@ -112,6 +112,12 @@ function wpis_theme_handle_seed_admin_post() {
 				admin_url( 'themes.php' )
 			);
 			break;
+		case 'quote_seed_starter':
+		case 'quote_erase_starter':
+		case 'quote_seed_demo':
+		case 'quote_erase_demo':
+			$redirect = wpis_theme_handle_quote_seed_action( $action );
+			break;
 		default:
 			return;
 	}
@@ -120,6 +126,52 @@ function wpis_theme_handle_seed_admin_post() {
 	exit;
 }
 add_action( 'load-appearance_page_' . WPIS_THEME_IMPORT_PAGE, 'wpis_theme_handle_seed_admin_post' );
+
+/**
+ * Dispatch starter/demo sample quote actions to the wpis-core seeder classes.
+ *
+ * Returns the URL to redirect to with the appropriate notice flag. Falls back
+ * to a plugin_inactive notice when the seeders are not loaded.
+ *
+ * @param string $action One of quote_seed_starter, quote_erase_starter, quote_seed_demo, quote_erase_demo.
+ * @return string Admin URL with query args.
+ */
+function wpis_theme_handle_quote_seed_action( $action ) {
+	$base = admin_url( 'themes.php' );
+	$args = array( 'page' => WPIS_THEME_IMPORT_PAGE );
+
+	$starter = '\WPIS\Core\CLI\StarterSeeder';
+	$demo    = '\WPIS\Core\CLI\DemoSeeder';
+	if ( ! class_exists( $starter ) || ! class_exists( $demo ) ) {
+		$args['wpismsg'] = 'plugin_inactive';
+		return add_query_arg( $args, $base );
+	}
+
+	$count = 0;
+	$msg   = '';
+	switch ( $action ) {
+		case 'quote_seed_starter':
+			$count = (int) call_user_func( array( $starter, 'seed' ) );
+			$msg   = 'starter_seeded';
+			break;
+		case 'quote_erase_starter':
+			$count = (int) call_user_func( array( $starter, 'erase' ) );
+			$msg   = 'starter_erased';
+			break;
+		case 'quote_seed_demo':
+			$count = (int) call_user_func( array( $demo, 'seed' ) );
+			$msg   = 'demo_seeded';
+			break;
+		case 'quote_erase_demo':
+			$count = (int) call_user_func( array( $demo, 'erase' ) );
+			$msg   = 'demo_erased';
+			break;
+	}
+
+	$args['wpismsg']   = $msg;
+	$args['wpiscount'] = (string) $count;
+	return add_query_arg( $args, $base );
+}
 
 /**
  * @return void
