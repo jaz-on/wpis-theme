@@ -43,7 +43,11 @@ add_action( 'admin_menu', 'wpis_theme_register_seed_admin_page' );
  * @return void
  */
 function wpis_theme_handle_seed_admin_post() {
-	if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) || empty( $_POST['wpis_seed_action'] ) ) {
+	$method = '';
+	if ( isset( $_SERVER['REQUEST_METHOD'] ) ) {
+		$method = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) );
+	}
+	if ( 'POST' !== $method || empty( $_POST['wpis_seed_action'] ) ) {
 		return;
 	}
 	$pg = isset( $_GET['page'] ) ? sanitize_key( (string) wp_unslash( $_GET['page'] ) ) : '';

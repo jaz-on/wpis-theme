@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="WPIS Theme">
+	<description>PHPCS for wpis-theme</description>
+
+	<file>.</file>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<arg value="ps"/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+
+	<config name="ignore_warnings_on_exit" value="1"/>
+
+	<rule ref="WordPress-Core"/>
+	<rule ref="WordPress.Security"/>
+
+	<rule ref="PHPCompatibilityWP"/>
+	<config name="testVersion" value="8.2-"/>
+
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="Generic.Formatting.MultipleStatementAlignment.NotSameWarning">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Formatting.MultipleStatementAlignment.IncorrectWarning">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="wpis"/>
+				<element value="WPIS"/>
+				<element value="wpis_theme"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

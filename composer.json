@@ -1,0 +1,29 @@
+{
+	"name": "jaz-on/wpis-theme",
+	"description": "FSE theme for the WordPress Is… project",
+	"type": "wordpress-theme",
+	"version": "0.1.0",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": "^8.2"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcsstandards/phpcsextra": "^1.5",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"squizlabs/php_codesniffer": "^3.13",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "8.2"
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf"
+	}
+}
