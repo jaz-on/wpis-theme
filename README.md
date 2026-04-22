@@ -6,7 +6,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
 
 - WordPress **6.9+**
 - PHP **8.2+**
-- The **WordPress Is… Core** plugin (`wpis-plugin`) when you wire dynamic quotes, submissions and REST. The theme runs standalone for static screen content until the plugin is connected.
+- The **WordPress Is… Core** plugin (`wpis-core`, main file `wpis-core.php`) when you wire dynamic quotes, submissions and REST. The theme runs standalone for static screen content until the plugin is connected.
 - **Relevanssi** (optional) for enhanced site search; see the [Relevanssi plugin page](https://wordpress.org/plugins/relevanssi/) if you use it.
 
 ## WordPress metadata
@@ -25,7 +25,7 @@ Block theme (FSE) for the WordPress Is… project: product-aligned layouts with 
 
 2. Activate **WPIS Theme** under **Appearance → Themes**.
 
-3. **Manifest pages are not created on activation** (same idea as Twenty Twenty). **In the admin:** go to **Appearance → WPIS import** (`themes.php?page=wpis-import`) and use **Import pages**, **Remove pages**, **Run reset**, and (with **wpis-plugin** active) **Sample quotes** actions. With **WP-CLI**: **`wp wpis-seed import`** (overwrites existing page bodies from files by default; use `--no-sync` to skip), **`wp wpis-seed clean`** (`--force` to delete permanently), or **`wp wpis-seed reset`** (clean then import), plus **`wp wpis seed_starter`** / **`wp wpis seed_demo`** for sample quotes. This sets **Reading** to static **Home** unless you uncheck the box in the admin or pass **`--no-reading`** in the CLI. **Navigation** is edited in **Appearance → Editor** (Header template part); there is no classic menu location.
+3. **Manifest pages are not created on activation** (same idea as Twenty Twenty). **In the admin:** go to **Appearance → WPIS import** (`themes.php?page=wpis-import`) and use **Import pages**, **Remove pages**, **Run reset**, and (with **wpis-core** active) **Sample quotes** actions. With **WP-CLI**: **`wp wpis-seed import`** (overwrites existing page bodies from files by default; use `--no-sync` to skip), **`wp wpis-seed clean`** (`--force` to delete permanently), or **`wp wpis-seed reset`** (clean then import), plus **`wp wpis seed_starter`** / **`wp wpis seed_demo`** for sample quotes. This sets **Reading** to static **Home** unless you uncheck the box in the admin or pass **`--no-reading`** in the CLI. **Navigation** is edited in **Appearance → Editor** (Header template part); there is no classic menu location.
 
 ## Updates with Git Updater
 

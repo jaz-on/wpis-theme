@@ -141,7 +141,7 @@ function wpis_theme_admin_seed_notices() {
 	$cle   = isset( $_GET['wpiscleaned'] ) ? (int) $_GET['wpiscleaned'] : 0;
 	$text  = '';
 	if ( 'plugin_inactive' === $msg ) {
-		$text = __( 'The WordPress Is… Core plugin (wpis-plugin) must be active to manage sample quotes.', 'wpis-theme' );
+		$text = __( 'The WordPress Is… Core plugin (wpis-core) must be active to manage sample quotes.', 'wpis-theme' );
 	} elseif ( 'starter_seeded' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of quotes */
@@ -259,7 +259,7 @@ function wpis_theme_render_seed_admin_page() {
 				</form>
 			</p>
 		<?php else : ?>
-			<div class="notice notice-warning inline"><p><?php esc_html_e( 'Activate the WordPress Is… Core plugin (wpis-plugin) to import or remove sample quotes here, or use WP-CLI: wp wpis seed_starter, wp wpis seed_demo.', 'wpis-theme' ); ?></p></div>
+			<div class="notice notice-warning inline"><p><?php esc_html_e( 'Activate the WordPress Is… Core plugin (wpis-core) to import or remove sample quotes here, or use WP-CLI: wp wpis seed_starter, wp wpis seed_demo.', 'wpis-theme' ); ?></p></div>
 		<?php endif; ?>
 
 		<h2 class="title"><?php esc_html_e( 'Import', 'wpis-theme' ); ?></h2>
