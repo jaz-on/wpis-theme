@@ -26,6 +26,7 @@ function wpis_theme_get_content_html( $filename ) {
 
 require_once get_template_directory() . '/inc/theme-setup.php';
 require_once get_template_directory() . '/inc/languages.php';
+require_once get_template_directory() . '/inc/footer-links.php';
 require_once get_template_directory() . '/inc/register-patterns.php';
 if ( is_admin() ) {
 	require_once get_template_directory() . '/inc/admin-seed.php';

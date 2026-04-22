@@ -1,13 +1,23 @@
-<!-- wp:group {"metadata":{"name":"WPIS site footer"},"className":"is-style-wpis-site-footer","style":{"spacing":{"padding":{"top":"24px","bottom":"24px","left":"20px","right":"20px"},"margin":{"top":"3rem"},"blockGap":"8px"},"border":{"top":{"color":"var(--line)","width":"1px","style":"solid"}},"typography":{"fontSize":"10px","fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"flex-start","verticalAlignment":"stretch"}} -->
-<!-- wp:group {"className":"is-style-wpis-footer-top"} -->
+<!-- wp:group {"metadata":{"name":"WPIS site footer"},"className":"is-style-wpis-site-footer","style":{"spacing":{"padding":{"top":"24px","bottom":"24px","left":"20px","right":"20px"},"margin":{"top":"3rem"},"blockGap":"12px"},"border":{"top":{"color":"var(--line)","width":"1px","style":"solid"}},"typography":{"fontSize":"10px","fontFamily":"var(--wp--preset--font-family--jetbrains-mono)","textTransform":"uppercase","letterSpacing":"0.08em"},"color":{"text":"var(--muted)"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"flex-start","verticalAlignment":"stretch"}} -->
+<div class="wp-block-group is-style-wpis-site-footer">
+
+<!-- wp:group {"className":"is-style-wpis-footer-top","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+<div class="wp-block-group is-style-wpis-footer-top">
+
 <!-- wp:paragraph {"className":"is-style-wpis-footer-top-left","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-<p class="is-style-wpis-footer-top-left">WordPress Is... a <a href="https://jasonrouet.com" target="_blank" rel="noopener">Jasonmade</a> project · open-source · community-driven</p>
+<p class="is-style-wpis-footer-top-left">WordPress Is&hellip; a <a href="https://jasonrouet.com" target="_blank" rel="noopener">Jasonmade</a> project &middot; open-source &middot; community-driven</p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph {"className":"is-style-wpis-footer-top-right","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
-<p class="is-style-wpis-footer-top-right"><a href="/about/">About</a> · <a href="/how-it-works/">How it works</a> · <a href="/privacy/">Privacy</a> · <a href="/feed/">RSS</a> · <a href="https://bsky.app/profile/wpis.bsky.social" target="_blank" rel="noopener">Bluesky</a> · <a href="https://mastodon.social/@wpis" target="_blank" rel="noopener me">Mastodon</a></p>
-<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[wpis_footer_links]
+<!-- /wp:shortcode -->
+
+</div>
 <!-- /wp:group -->
+
 <!-- wp:paragraph {"className":"is-style-wpis-footer-trademark","style":{"spacing":{"margin":{"top":"0","bottom":"0"},"padding":{"top":"8px"}}}} -->
-<p class="is-style-wpis-footer-trademark">"WordPress", "WooCommerce" and any other trademarks mentioned on this site are the property of their respective owners.</p>
+<p class="is-style-wpis-footer-trademark">&ldquo;WordPress&rdquo;, &ldquo;WooCommerce&rdquo; and any other trademarks mentioned on this site are the property of their respective owners.</p>
 <!-- /wp:paragraph -->
+
+</div>
 <!-- /wp:group -->

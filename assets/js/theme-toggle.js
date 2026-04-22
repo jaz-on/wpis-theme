@@ -52,12 +52,19 @@
 	}
 
 	function syncToggleIcons() {
-		const icon = effectiveTheme() === 'dark' ? '\u2600' : '\u263e';
+		// The SVG sun / moon icons are swapped via CSS based on the data-theme
+		// attribute on :root. Fall back to a unicode character for legacy
+		// buttons rendered without the nested .wpis-theme-toggle-icon spans.
+		const fallback = effectiveTheme() === 'dark' ? '\u2600' : '\u263e';
 		document.querySelectorAll( TOGGLE_SELECTOR ).forEach( function ( el ) {
 			const t = toggleControl( el );
-			if ( t ) {
-				t.textContent = icon;
+			if ( ! t ) {
+				return;
 			}
+			if ( t.querySelector( '.wpis-theme-toggle-icon' ) ) {
+				return;
+			}
+			t.textContent = fallback;
 		} );
 	}
 
