@@ -42,7 +42,7 @@ No Node build step is required for the theme on the server. Front-end behaviour 
 
 **Demo import:** `wp wpis-seed help` (requires [WP-CLI](https://wp-cli.org/) with this theme active).
 
-Internal architecture notes and Cursor rules are kept **outside** this repository (for example a local `.doc/` or `.cursor/` folder on your machine).
+Cursor rules for agents live in [`.cursor/rules`](.cursor/rules). Maintainer-only notes may still live in a local `.doc/` folder (gitignored).
 
 ## License
 
