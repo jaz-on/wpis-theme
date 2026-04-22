@@ -10,6 +10,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Slug for Appearance → WPIS import (`themes.php?page=...`).
+ */
+if ( ! defined( 'WPIS_THEME_IMPORT_PAGE' ) ) {
+	define( 'WPIS_THEME_IMPORT_PAGE', 'wpis-import' );
+}
+
+/**
+ * Admin URL for the WPIS import screen.
+ *
+ * @return string
+ */
+function wpis_theme_import_admin_url() {
+	return admin_url( 'themes.php?page=' . WPIS_THEME_IMPORT_PAGE );
+}
+
+/**
  * @return void
  */
 function wpis_theme_register_seed_admin_page() {
@@ -17,7 +33,7 @@ function wpis_theme_register_seed_admin_page() {
 		__( 'WPIS import', 'wpis-theme' ),
 		__( 'WPIS import', 'wpis-theme' ),
 		'manage_options',
-		'wpis-theme-seed',
+		WPIS_THEME_IMPORT_PAGE,
 		'wpis_theme_render_seed_admin_page'
 	);
 }
@@ -31,7 +47,7 @@ function wpis_theme_handle_seed_admin_post() {
 		return;
 	}
 	$pg = isset( $_GET['page'] ) ? sanitize_key( (string) wp_unslash( $_GET['page'] ) ) : '';
-	if ( 'wpis-theme-seed' !== $pg ) {
+	if ( WPIS_THEME_IMPORT_PAGE !== $pg ) {
 		return;
 	}
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -40,7 +56,7 @@ function wpis_theme_handle_seed_admin_post() {
 	check_admin_referer( 'wpis_theme_seed' );
 
 	$action   = sanitize_key( (string) wp_unslash( $_POST['wpis_seed_action'] ) );
-	$redirect = add_query_arg( 'page', 'wpis-theme-seed', admin_url( 'themes.php' ) );
+	$redirect = wpis_theme_import_admin_url();
 
 	switch ( $action ) {
 		case 'import':
@@ -53,7 +69,7 @@ function wpis_theme_handle_seed_admin_post() {
 			$count    = is_array( $ids ) ? count( $ids ) : 0;
 			$redirect = add_query_arg(
 				array(
-					'page'      => 'wpis-theme-seed',
+					'page'      => WPIS_THEME_IMPORT_PAGE,
 					'wpismsg'   => 'imported',
 					'wpiscount' => (string) (int) $count,
 				),
@@ -66,7 +82,7 @@ function wpis_theme_handle_seed_admin_post() {
 			wpis_theme_setup_reset_reading_after_clean();
 			$redirect = add_query_arg(
 				array(
-					'page'      => 'wpis-theme-seed',
+					'page'      => WPIS_THEME_IMPORT_PAGE,
 					'wpismsg'   => 'cleaned',
 					'wpiscount' => (string) (int) $removed,
 					'wpisforce' => $force ? '1' : '0',
@@ -103,7 +119,7 @@ function wpis_theme_handle_seed_admin_post() {
 	wp_safe_redirect( $redirect );
 	exit;
 }
-add_action( 'load-appearance_page_wpis-theme-seed', 'wpis_theme_handle_seed_admin_post' );
+add_action( 'load-appearance_page_' . WPIS_THEME_IMPORT_PAGE, 'wpis_theme_handle_seed_admin_post' );
 
 /**
  * @return void
@@ -114,7 +130,7 @@ function wpis_theme_admin_seed_notices() {
 	}
 	global $pagenow;
 	$pg = isset( $_GET['page'] ) ? sanitize_key( (string) wp_unslash( $_GET['page'] ) ) : '';
-	if ( 'themes.php' !== $pagenow || 'wpis-theme-seed' !== $pg ) {
+	if ( 'themes.php' !== $pagenow || WPIS_THEME_IMPORT_PAGE !== $pg ) {
 		return;
 	}
 	$msg = isset( $_GET['wpismsg'] ) ? sanitize_key( (string) wp_unslash( $_GET['wpismsg'] ) ) : '';
@@ -124,7 +140,33 @@ function wpis_theme_admin_seed_notices() {
 	$count = isset( $_GET['wpiscount'] ) ? (int) $_GET['wpiscount'] : 0;
 	$cle   = isset( $_GET['wpiscleaned'] ) ? (int) $_GET['wpiscleaned'] : 0;
 	$text  = '';
-	if ( 'imported' === $msg ) {
+	if ( 'plugin_inactive' === $msg ) {
+		$text = __( 'The WordPress Is… Core plugin (wpis-plugin) must be active to manage sample quotes.', 'wpis-theme' );
+	} elseif ( 'starter_seeded' === $msg ) {
+		$text = sprintf(
+			/* translators: %d: number of quotes */
+			_n( 'Imported %d starter quote (unflagged sample set).', 'Imported %d starter quotes (unflagged sample set).', $count, 'wpis-theme' ),
+			$count
+		);
+	} elseif ( 'demo_seeded' === $msg ) {
+		$text = sprintf(
+			/* translators: %d: number of quotes */
+			_n( 'Imported %d demo quote (flagged for removal with wp wpis seed_demo --erase or the button below).', 'Imported %d demo quotes (flagged for removal with wp wpis seed_demo --erase or the button below).', $count, 'wpis-theme' ),
+			$count
+		);
+	} elseif ( 'starter_erased' === $msg ) {
+		$text = sprintf(
+			/* translators: %d: number of quotes removed */
+			_n( 'Removed %d starter quote.', 'Removed %d starter quotes.', $count, 'wpis-theme' ),
+			$count
+		);
+	} elseif ( 'demo_erased' === $msg ) {
+		$text = sprintf(
+			/* translators: %d: number of quotes removed */
+			_n( 'Removed %d demo quote.', 'Removed %d demo quotes.', $count, 'wpis-theme' ),
+			$count
+		);
+	} elseif ( 'imported' === $msg ) {
 		$text = sprintf(
 			/* translators: %d: number of pages touched */
 			_n( 'WPIS import finished (%d page in the manifest).', 'WPIS import finished (%d pages in the manifest).', $count, 'wpis-theme' ),
@@ -145,8 +187,10 @@ function wpis_theme_admin_seed_notices() {
 		);
 	}
 	if ( '' !== $text ) {
+		$notice_class = 'plugin_inactive' === $msg ? 'notice-warning' : 'notice-success';
 		printf(
-			'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+			'<div class="notice %s is-dismissible"><p>%s</p></div>',
+			esc_attr( $notice_class ),
 			esc_html( $text )
 		);
 	}
@@ -175,9 +219,6 @@ function wpis_theme_render_seed_admin_page() {
 			<?php esc_html_e( 'CLI flags: import uses --no-sync and --no-reading when you turn off the matching checkboxes. clean --force is “Delete permanently”.', 'wpis-theme' ); ?>
 		</p>
 		<p class="description">
-			<?php esc_html_e( 'Quote posts are not part of this screen. With WP-CLI: wp wpis seed_starter (or wp wpis seed_demo for flagged demo data).', 'wpis-theme' ); ?>
-		</p>
-		<p class="description">
 			<?php esc_html_e( 'The site menu is the Navigation block in the Header template part (Appearance → Editor). This theme does not use classic Appearance → Menus.', 'wpis-theme' ); ?>
 		</p>
 		<p>
@@ -185,11 +226,47 @@ function wpis_theme_render_seed_admin_page() {
 			<?php echo esc_html( implode( ', ', array_filter( $slugs ) ) ); ?>
 		</p>
 
+		<h2 class="title"><?php esc_html_e( 'Sample quotes (plugin)', 'wpis-theme' ); ?></h2>
+		<?php
+		$wpis_core = class_exists( '\WPIS\Core\CLI\StarterSeeder' ) && class_exists( '\WPIS\Core\CLI\DemoSeeder' );
+		?>
+		<?php if ( $wpis_core ) : ?>
+			<p class="description">
+				<?php esc_html_e( 'These actions call the same code as: wp wpis seed_starter, wp wpis seed_starter --erase, wp wpis seed_demo, wp wpis seed_demo --erase. Starter set is not flagged; demo set uses meta for bulk removal.', 'wpis-theme' ); ?>
+			</p>
+			<p>
+				<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>" style="display: inline; margin-right: 12px;">
+					<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
+					<input type="hidden" name="wpis_seed_action" value="quote_seed_starter" />
+					<?php submit_button( __( 'Import starter quotes', 'wpis-theme' ), 'secondary', 'submit', false ); ?>
+				</form>
+				<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>" style="display: inline; margin-right: 12px;" onsubmit="return window.confirm( '<?php echo esc_js( __( 'Remove all starter-tagged sample quotes? This cannot be undone.', 'wpis-theme' ) ); ?>' );">
+					<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
+					<input type="hidden" name="wpis_seed_action" value="quote_erase_starter" />
+					<?php submit_button( __( 'Remove starter quotes', 'wpis-theme' ), 'delete', 'submit', false, array( 'style' => 'vertical-align: middle;' ) ); ?>
+				</form>
+			</p>
+			<p>
+				<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>" style="display: inline; margin-right: 12px;">
+					<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
+					<input type="hidden" name="wpis_seed_action" value="quote_seed_demo" />
+					<?php submit_button( __( 'Import demo quotes', 'wpis-theme' ), 'secondary', 'submit', false ); ?>
+				</form>
+				<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>" style="display: inline;" onsubmit="return window.confirm( '<?php echo esc_js( __( 'Remove all demo-tagged sample quotes? This cannot be undone.', 'wpis-theme' ) ); ?>' );">
+					<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
+					<input type="hidden" name="wpis_seed_action" value="quote_erase_demo" />
+					<?php submit_button( __( 'Remove demo quotes', 'wpis-theme' ), 'delete', 'submit', false, array( 'style' => 'vertical-align: middle;' ) ); ?>
+				</form>
+			</p>
+		<?php else : ?>
+			<div class="notice notice-warning inline"><p><?php esc_html_e( 'Activate the WordPress Is… Core plugin (wpis-plugin) to import or remove sample quotes here, or use WP-CLI: wp wpis seed_starter, wp wpis seed_demo.', 'wpis-theme' ); ?></p></div>
+		<?php endif; ?>
+
 		<h2 class="title"><?php esc_html_e( 'Import', 'wpis-theme' ); ?></h2>
 		<p class="description">
 			<?php esc_html_e( 'Default options match: wp wpis-seed import (sync on, reading on).', 'wpis-theme' ); ?>
 		</p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>">
+		<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>">
 			<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
 			<input type="hidden" name="wpis_seed_action" value="import" />
 			<fieldset>
@@ -215,7 +292,7 @@ function wpis_theme_render_seed_admin_page() {
 		<p class="description">
 			<?php esc_html_e( 'Same as: wp wpis-seed clean. Trash by default, or delete permanently to match --force.', 'wpis-theme' ); ?>
 		</p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'Move manifest pages to the trash (or delete permanently if checked)?', 'wpis-theme' ) ); ?>' );">
+		<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'Move manifest pages to the trash (or delete permanently if checked)?', 'wpis-theme' ) ); ?>' );">
 			<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
 			<input type="hidden" name="wpis_seed_action" value="clean" />
 			<p>
@@ -233,7 +310,7 @@ function wpis_theme_render_seed_admin_page() {
 		<p class="description">
 			<?php esc_html_e( 'Same as: wp wpis-seed reset. Removes all manifest pages, then imports again with the checkboxes below.', 'wpis-theme' ); ?>
 		</p>
-		<form method="post" action="<?php echo esc_url( admin_url( 'themes.php?page=wpis-theme-seed' ) ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'This will remove manifest pages and import again. Continue?', 'wpis-theme' ) ); ?>' );">
+		<form method="post" action="<?php echo esc_url( wpis_theme_import_admin_url() ); ?>" onsubmit="return window.confirm( '<?php echo esc_js( __( 'This will remove manifest pages and import again. Continue?', 'wpis-theme' ) ); ?>' );">
 			<?php wp_nonce_field( 'wpis_theme_seed' ); ?>
 			<input type="hidden" name="wpis_seed_action" value="reset" />
 			<fieldset>

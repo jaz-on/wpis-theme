@@ -19,7 +19,7 @@ For the full data layer (custom post types, REST and submissions) pair with the 
 
 1. Upload or deploy the theme folder as `wp-content/themes/wpis-theme/`.
 2. Activate under **Appearance → Themes**.
-3. Manifest content is optional: use **Appearance → WPIS import** in the admin, or run `wp wpis-seed import` to create or refresh pages from `content/html/` and set static front page to Home. Use `wp wpis-seed clean` or `reset` to remove or replace those pages. The theme does not write pages on activation. Edit the header Navigation under **Appearance → Editor** (FSE); classic **Appearance → Menus** is not used.
+3. Manifest content is optional: use **Appearance → WPIS import** (`themes.php?page=wpis-import`) in the admin for pages and (with wpis-plugin) sample quotes, or run `wp wpis-seed import` to create or refresh pages from `content/html/` and set static front page to Home. Use `wp wpis-seed clean` or `reset` to remove or replace those pages; use `wp wpis seed_starter` or `seed_demo` for quotes from the CLI. The theme does not write pages on activation. Edit the header Navigation under **Appearance → Editor** (FSE); classic **Appearance → Menus** is not used.
 
 == Changelog ==
 
